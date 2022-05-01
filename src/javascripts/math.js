@@ -187,7 +187,7 @@ function factory (type, config, load, typed) {
     'string': function (format) {
       return _create([], format);
     },
-    
+
     'string, string': function (format, datatype) {
       return _create([], format, datatype);
     },
@@ -195,13 +195,13 @@ function factory (type, config, load, typed) {
     'Array': function (data) {
       return _create(data);
     },
-      
+
     'Matrix': function (data) {
       return _create(data, data.storage());
     },
-    
+
     'Array | Matrix, string': _create,
-    
+
     'Array | Matrix, string, string': _create
   });
 
@@ -573,9 +573,9 @@ function _squeeze (array, dims, dim) {
 
 /**
  * Unsqueeze a multi dimensional array: add dimensions when missing
- * 
+ *
  * Paramter `size` will be mutated to match the new, unqueezed matrix size.
- * 
+ *
  * @param {Array} array
  * @param {number} dims     Desired number of dimensions of the array
  * @param {number} [outer]  Number of outer dimensions to be added
@@ -719,11 +719,11 @@ exports.identify = function(a) {
   if (!Array.isArray(a)) {
 	throw new TypeError('Array input expected');
   }
-	
+
   if (a.length === 0) {
 	return a;
   }
-	
+
   var b = [];
   var count = 0;
   b[0] = {value: a[0], identifier: 0};
@@ -748,11 +748,11 @@ exports.generalize = function(a) {
   if (!Array.isArray(a)) {
 	throw new TypeError('Array input expected');
   }
-	
+
   if (a.length === 0) {
 	return a;
   }
-	
+
   var b = [];
   for (var i=0; i<a.length; i++) {
     b.push(a[i].value);
@@ -841,7 +841,7 @@ exports.sign = Math.sign || function(x) {
  *                                          For example '123.4e+0' and '14.0e+6'
  *                         'auto' (default) Regular number notation for numbers
  *                                          having an absolute value between
- *                                          `lowerExp` and `upperExp` bounds, and 
+ *                                          `lowerExp` and `upperExp` bounds, and
  *                                          uses exponential notation elsewhere.
  *                                          Lower bound is included, upper bound
  *                                          is excluded.
@@ -853,17 +853,17 @@ exports.sign = Math.sign || function(x) {
  *                                          number of significant digits returned.
  *                                          In case of notation 'fixed',
  *                                          `precision` defines the number of
- *                                          significant digits after the decimal 
+ *                                          significant digits after the decimal
  *                                          point.
  *                                          `precision` is undefined by default,
  *                                          not rounding any digits.
  *                     {number} lowerExp    Exponent determining the lower boundary
  *                                          for formatting a value with an exponent
- *                                          when `notation='auto`. 
+ *                                          when `notation='auto`.
  *                                          Default value is `-3`.
  *                     {number} upperExp    Exponent determining the upper boundary
  *                                          for formatting a value with an exponent
- *                                          when `notation='auto`. 
+ *                                          when `notation='auto`.
  *                                          Default value is `5`.
  *    {Function} fn    A custom formatting function. Can be used to override the
  *                     built-in notations. Function `fn` is called with `value` as
@@ -946,10 +946,10 @@ exports.format = function(value, options) {
           fixedOptions.upperExp = Math.round(Math.log(options.exponential.upper) / Math.LN10);
         }
 
-        console.warn('Deprecation warning: Formatting options exponential.lower and exponential.upper ' + 
+        console.warn('Deprecation warning: Formatting options exponential.lower and exponential.upper ' +
             '(minimum and maximum value) ' +
-            'are replaced with exponential.lowerExp and exponential.upperExp ' + 
-            '(minimum and maximum exponent) since version 4.0.0. ' + 
+            'are replaced with exponential.lowerExp and exponential.upperExp ' +
+            '(minimum and maximum exponent) since version 4.0.0. ' +
             'Replace ' + JSON.stringify(options) + ' with ' + JSON.stringify(fixedOptions));
 
         return exports.toPrecision(value, precision, fixedOptions);
@@ -1027,7 +1027,7 @@ exports.toEngineering = function (value, precision) {
   if (isNaN(value) || !isFinite(value)) {
     return String(value);
   }
-  
+
   var rounded = exports.roundDigits(exports.splitNumber(value), precision);
 
   var e = rounded.exponent;
@@ -1703,7 +1703,7 @@ function factory (type, config, load, typed) {
   var DenseMatrix = type.DenseMatrix;
 
   /**
-   * Iterates over DenseMatrix items and invokes the callback function f(Aij..z, b). 
+   * Iterates over DenseMatrix items and invokes the callback function f(Aij..z, b).
    * Callback function invoked MxN times.
    *
    * C(i,j,...z) = f(Aij..z, b)
@@ -1722,7 +1722,7 @@ function factory (type, config, load, typed) {
     var adata = a._data;
     var asize = a._size;
     var adt = a._datatype;
-    
+
     // datatype
     var dt;
     // callback signature to use
@@ -1737,7 +1737,7 @@ function factory (type, config, load, typed) {
       // callback
       cf = typed.find(callback, [dt, dt]);
     }
-    
+
     // populate cdata, iterate through dimensions
     var cdata = asize.length > 0 ? _iterate(cf, 0, asize, asize[0], adata, b, inverse) : [];
 
@@ -1748,7 +1748,7 @@ function factory (type, config, load, typed) {
       datatype: dt
     });
   };
-  
+
   // recursive function
   var _iterate = function (f, level, s, n, av, bv, inverse) {
     // initialize array for this level
@@ -1796,7 +1796,7 @@ function factory (type, config, load, typed) {
   var DenseMatrix = type.DenseMatrix;
 
   /**
-   * Iterates over DenseMatrix items and invokes the callback function f(Aij..z, Bij..z). 
+   * Iterates over DenseMatrix items and invokes the callback function f(Aij..z, Bij..z).
    * Callback function invoked MxN times.
    *
    * C(i,j,...z) = f(Aij..z, Bij..z)
@@ -1851,7 +1851,7 @@ function factory (type, config, load, typed) {
 
     // populate cdata, iterate through dimensions
     var cdata = csize.length > 0 ? _iterate(cf, 0, csize, csize[0], adata, bdata) : [];
-    
+
     // c matrix
     return new DenseMatrix({
       data: cdata,
@@ -1859,7 +1859,7 @@ function factory (type, config, load, typed) {
       datatype: dt
     });
   };
-  
+
   // recursive function
   var _iterate = function (f, level, s, n, av, bv) {
     // initialize array for this level
@@ -1881,7 +1881,7 @@ function factory (type, config, load, typed) {
     }
     return cv;
   };
-  
+
   return algorithm13;
 }
 
@@ -1909,7 +1909,7 @@ function factory (type, config, load, typed) {
 
   var algorithm11 = load(__webpack_require__(17));
   var algorithm14 = load(__webpack_require__(6));
-  
+
   var DenseMatrix = type.DenseMatrix;
   var SparseMatrix = type.SparseMatrix;
 
@@ -2030,7 +2030,7 @@ function factory (type, config, load, typed) {
       for (var i = 0; i < rest.length; i++) {
         result = multiply(result, rest[i]);
       }
-      
+
       return result;
     }
   }, multiplyScalar.signatures));
@@ -2120,7 +2120,7 @@ function factory (type, config, load, typed) {
       af = typed.find(addScalar, [dt, dt]);
       mf = typed.find(multiplyScalar, [dt, dt]);
     }
-    
+
     // result (do not initialize it with zero)
     var c = mf(adata[0], bdata[0]);
     // loop data
@@ -2190,7 +2190,7 @@ function factory (type, config, load, typed) {
     // loop matrix columns
     for (var j = 0; j < bcolumns; j++) {
       // sum (do not initialize it with zero)
-      var sum = mf(adata[0], bdata[0][j]);      
+      var sum = mf(adata[0], bdata[0][j]);
       // loop vector
       for (var i = 1; i < alength; i++) {
         // multiply & accumulate
@@ -2241,8 +2241,8 @@ function factory (type, config, load, typed) {
    * @param {Matrix} a            DenseMatrix  (MxN)
    * @param {Matrix} b            Dense Vector (N)
    *
-   * @return {Matrix}             Dense Vector (M) 
-   */ 
+   * @return {Matrix}             Dense Vector (M)
+   */
   function _multiplyDenseMatrixVector(a, b) {
     // a dense
     var adata = a._data;
@@ -2333,7 +2333,7 @@ function factory (type, config, load, typed) {
       af = typed.find(addScalar, [dt, dt]);
       mf = typed.find(multiplyScalar, [dt, dt]);
     }
-    
+
     // result
     var c = [];
 
@@ -2389,7 +2389,7 @@ function factory (type, config, load, typed) {
     // rows & columns
     var arows = asize[0];
     var bcolumns = bsize[1];
-    
+
     // datatype
     var dt;
     // addScalar signature to use
@@ -2481,7 +2481,7 @@ function factory (type, config, load, typed) {
    * @param {Matrix} a            SparseMatrix    (MxN)
    * @param {Matrix} b            Dense Vector (N)
    *
-   * @return {Matrix}             SparseMatrix    (M, 1) 
+   * @return {Matrix}             SparseMatrix    (M, 1)
    */
   function _multiplySparseMatrixVector(a, b) {
     // a sparse
@@ -2502,7 +2502,7 @@ function factory (type, config, load, typed) {
     var cvalues = [];
     var cindex = [];
     var cptr = [];
-    
+
     // datatype
     var dt;
     // addScalar signature to use
@@ -2711,7 +2711,7 @@ function factory (type, config, load, typed) {
     var bindex = b._index;
     var bptr = b._ptr;
     var bdt = b._datatype;
-    
+
     // rows & columns
     var arows = a._size[0];
     var bcolumns = b._size[1];
@@ -2733,7 +2733,7 @@ function factory (type, config, load, typed) {
       af = typed.find(addScalar, [dt, dt]);
       mf = typed.find(multiplyScalar, [dt, dt]);
     }
-    
+
     // result
     var cvalues = values ? [] : undefined;
     var cindex = [];
@@ -2839,7 +2839,7 @@ var nearlyEqual = __webpack_require__(3).nearlyEqual;
 var bigNearlyEqual = __webpack_require__(44);
 
 function factory (type, config, load, typed) {
-  
+
   /**
    * Test whether two values are equal.
    *
@@ -2877,7 +2877,7 @@ function factory (type, config, load, typed) {
       return equalScalar(x.value, y.value);
     }
   });
-  
+
   return equalScalar;
 }
 
@@ -3055,7 +3055,7 @@ exports.escape = function (value) {
 			 .replace(/'/g, '&#39;')
 			 .replace(/</g, '&lt;')
 			 .replace(/>/g, '&gt;');
-  
+
   return text;
 }
 
@@ -3247,7 +3247,7 @@ function factory (type, config, load, typed, math) {
   Node.prototype.comment = '';
 
   /**
-   * Compile the node into an optimized, evauatable JavaScript function 
+   * Compile the node into an optimized, evauatable JavaScript function
    * @return {{eval: function([Object])}} expr  Returns an object with a function 'eval',
    *                                  which can be invoked as expr.eval([scope: Object]),
    *                                  where scope is an optional object with
@@ -3265,12 +3265,12 @@ function factory (type, config, load, typed, math) {
       }
     }
   };
-  
+
   /**
    * Compile a node into a JavaScript function.
    * This basically pre-calculates as much as possible and only leaves open
    * calculations which depend on a dynamic scope with variables.
-   * @param {Object} math     Math.js namespace with functions and constants. 
+   * @param {Object} math     Math.js namespace with functions and constants.
    * @param {Object} argNames An object with argument names as key and `true`
    *                          as value. Used in the SymbolNode to optimize
    *                          for arguments from user assigned functions
@@ -3914,7 +3914,7 @@ function factory (type, config, load, typed) {
       // use matrix implementation
       return subtract(x, matrix(y));
     },
-    
+
     'SparseMatrix, any': function (x, y) {
       return algorithm10(x, unaryMinus(y), addScalar);
     },
@@ -3982,7 +3982,7 @@ function factory (type, config, load, typed) {
   var matrix = load(__webpack_require__(1));
   var addScalar = load(__webpack_require__(20));
   var latex = __webpack_require__(4);
-  
+
   var algorithm01 = load(__webpack_require__(34));
   var algorithm04 = load(__webpack_require__(88));
   var algorithm10 = load(__webpack_require__(43));
@@ -4099,7 +4099,7 @@ function factory (type, config, load, typed) {
   add.toTex = {
     2: '\\left(${args[0]}' + latex.operators['add'] + '${args[1]}\\right)'
   };
-  
+
   return add;
 }
 
@@ -4121,12 +4121,12 @@ function factory (type, config, load, typed) {
   var SparseMatrix = type.SparseMatrix;
 
   /**
-   * Iterates over SparseMatrix S nonzero items and invokes the callback function f(Sij, b). 
+   * Iterates over SparseMatrix S nonzero items and invokes the callback function f(Sij, b).
    * Callback function invoked NZ times (number of nonzero items in S).
    *
    *
    *          ┌  f(Sij, b)  ; S(i,j) !== 0
-   * C(i,j) = ┤  
+   * C(i,j) = ┤
    *          └  0          ; otherwise
    *
    *
@@ -4235,12 +4235,12 @@ function factory (type, config, load, typed) {
   var DenseMatrix = type.DenseMatrix;
 
   /**
-   * Iterates over SparseMatrix S nonzero items and invokes the callback function f(Sij, b). 
+   * Iterates over SparseMatrix S nonzero items and invokes the callback function f(Sij, b).
    * Callback function invoked MxN times.
    *
    *
    *          ┌  f(Sij, b)  ; S(i,j) !== 0
-   * C(i,j) = ┤  
+   * C(i,j) = ┤
    *          └  f(0, b)    ; otherwise
    *
    *
@@ -4283,7 +4283,7 @@ function factory (type, config, load, typed) {
       // callback
       cf = typed.find(callback, [dt, dt]);
     }
-    
+
     // result arrays
     var cdata = [];
     // matrix
@@ -4332,7 +4332,7 @@ function factory (type, config, load, typed) {
     // return sparse matrix
     return c;
   };
-  
+
   return algorithm12;
 }
 
@@ -4464,7 +4464,7 @@ function factory (type, config, load, typed) {
       datatype: dt
     });
   };
-  
+
   return algorithm03;
 }
 
@@ -4538,7 +4538,7 @@ exports.factory = factory;
 
 
 function factory(type, config, load, typed) {
-  
+
   /**
    * Multiply two scalar values, `x * y`.
    * This function is meant for internal use: it is used by the public function
@@ -4912,7 +4912,7 @@ function factory (type, config, load, typed) {
   var SparseMatrix = type.SparseMatrix;
 
   /**
-   * Iterates over SparseMatrix nonzero items and invokes the callback function f(Dij, Sij). 
+   * Iterates over SparseMatrix nonzero items and invokes the callback function f(Dij, Sij).
    * Callback function invoked NNZ times (number of nonzero items in SparseMatrix).
    *
    *
@@ -4957,7 +4957,7 @@ function factory (type, config, load, typed) {
     // rows & columns
     var rows = asize[0];
     var columns = asize[1];
-    
+
     // datatype
     var dt;
     // equal signature to use
@@ -5014,7 +5014,7 @@ function factory (type, config, load, typed) {
       datatype: dt
     });
   };
-  
+
   return algorithm02;
 }
 
@@ -5345,7 +5345,7 @@ function factory (type, config, load, typed) {
  *
  * - First, compare the real values of `x` and `y`
  * - If equal, compare the imaginary values of `x` and `y`
- * 
+ *
  * @params {Complex} x
  * @params {Complex} y
  * @returns {number} Returns the comparison result: -1, 0, or 1
@@ -5375,7 +5375,7 @@ var clone = __webpack_require__(5).clone;
 var isInteger = __webpack_require__(3).isInteger;
 
 function factory (type) {
-  
+
   /**
    * Create an index. An Index can store ranges and sets for multiple dimensions.
    * Matrix.get, Matrix.set, and math.subset accept an Index as input.
@@ -5668,7 +5668,7 @@ function factory (type, config, load, typed) {
   var DenseMatrix = type.DenseMatrix;
 
   /**
-   * Iterates over SparseMatrix A and SparseMatrix B items (zero and nonzero) and invokes the callback function f(Aij, Bij). 
+   * Iterates over SparseMatrix A and SparseMatrix B items (zero and nonzero) and invokes the callback function f(Aij, Bij).
    * Callback function invoked MxN times.
    *
    * C(i,j) = f(Aij, Bij)
@@ -5720,7 +5720,7 @@ function factory (type, config, load, typed) {
 
     // vars
     var i, j;
-    
+
     // result arrays
     var cdata = [];
     // initialize c
@@ -5756,13 +5756,13 @@ function factory (type, config, load, typed) {
         var vb = wb[i] === mark ? xb[i] : zero;
         // invoke callback
         cdata[i][j] = cf(va, vb);
-      }          
+      }
     }
 
     // return sparse matrix
     return c;
   };
-  
+
   var _scatter = function (m, j, w, x, mark) {
     // a arrays
     var values = m._values;
@@ -5777,7 +5777,7 @@ function factory (type, config, load, typed) {
       x[i] = values[k];
     }
   };
-  
+
   return algorithm07;
 }
 
@@ -5819,7 +5819,7 @@ function factory (type, config, load, typed) {
 
   var algorithm11 = load(__webpack_require__(17));
   var algorithm14 = load(__webpack_require__(6));
-  
+
   /**
    * Divide two values, `x / y`.
    * To divide matrices, `x` is multiplied with the inverse of `y`: `x * inv(y)`.
@@ -6025,7 +6025,7 @@ var nearlyEqual = __webpack_require__(3).nearlyEqual;
 var bigNearlyEqual = __webpack_require__(44);
 
 function factory (type, config, load, typed) {
-  
+
   var matrix = load(__webpack_require__(1));
 
   var algorithm03 = load(__webpack_require__(19));
@@ -6179,7 +6179,7 @@ function factory (type, config, load, typed) {
   var DenseMatrix = type.DenseMatrix;
 
   /**
-   * Iterates over SparseMatrix nonzero items and invokes the callback function f(Dij, Sij). 
+   * Iterates over SparseMatrix nonzero items and invokes the callback function f(Dij, Sij).
    * Callback function invoked NNZ times (number of nonzero items in SparseMatrix).
    *
    *
@@ -6232,13 +6232,13 @@ function factory (type, config, load, typed) {
 
     // vars
     var i, j;
-    
+
     // result (DenseMatrix)
     var cdata = [];
     // initialize c
     for (i = 0; i < rows; i++)
-      cdata[i] = [];      
-    
+      cdata[i] = [];
+
     // workspace
     var x = [];
     // marks indicating we have a value in x for a given column
@@ -6278,7 +6278,7 @@ function factory (type, config, load, typed) {
       datatype: dt
     });
   };
-  
+
   return algorithm01;
 }
 
@@ -7388,7 +7388,7 @@ function factory (type, config, load, typed) {
       fn = operators[name];
 
       getTokenSkipNewline();
-      
+
       if (name === 'in' && token === '') {
         // end of expression -> this is the unit 'in' ('inch')
         node = new OperatorNode('*', 'multiply', [node, new SymbolNode('in')], true);
@@ -7515,7 +7515,7 @@ function factory (type, config, load, typed) {
 
     return node;
   }
-  
+
   /**
    * implicit multiplication
    * @return {Node} node
@@ -7549,7 +7549,7 @@ function factory (type, config, load, typed) {
 
     return node;
   }
-  
+
   /**
    * Infamous "rule 2" as described in https://github.com/josdejong/mathjs/issues/792#issuecomment-361065370
    * Explicit division gets higher precedence than implicit multiplication
@@ -7559,27 +7559,27 @@ function factory (type, config, load, typed) {
    */
   function parseRule2 () {
     var node, last;
-    
+
     node = parseUnary();
     last = node;
-    
-    
+
+
     while(true) {
-      
+
       // Match the "number /" part of the pattern "number / number symbol"
       if(token === '/' && type.isConstantNode(last)) {
-        
+
         // Look ahead to see if the next token is a number
         pushTokenState();
         getTokenSkipNewline();
-        
-        // Match the "number / number" part of the pattern 
+
+        // Match the "number / number" part of the pattern
         if(token_type === TOKENTYPE.NUMBER) {
-       
+
           // Look ahead again
           pushTokenState();
           getTokenSkipNewline();
-          
+
           // Match the "symbol" part of the pattern, or a left parenthesis
           if(token_type === TOKENTYPE.SYMBOL || token === '(') {
             // We've matched the pattern "number / number symbol".
@@ -7595,7 +7595,7 @@ function factory (type, config, load, typed) {
             popTokenState();
             break;
           }
-        } 
+        }
         else {
           // Not a match, so rewind
           popTokenState();
@@ -7606,10 +7606,10 @@ function factory (type, config, load, typed) {
         break;
       }
     }
-    
+
     return node;
   }
-  
+
   /**
    * Unary plus and minus, and logical and bitwise not
    * @return {Node} node
@@ -8710,12 +8710,12 @@ function factory (type, config, load, typed) {
   var DenseMatrix = type.DenseMatrix;
 
   /**
-   * Iterates over SparseMatrix S nonzero items and invokes the callback function f(Sij, b). 
+   * Iterates over SparseMatrix S nonzero items and invokes the callback function f(Sij, b).
    * Callback function invoked NZ times (number of nonzero items in S).
    *
    *
    *          ┌  f(Sij, b)  ; S(i,j) !== 0
-   * C(i,j) = ┤  
+   * C(i,j) = ┤
    *          └  b          ; otherwise
    *
    *
@@ -8886,7 +8886,7 @@ function factory (type, config, load, typed) {
   var algorithm12 = load(__webpack_require__(18));
   var algorithm13 = load(__webpack_require__(7));
   var algorithm14 = load(__webpack_require__(6));
-  
+
   /**
    * Compare two values. Returns 1 when x > y, -1 when x < y, and 0 when x == y.
    *
@@ -9156,7 +9156,7 @@ function factory (type, config, load, typed, math) {
    * Compile a node into a JavaScript function.
    * This basically pre-calculates as much as possible and only leaves open
    * calculations which depend on a dynamic scope with variables.
-   * @param {Object} math     Math.js namespace with functions and constants. 
+   * @param {Object} math     Math.js namespace with functions and constants.
    * @param {Object} argNames An object with argument names as key and `true`
    *                          as value. Used in the SymbolNode to optimize
    *                          for arguments from user assigned functions
@@ -9177,8 +9177,8 @@ function factory (type, config, load, typed, math) {
     }
     else if (name in math) {
       return function (scope, args, context) {
-        return name in scope 
-          ? getSafeProperty(scope, name) 
+        return name in scope
+          ? getSafeProperty(scope, name)
           : getSafeProperty(math, name);
       }
     }
@@ -9186,9 +9186,9 @@ function factory (type, config, load, typed, math) {
       var isUnit = isValuelessUnit(name);
 
       return function (scope, args, context) {
-        return name in scope 
-          ? getSafeProperty(scope, name) 
-          : isUnit 
+        return name in scope
+          ? getSafeProperty(scope, name)
+          : isUnit
             ? new type.Unit(null, name)
             : undef(name);
       }
@@ -9247,7 +9247,7 @@ function factory (type, config, load, typed, math) {
    */
   SymbolNode.prototype.toHTML = function(options) {
 	var name = escape(this.name);
-	
+
     if (name == "true" || name == "false") {
 	  return '<span class="math-symbol math-boolean">' + name + '</span>';
 	}
@@ -9266,7 +9266,7 @@ function factory (type, config, load, typed, math) {
 	else if (name == "undefined") {
 	  return '<span class="math-symbol math-undefined-symbol">' + name + '</span>';
 	}
-	
+
 	return '<span class="math-symbol">' + name + '</span>';
   };
 
@@ -9440,7 +9440,7 @@ exports.factory = factory;
 
 
 function factory (type, config, load, typed) {
-  
+
   var matrix = load(__webpack_require__(1));
   var equalScalar = load(__webpack_require__(9));
 
@@ -9497,7 +9497,7 @@ function factory (type, config, load, typed) {
    * @return {boolean | Array | Matrix} Returns true when the compared values are equal, else returns false
    */
   var equal = typed('equal', {
-    
+
     'any, any': function (x, y) {
       // strict equality for null and undefined?
       if (x === null) { return y === null; }
@@ -9654,7 +9654,7 @@ function factory (type, config, load, typed) {
       this._datatype = datatype;
     }
   }
-  
+
   DenseMatrix.prototype = new Matrix();
 
   /**
@@ -9727,7 +9727,7 @@ function factory (type, config, load, typed) {
         throw new SyntaxError('Wrong number of arguments');
     }
   };
-  
+
   /**
    * Get a single element from the matrix.
    * @memberof DenseMatrix
@@ -9753,7 +9753,7 @@ function factory (type, config, load, typed) {
 
     return data;
   };
-  
+
   /**
    * Replace a single element in the matrix.
    * @memberof DenseMatrix
@@ -9793,7 +9793,7 @@ function factory (type, config, load, typed) {
 
     return this;
   };
-  
+
   /**
    * Get a submatrix of this matrix
    * @memberof DenseMatrix
@@ -9831,7 +9831,7 @@ function factory (type, config, load, typed) {
       return new DenseMatrix(_getSubmatrix(matrix._data, index, size.length, 0), matrix._datatype);
     }
   }
-  
+
   /**
    * Recursively get a submatrix of a multi dimensional matrix.
    * Index is not checked for correct number or length of dimensions.
@@ -9861,7 +9861,7 @@ function factory (type, config, load, typed) {
       }).valueOf();
     }
   }
-  
+
   /**
    * Replace a submatrix in this matrix
    * Indexes are zero-based.
@@ -9946,7 +9946,7 @@ function factory (type, config, load, typed) {
 
     return matrix;
   }
-  
+
   /**
    * Replace a submatrix of a multi dimensional matrix.
    * @memberof DenseMatrix
@@ -9974,7 +9974,7 @@ function factory (type, config, load, typed) {
       });
     }
   }
-  
+
   /**
    * Resize the matrix to the given size. Returns a copy of the matrix when
    * `copy=true`, otherwise return the matrix itself (resize in place).
@@ -9998,7 +9998,7 @@ function factory (type, config, load, typed) {
     // resize matrix
     return _resize(m, size, defaultValue);
   };
-  
+
   var _resize = function (matrix, size, defaultValue) {
     // check size
     if (size.length === 0) {
@@ -10038,7 +10038,7 @@ function factory (type, config, load, typed) {
     m._size = size.slice(0);
     return m;
   };
-  
+
   /**
    * Enlarge the matrix when it is smaller than given size.
    * If the matrix is larger or equal sized, nothing is done.
@@ -10071,7 +10071,7 @@ function factory (type, config, load, typed) {
       _resize(matrix, newSize, defaultValue);
     }
   }
-  
+
   /**
    * Create a clone of the matrix
    * @memberof DenseMatrix
@@ -10085,7 +10085,7 @@ function factory (type, config, load, typed) {
     });
     return m;
   };
-  
+
   /**
    * Retrieve the size of the matrix.
    * @memberof DenseMatrix
@@ -10094,7 +10094,7 @@ function factory (type, config, load, typed) {
   DenseMatrix.prototype.size = function() {
     return this._size.slice(0); // return a clone of _size
   };
-  
+
   /**
    * Create a new matrix with the results of the callback function executed on
    * each entry of the matrix.
@@ -10125,7 +10125,7 @@ function factory (type, config, load, typed) {
       datatype: this._datatype
     });
   };
-  
+
   /**
    * Execute a callback function on each entry of the matrix.
    * @memberof DenseMatrix
@@ -10148,7 +10148,7 @@ function factory (type, config, load, typed) {
     };
     recurse(this._data, []);
   };
-  
+
   /**
    * Create an Array with a copy of the data of the DenseMatrix
    * @memberof DenseMatrix
@@ -10157,7 +10157,7 @@ function factory (type, config, load, typed) {
   DenseMatrix.prototype.toArray = function () {
     return object.clone(this._data);
   };
-  
+
   /**
    * Get the primitive value of the DenseMatrix: a multidimensional array
    * @memberof DenseMatrix
@@ -10166,7 +10166,7 @@ function factory (type, config, load, typed) {
   DenseMatrix.prototype.valueOf = function () {
     return this._data;
   };
-  
+
   /**
    * Get a string representation of the matrix, with optional formatting options.
    * @memberof DenseMatrix
@@ -10179,7 +10179,7 @@ function factory (type, config, load, typed) {
   DenseMatrix.prototype.format = function (options) {
     return string.format(this._data, options);
   };
-  
+
   /**
    * Get a string representation of the matrix
    * @memberof DenseMatrix
@@ -10188,7 +10188,7 @@ function factory (type, config, load, typed) {
   DenseMatrix.prototype.toString = function () {
     return string.format(this._data);
   };
-  
+
   /**
    * Get a JSON representation of the matrix
    * @memberof DenseMatrix
@@ -10202,7 +10202,7 @@ function factory (type, config, load, typed) {
       datatype: this._datatype
     };
   };
-  
+
   /**
    * Get the kth Matrix diagonal.
    *
@@ -10236,10 +10236,10 @@ function factory (type, config, load, typed) {
 
     // number diagonal values
     var n = Math.min(rows - kSub, columns -  kSuper);
-    
+
     // x is a matrix get diagonal from matrix
     var data = [];
-    
+
     // loop rows
     for (var i = 0; i < n; i++) {
       data[i] = this._data[i + kSub][i + kSuper];
@@ -10252,7 +10252,7 @@ function factory (type, config, load, typed) {
       datatype: this._datatype
     });
   };
-  
+
   /**
    * Create a diagonal matrix.
    *
@@ -10280,7 +10280,7 @@ function factory (type, config, load, typed) {
       // validate arguments
       if (!isNumber(s) || !isInteger(s) || s < 1) {
         throw new Error('Size values must be positive integers');
-      } 
+      }
       return s;
     });
 
@@ -10298,7 +10298,7 @@ function factory (type, config, load, typed) {
       // default value
       k = 0;
     }
-    
+
     if (defaultValue && isString(datatype)) {
       // convert defaultValue to the same datatype
       defaultValue = typed.convert(defaultValue, datatype);
@@ -10306,7 +10306,7 @@ function factory (type, config, load, typed) {
 
     var kSuper = k > 0 ? k : 0;
     var kSub = k < 0 ? -k : 0;
-    
+
     // rows and columns
     var rows = size[0];
     var columns = size[1];
@@ -10328,7 +10328,7 @@ function factory (type, config, load, typed) {
       _value = function (i) {
         // return value @ i
         return value[i];
-      };      
+      };
     }
     else if (type.isMatrix(value)) {
       // matrix size
@@ -10351,7 +10351,7 @@ function factory (type, config, load, typed) {
         return value;
       };
     }
-    
+
     // discover default value if needed
     if (!defaultValue) {
       // check first value in array
@@ -10370,7 +10370,7 @@ function factory (type, config, load, typed) {
         data[d + kSub][d + kSuper] = _value(d);
       }
     }
-    
+
     // create DenseMatrix
     return new DenseMatrix({
       data: data,
@@ -10389,7 +10389,7 @@ function factory (type, config, load, typed) {
   DenseMatrix.fromJSON = function (json) {
     return new DenseMatrix(json);
   };
-  
+
   /**
    * Swap rows i and j in Matrix.
    *
@@ -10783,7 +10783,7 @@ function factory (type, config, load, typed) {
    * Compile a node into a JavaScript function.
    * This basically pre-calculates as much as possible and only leaves open
    * calculations which depend on a dynamic scope with variables.
-   * @param {Object} math     Math.js namespace with functions and constants. 
+   * @param {Object} math     Math.js namespace with functions and constants.
    * @param {Object} argNames An object with argument names as key and `true`
    *                          as value. Used in the SymbolNode to optimize
    *                          for arguments from user assigned functions
@@ -11221,11 +11221,11 @@ function factory (type, config, load, typed) {
       if (parens[1]) { //right hand side in parenthesis?
         rhs = '<span class="math-parenthesis math-round-parenthesis">(</span>' + rhs + '<span class="math-parenthesis math-round-parenthesis">)</span>';
       }
-	  
+
 	  if (this.implicit && (this.getIdentifier() === 'OperatorNode:multiply') && (implicit == 'hide')) {
 	    return lhs + '<span class="math-operator math-binary-operator math-implicit-binary-operator"></span>' + rhs;
 	  }
-      
+
 	  return lhs + '<span class="math-operator math-binary-operator math-explicit-binary-operator">' + escape(this.op) + '</span>' + rhs;
     }
 	else if ((args.length > 2) && ((this.getIdentifier() === 'OperatorNode:add') || (this.getIdentifier() === 'OperatorNode:multiply'))) {
@@ -11562,13 +11562,13 @@ exports.factory = factory;
 // (a+b)+c=a+(b+c)
 // (a+b)-c=a+(b-c)
 //
-// postfix operators are left associative, prefix operators 
+// postfix operators are left associative, prefix operators
 // are right associative
 //
 //It's also possible to set the following properties:
 // latexParens: if set to false, this node doesn't need to be enclosed
 //              in parentheses when using LaTeX
-// latexLeftParens: if set to false, this !OperatorNode's! 
+// latexLeftParens: if set to false, this !OperatorNode's!
 //                  left argument doesn't need to be enclosed
 //                  in parentheses
 // latexRightParens: the same for the right argument
@@ -11941,9 +11941,9 @@ var array = __webpack_require__(2);
 var isInteger = __webpack_require__(3).isInteger;
 
 function factory (type, config, load, typed) {
-  
+
   var matrix = load(__webpack_require__(1));
-  
+
   /**
    * Create a 2-dimensional identity matrix with size m x n or n x n.
    * The matrix has ones on the diagonal and zeros elsewhere.
@@ -11986,7 +11986,7 @@ function factory (type, config, load, typed) {
     'number | BigNumber': function (rows) {
       return _eye(rows, rows, config.matrix === 'Matrix' ? 'default' : undefined);
     },
-    
+
     'number | BigNumber, string': function (rows, format) {
       return _eye(rows, rows, format);
     },
@@ -11994,7 +11994,7 @@ function factory (type, config, load, typed) {
     'number | BigNumber, number | BigNumber': function (rows, cols) {
       return _eye(rows, cols, config.matrix === 'Matrix' ? 'default' : undefined);
     },
-    
+
     'number | BigNumber, number | BigNumber, string': function (rows, cols, format) {
       return _eye(rows, cols, format);
     },
@@ -12002,7 +12002,7 @@ function factory (type, config, load, typed) {
     'Array':  function (size) {
       return _eyeVector(size);
     },
-    
+
     'Array, string':  function (size, format) {
       return _eyeVector(size, format);
     },
@@ -12010,7 +12010,7 @@ function factory (type, config, load, typed) {
     'Matrix': function (size) {
       return _eyeVector(size.valueOf(), size.storage());
     },
-    
+
     'Matrix, string': function (size, format) {
       return _eyeVector(size.valueOf(), format);
     }
@@ -12052,11 +12052,11 @@ function factory (type, config, load, typed) {
     if (!isInteger(cols) || cols < 1) {
       throw new Error('Parameters in function eye must be positive integers');
     }
-    
+
     var one = Big ? new type.BigNumber(1) : 1;
     var defaultValue = Big ? new Big(0) : 0;
     var size = [rows, cols];
-    
+
     // check we need to return a matrix
     if (format) {
       // get matrix storage constructor
@@ -12064,7 +12064,7 @@ function factory (type, config, load, typed) {
       // create diagonal matrix (use optimized implementation for storage format)
       return F.diagonal(size, one, 0, defaultValue);
     }
-    
+
     // create and resize array
     var res = array.resize([], size, defaultValue);
     // fill in ones on the diagonal
@@ -12317,12 +12317,12 @@ function factory (type, config, load, typed) {
   var SparseMatrix = type.SparseMatrix;
 
   /**
-   * Iterates over SparseMatrix A and SparseMatrix B nonzero items and invokes the callback function f(Aij, Bij). 
+   * Iterates over SparseMatrix A and SparseMatrix B nonzero items and invokes the callback function f(Aij, Bij).
    * Callback function invoked (Anz U Bnz) times, where Anz and Bnz are the nonzero elements in both matrices.
    *
    *
    *          ┌  f(Aij, Bij)  ; A(i,j) !== 0 && B(i,j) !== 0
-   * C(i,j) = ┤  
+   * C(i,j) = ┤
    *          └  0            ; otherwise
    *
    *
@@ -12462,7 +12462,7 @@ function factory (type, config, load, typed) {
     // return sparse matrix
     return c;
   };
-  
+
   return algorithm06;
 }
 
@@ -12523,7 +12523,7 @@ function factory (type, config, load, typed) {
 
       // result
       var c;
-      
+
       // process dimensions
       switch (size.length) {
         case 1:
@@ -12552,7 +12552,7 @@ function factory (type, config, load, typed) {
               break;
           }
           break;
-          
+
         default:
           // multi dimensional
           throw new RangeError('Matrix must be a vector or two dimensional (size: ' + format(this._size) + ')');
@@ -12902,7 +12902,7 @@ function factory (type, config, load, typed, math) {
    * Compile a node into a JavaScript function.
    * This basically pre-calculates as much as possible and only leaves open
    * calculations which depend on a dynamic scope with variables.
-   * @param {Object} math     Math.js namespace with functions and constants. 
+   * @param {Object} math     Math.js namespace with functions and constants.
    * @param {Object} argNames An object with argument names as key and `true`
    *                          as value. Used in the SymbolNode to optimize
    *                          for arguments from user assigned functions
@@ -12974,7 +12974,7 @@ function factory (type, config, load, typed, math) {
         validateSafeMethod(object, prop);
         var isRaw = object[prop] && object[prop].rawArgs;
 
-        return isRaw 
+        return isRaw
           ? object[prop](rawArgs, math, scope)                             // "raw" evaluation
           : object[prop].apply(object, map(evalArgs, function (evalArg) {  // "regular" evaluation
               return evalArg(scope, args, context);
@@ -12989,7 +12989,7 @@ function factory (type, config, load, typed, math) {
         var fn = evalFn(scope, args, context);
         var isRaw = fn && fn.rawArgs;
 
-        return isRaw 
+        return isRaw
           ? fn(rawArgs, math, scope)                         // "raw" evaluation
           : fn.apply(fn, map(evalArgs, function (evalArg) {  // "regular" evaluation
               return evalArg(scope, args, context);
@@ -12997,7 +12997,7 @@ function factory (type, config, load, typed, math) {
       };
     }
   }
-  
+
   /**
    * Execute a callback for each of the child nodes of this node
    * @param {function(child: Node, path: string, parent: Node)} callback
@@ -13321,7 +13321,7 @@ function factory (type, config, load, typed) {
    * Compile a node into a JavaScript function.
    * This basically pre-calculates as much as possible and only leaves open
    * calculations which depend on a dynamic scope with variables.
-   * @param {Object} math     Math.js namespace with functions and constants. 
+   * @param {Object} math     Math.js namespace with functions and constants.
    * @param {Object} argNames An object with argument names as key and `true`
    *                          as value. Used in the SymbolNode to optimize
    *                          for arguments from user assigned functions
@@ -13451,16 +13451,16 @@ var DimensionError = __webpack_require__(11);
 function factory (type, config, load, typed) {
 
   var equalScalar = load(__webpack_require__(9));
-  
+
   var SparseMatrix = type.SparseMatrix;
 
   /**
-   * Iterates over SparseMatrix A and SparseMatrix B nonzero items and invokes the callback function f(Aij, Bij). 
+   * Iterates over SparseMatrix A and SparseMatrix B nonzero items and invokes the callback function f(Aij, Bij).
    * Callback function invoked MAX(NNZA, NNZB) times
    *
    *
    *          ┌  f(Aij, Bij)  ; A(i,j) !== 0 || B(i,j) !== 0
-   * C(i,j) = ┤  
+   * C(i,j) = ┤
    *          └  0            ; otherwise
    *
    *
@@ -13541,7 +13541,7 @@ function factory (type, config, load, typed) {
 
     // vars
     var i, j, k, k1;
-    
+
     // loop columns
     for (j = 0; j < columns; j++) {
       // update cptr
@@ -14105,7 +14105,7 @@ function factory (type, config, load, typed) {
   var SparseMatrix = type.SparseMatrix;
 
   /**
-   * Iterates over SparseMatrix A and SparseMatrix B nonzero items and invokes the callback function f(Aij, Bij). 
+   * Iterates over SparseMatrix A and SparseMatrix B nonzero items and invokes the callback function f(Aij, Bij).
    * Callback function invoked MAX(NNZA, NNZB) times
    *
    *
@@ -14240,7 +14240,7 @@ function factory (type, config, load, typed) {
           // remove value @ i, do not increment pointer
           cindex.splice(k, 1);
         }
-      }      
+      }
     }
     // update cptr
     cptr[columns] = cindex.length;
@@ -14525,7 +14525,7 @@ var array = util.array;
 var isArray = Array.isArray;
 
 function factory (type) {
-  
+
   var DenseMatrix = type.DenseMatrix;
 
   /**
@@ -14545,9 +14545,9 @@ function factory (type) {
       throw new RangeError('Matrix must be two dimensional (size: ' + string.format(size) + ')');
     // rows & columns
     var rows = size[0];
-    var columns = size[1];    
+    var columns = size[1];
     // validate rows & columns
-    if (rows !== columns) 
+    if (rows !== columns)
       throw new RangeError('Matrix must be square (size: ' + string.format(size) + ')');
     // vars
     var data, i, bdata;
@@ -14617,7 +14617,7 @@ function factory (type) {
           // row
           i = index[k];
           // add to data
-          data[i][0] = values[k]; 
+          data[i][0] = values[k];
         }
         // return Dense Matrix
         return new DenseMatrix({
@@ -14637,7 +14637,7 @@ function factory (type) {
       if (asize.length === 1) {
         // check vector length
         if (asize[0] !== rows)
-          throw new RangeError('Dimension mismatch. Matrix columns must match vector length.');        
+          throw new RangeError('Dimension mismatch. Matrix columns must match vector length.');
         // create data array
         data = [];
         // loop b
@@ -14669,10 +14669,10 @@ function factory (type) {
         });
       }
       // throw error
-      throw new RangeError('Dimension mismatch. Matrix columns must match vector length.');      
+      throw new RangeError('Dimension mismatch. Matrix columns must match vector length.');
     }
   };
-  
+
   return solveValidation;
 }
 
@@ -15977,7 +15977,7 @@ function factory (type, config, load, typed) {
    * Compile a node into a JavaScript function.
    * This basically pre-calculates as much as possible and only leaves open
    * calculations which depend on a dynamic scope with variables.
-   * @param {Object} math     Math.js namespace with functions and constants. 
+   * @param {Object} math     Math.js namespace with functions and constants.
    * @param {Object} argNames An object with argument names as key and `true`
    *                          as value. Used in the SymbolNode to optimize
    *                          for arguments from user assigned functions
@@ -16003,8 +16003,8 @@ function factory (type, config, load, typed) {
 
           var evalStart = range.start._compile(math, childArgNames);
           var evalEnd = range.end._compile(math, childArgNames);
-          var evalStep = range.step 
-              ? range.step._compile(math, childArgNames) 
+          var evalStep = range.step
+              ? range.step._compile(math, childArgNames)
               : function () { return 1 };
 
           return function evalDimension(scope, args, context) {
@@ -16023,8 +16023,8 @@ function factory (type, config, load, typed) {
           // create range
           var evalStart = range.start._compile(math, argNames);
           var evalEnd = range.end._compile(math, argNames);
-          var evalStep = range.step 
-              ? range.step._compile(math, argNames) 
+          var evalStep = range.step
+              ? range.step._compile(math, argNames)
               : function () { return 1 };
 
           return function evalDimension(scope, args, context) {
@@ -16042,7 +16042,7 @@ function factory (type, config, load, typed) {
         childArgNames['end'] = true;
 
         var evalRange = range._compile(math, childArgNames);
-        
+
         return function evalDimension(scope, args, context) {
           var size = math.size(context).valueOf();
           var childArgs = Object.create(args);
@@ -16310,7 +16310,7 @@ function factory (type, config, load, typed) {
   var SparseMatrix = type.SparseMatrix;
 
   /**
-   * Iterates over SparseMatrix A and SparseMatrix B nonzero items and invokes the callback function f(Aij, Bij). 
+   * Iterates over SparseMatrix A and SparseMatrix B nonzero items and invokes the callback function f(Aij, Bij).
    * Callback function invoked MAX(NNZA, NNZB) times
    *
    *
@@ -16394,9 +16394,9 @@ function factory (type, config, load, typed) {
     var wa = [];
     var wb = [];
 
-    // vars 
+    // vars
     var i, j, k, k0, k1;
-    
+
     // loop columns
     for (j = 0; j < columns; j++) {
       // update cptr
@@ -16428,7 +16428,7 @@ function factory (type, config, load, typed) {
             // check for zero
             if (!eq(v, zero)) {
               // update workspace
-              xa[i] = v;              
+              xa[i] = v;
             }
             else {
               // remove mark (index will be removed later)
@@ -16480,7 +16480,7 @@ function factory (type, config, load, typed) {
     // return sparse matrix
     return c;
   };
-  
+
   return algorithm04;
 }
 
@@ -16572,7 +16572,7 @@ function factory (type, config, load, typed) {
     // must be implemented by each of the Matrix implementations
     throw new Error('Cannot invoke storage on a Matrix interface');
   };
-  
+
   /**
    * Get the datatype of the data stored in the matrix.
    *
@@ -16638,7 +16638,7 @@ function factory (type, config, load, typed) {
   };
 
   /**
-   * Resize the matrix to the given size. Returns a copy of the matrix when 
+   * Resize the matrix to the given size. Returns a copy of the matrix when
    * `copy=true`, otherwise return the matrix itself (resize in place).
    *
    * @param {number[]} size           The new size the matrix should have.
@@ -16751,7 +16751,7 @@ function factory (type, config, load, typed) {
     // must be implemented by each of the Matrix implementations
     throw new Error('Cannot invoke toString on a Matrix interface');
   };
-   
+
   // exports
   return Matrix;
 }
@@ -17138,7 +17138,7 @@ function factory (type, config, load, typed) {
   var size = load(__webpack_require__(23));
   var subset = load(__webpack_require__(22));
   var setDifference = load(__webpack_require__(96));
-  
+
   /**
    * Create the symmetric difference of two (multi)sets.
    * Multi-dimension arrays will be converted to single-dimension arrays before the operation.
@@ -17198,7 +17198,7 @@ function factory (type, config, load, typed) {
   var size = load(__webpack_require__(23));
   var subset = load(__webpack_require__(22));
   var compareNatural = load(__webpack_require__(26));
-  
+
   /**
    * Create the intersection of two (multi)sets.
    * Multi-dimension arrays will be converted to single-dimension arrays before the operation.
@@ -17271,7 +17271,7 @@ function factory (type, config, load, typed) {
   var size = load(__webpack_require__(23));
   var subset = load(__webpack_require__(22));
   var compareNatural = load(__webpack_require__(26));
-  
+
   /**
    * Create the difference of two (multi)sets: every element of set1, that is not the element of set2.
    * Multi-dimension arrays will be converted to single-dimension arrays before the operation.
@@ -17884,7 +17884,7 @@ var clone = __webpack_require__(5).clone;
 var format = __webpack_require__(10).format;
 
 function factory (type, config, load, typed) {
-  
+
   var matrix = load(__webpack_require__(1));
   var add = load(__webpack_require__(16));
 
@@ -17916,7 +17916,7 @@ function factory (type, config, load, typed) {
    * @return {number} The trace of `x`
    */
   var trace = typed('trace', {
-    
+
     'Array': function _arrayTrace(x) {
       // use dense matrix implementation
       return _denseTrace(matrix(x));
@@ -17928,12 +17928,12 @@ function factory (type, config, load, typed) {
 
     'any': clone
   });
-  
+
   function _denseTrace(m) {
     // matrix size & data
     var size = m._size;
     var data = m._data;
-    
+
     // process dimensions
     switch (size.length) {
       case 1:
@@ -17956,13 +17956,13 @@ function factory (type, config, load, typed) {
           // return trace
           return sum;
         }
-        throw new RangeError('Matrix must be square (size: ' + format(size) + ')');        
+        throw new RangeError('Matrix must be square (size: ' + format(size) + ')');
       default:
         // multi dimensional
         throw new RangeError('Matrix must be two dimensional (size: ' + format(size) + ')');
     }
   }
-  
+
   function _sparseTrace(m) {
     // matrix arrays
     var values = m._values;
@@ -18004,11 +18004,11 @@ function factory (type, config, load, typed) {
       // return trace
       return sum;
     }
-    throw new RangeError('Matrix must be square (size: ' + format(size) + ')');   
+    throw new RangeError('Matrix must be square (size: ' + format(size) + ')');
   }
 
   trace.toTex = {1: '\\mathrm{tr}\\left(${args[0]}\\right)'};
-  
+
   return trace;
 }
 
@@ -18032,12 +18032,12 @@ function factory (type, config, load, typed) {
   var SparseMatrix = type.SparseMatrix;
 
   /**
-   * Iterates over SparseMatrix A and invokes the callback function f(Aij, Bij). 
+   * Iterates over SparseMatrix A and invokes the callback function f(Aij, Bij).
    * Callback function invoked NZA times, number of nonzero elements in A.
    *
    *
    *          ┌  f(Aij, Bij)  ; A(i,j) !== 0
-   * C(i,j) = ┤  
+   * C(i,j) = ┤
    *          └  0            ; otherwise
    *
    *
@@ -18116,7 +18116,7 @@ function factory (type, config, load, typed) {
 
     // vars
     var i, j, k, k0, k1;
-    
+
     // loop columns
     for (j = 0; j < columns; j++) {
       // update cptr
@@ -18184,7 +18184,7 @@ function factory (type, config, load, typed) {
   var matrix = load(__webpack_require__(1));
   var divideScalar = load(__webpack_require__(12));
   var latex = __webpack_require__(4);
-  
+
   var algorithm02 = load(__webpack_require__(24));
   var algorithm03 = load(__webpack_require__(19));
   var algorithm07 = load(__webpack_require__(28));
@@ -18220,7 +18220,7 @@ function factory (type, config, load, typed) {
    * @return {number | BigNumber | Fraction | Complex | Unit | Array | Matrix}                    Quotient, `x ./ y`
    */
   var dotDivide = typed('dotDivide', {
-    
+
     'any, any': divideScalar,
 
     'SparseMatrix, SparseMatrix': function (x, y) {
@@ -18284,7 +18284,7 @@ function factory (type, config, load, typed) {
   dotDivide.toTex = {
     2: '\\left(${args[0]}' + latex.operators['dotDivide'] + '${args[1]}\\right)'
   };
-  
+
   return dotDivide;
 }
 
@@ -18308,7 +18308,7 @@ function factory (type, config, load, typed) {
   var equalScalar = load(__webpack_require__(9));
 
   var solveValidation = load(__webpack_require__(78));
-  
+
   var DenseMatrix = type.DenseMatrix;
 
   /**
@@ -18336,7 +18336,7 @@ function factory (type, config, load, typed) {
    * @return {DenseMatrix | Array}  A column vector with the linear system solution (x)
    */
   var usolve = typed('usolve', {
-    
+
     'SparseMatrix, Array | Matrix': function (m, b) {
       // process matrix
       return _sparseBackwardSubstitution(m, b);
@@ -18385,7 +18385,7 @@ function factory (type, config, load, typed) {
           throw new Error('Linear system cannot be solved since matrix is singular');
         }
         // calculate xj
-        xj = divideScalar(bj, vjj);        
+        xj = divideScalar(bj, vjj);
         // loop rows
         for (var i = j - 1; i >= 0; i--) {
           // update copy of b
@@ -18405,7 +18405,7 @@ function factory (type, config, load, typed) {
       size: [rows, 1]
     });
   };
-  
+
   var _sparseBackwardSubstitution = function (m, b) {
     // validate matrix and vector, return copy of column vector b
     b = solveValidation(m, b, true);
@@ -18479,7 +18479,7 @@ function factory (type, config, load, typed) {
       size: [rows, 1]
     });
   };
-  
+
   return usolve;
 }
 
@@ -18506,7 +18506,7 @@ function factory (type, config, load, typed) {
 
   var DenseMatrix = type.DenseMatrix;
 
-  /** 
+  /**
    * Solves the linear equation system by forwards substitution. Matrix must be a lower triangular matrix.
    *
    * `L * x = b`
@@ -18536,12 +18536,12 @@ function factory (type, config, load, typed) {
       // process matrix
       return _sparseForwardSubstitution(m, b);
     },
-    
+
     'DenseMatrix, Array | Matrix': function (m, b) {
       // process matrix
       return _denseForwardSubstitution(m, b);
     },
-    
+
     'Array, Array | Matrix': function (a, b) {
       // create dense matrix from array
       var m = matrix(a);
@@ -18754,7 +18754,7 @@ var nearlyEqual = __webpack_require__(3).nearlyEqual;
 var bigNearlyEqual = __webpack_require__(44);
 
 function factory (type, config, load, typed) {
-  
+
   var matrix = load(__webpack_require__(1));
 
   var algorithm03 = load(__webpack_require__(19));
@@ -18903,7 +18903,7 @@ function factory () {
    * Depth-first search and postorder of a tree rooted at node j
    *
    * @param {Number}  j               The tree node
-   * @param {Number}  k               
+   * @param {Number}  k
    * @param {Array}   w               The workspace array
    * @param {Number}  head            The index offset within the workspace for the head array
    * @param {Number}  next            The index offset within the workspace for the next array
@@ -18917,7 +18917,7 @@ function factory () {
     var top = 0;
     // place j on the stack
     w[stack] = j;
-    // while (stack is not empty) 
+    // while (stack is not empty)
     while (top >= 0) {
       // p = top of stack
       var p = w[stack + top];
@@ -18959,7 +18959,7 @@ exports.factory = factory;
 var util = __webpack_require__(29);
 
 var number = util.number,
-    
+
     isInteger = number.isInteger;
 
 function factory (type, config, load, typed) {
@@ -18996,7 +18996,7 @@ function factory (type, config, load, typed) {
    * @param {Number}       order          The Symbolic Ordering and Analysis order:
    *                                       0 - Natural ordering, no permutation vector q is returned
    *                                       1 - Matrix must be square, symbolic ordering and analisis is performed on M = A + A'
-   *                                       2 - Symbolic ordering and analisis is performed on M = A' * A. Dense columns from A' are dropped, A recreated from A'. 
+   *                                       2 - Symbolic ordering and analisis is performed on M = A' * A. Dense columns from A' are dropped, A recreated from A'.
    *                                           This is appropriatefor LU factorization of unsymmetric matrices.
    *                                       3 - Symbolic ordering and analisis is performed on M = A' * A. This is best used for LU factorization is matrix M has no dense rows.
    *                                           A dense row is a row with more than 10*sqr(columns) entries.
@@ -19013,13 +19013,13 @@ function factory (type, config, load, typed) {
       // verify threshold
       if (threshold < 0 || threshold > 1)
         throw new Error('Partial pivoting threshold must be a number from 0 to 1');
-      
+
       // perform symbolic ordering and analysis
       var s = cs_sqr(order, a, false);
-      
+
       // perform lu decomposition
       var f = cs_lu(a, s, threshold);
-      
+
       // return decomposition
       return {
         L: f.L,
@@ -19062,11 +19062,11 @@ function factory (type, config, load, typed) {
   var larger = load(__webpack_require__(33));
   var equalScalar = load(__webpack_require__(9));
   var unaryMinus = load(__webpack_require__(32));
-  
+
   var SparseMatrix = type.SparseMatrix;
   var DenseMatrix = type.DenseMatrix;
   var Spa = type.Spa;
-  
+
   /**
    * Calculate the Matrix LU decomposition with partial pivoting. Matrix `A` is decomposed in two matrices (`L`, `U`) and a
    * row permutation vector `p` where `A[p,:] = L * U`
@@ -19098,7 +19098,7 @@ function factory (type, config, load, typed) {
     'DenseMatrix': function (m) {
       return _denseLUP(m);
     },
-    
+
     'SparseMatrix': function (m) {
       return _sparseLUP(m);
     },
@@ -19133,10 +19133,10 @@ function factory (type, config, load, typed) {
     var usize = [n, columns];
     // vars
     var i, j, k;
-    // permutation vector    
+    // permutation vector
     var p = [];
     for (i = 0; i < rows; i++)
-      p[i] = i;    
+      p[i] = i;
     // loop columns
     for (j = 0; j < columns; j++) {
       // skip first column in upper triangular matrix
@@ -19154,7 +19154,7 @@ function factory (type, config, load, typed) {
           }
           data[i][j] = subtract(data[i][j], s);
         }
-      }      
+      }
       // row with larger value in cvector, row >= j
       var pi = j;
       var pabsv = 0;
@@ -19264,16 +19264,16 @@ function factory (type, config, load, typed) {
     for (i = 0, n = p.length; i < n; i++)
       pv[p[i]] = i;
     // return matrices
-    return { 
-      L: l, 
-      U: u, 
-      p: pv, 
+    return {
+      L: l,
+      U: u,
+      p: pv,
       toString: function () {
         return 'L: ' + this.L.toString() + '\nU: ' + this.U.toString() + '\nP: ' + this.p;
       }
     };
   };
-  
+
   var _sparseLUP = function (m) {
     // rows & columns
     var rows = m._size[0];
@@ -19304,7 +19304,7 @@ function factory (type, config, load, typed) {
       pv_oc[i] = i;
     }
     // swap indices in permutation vectors (condition x < y)!
-    var swapIndeces = function (x, y) {      
+    var swapIndeces = function (x, y) {
       // find pv indeces getting data from x and y
       var kx = pv_oc[x];
       var ky = pv_oc[y];
@@ -19318,7 +19318,7 @@ function factory (type, config, load, typed) {
     // loop columns
     for (j = 0; j < columns; j++) {
       // sparse accumulator
-      var spa = new Spa();            
+      var spa = new Spa();
       // check lower triangular matrix has a value @ column j
       if (j < rows) {
         // update ptr
@@ -19351,12 +19351,12 @@ function factory (type, config, load, typed) {
               spa.accumulate(i, unaryMinus(multiplyScalar(vik, vkj)));
             }
           });
-        });        
+        });
       }
       // row with larger value in spa, row >= j
       var pi = j;
       var vjj = spa.get(j);
-      var pabsv = abs(vjj);      
+      var pabsv = abs(vjj);
       // loop values in spa (order by row, below diagonal)
       spa.forEach(j + 1, rows - 1, function (x, v) {
         // absolute value
@@ -19413,7 +19413,7 @@ function factory (type, config, load, typed) {
         index: lindex,
         ptr: lptr,
         size: lsize
-      }), 
+      }),
       U: new SparseMatrix({
         values: uvalues,
         index: uindex,
@@ -19426,7 +19426,7 @@ function factory (type, config, load, typed) {
       }
     };
   };
-  
+
   return lup;
 }
 
@@ -19576,7 +19576,7 @@ function factory (type, config, load, typed) {
    * @return {boolean | Array | Matrix} Returns true when the compared values are unequal, else returns false
    */
   var unequal = typed('unequal', {
-    
+
     'any, any': function (x, y) {
       // strict equality for null and undefined?
       if (x === null) { return y !== null; }
@@ -19880,7 +19880,7 @@ function factory(type, config, load, typed, math) {
                       var a01 = a0.args[1];
                       if (type.isConstantNode(a01)) {
                           return new OperatorNode(node.op, node.fn, [
-                              a0.args[0], 
+                              a0.args[0],
                               new ConstantNode(multiply(a01.value, a1.value))
                           ]);
                       }
@@ -20662,7 +20662,7 @@ var containsCollections = __webpack_require__(66);
 function factory (type, config, load, typed) {
   var smaller = load(__webpack_require__(42));
   var improveErrorMessage = load(__webpack_require__(31));
-  
+
   /**
    * Compute the maximum value of a matrix or a  list of values.
    * In case of a multi dimensional array, the maximum of the flattened array
@@ -21411,7 +21411,7 @@ function factory (type, config, load, typed) {
    * Compile a node into a JavaScript function.
    * This basically pre-calculates as much as possible and only leaves open
    * calculations which depend on a dynamic scope with variables.
-   * @param {Object} math     Math.js namespace with functions and constants. 
+   * @param {Object} math     Math.js namespace with functions and constants.
    * @param {Object} argNames An object with argument names as key and `true`
    *                          as value. Used in the SymbolNode to optimize
    *                          for arguments from user assigned functions
@@ -21427,11 +21427,11 @@ function factory (type, config, load, typed) {
 
     if (this.step) {
       var evalStep = this.step._compile(math, argNames);
-      
+
       return function evalRangeNode(scope, args, context) {
         return range(
-          evalStart(scope, args, context), 
-          evalEnd(scope, args, context), 
+          evalStart(scope, args, context),
+          evalEnd(scope, args, context),
           evalStep(scope, args, context)
         );
       }
@@ -21439,7 +21439,7 @@ function factory (type, config, load, typed) {
     else {
       return function evalRangeNode(scope, args, context) {
         return range(
-          evalStart(scope, args, context), 
+          evalStart(scope, args, context),
           evalEnd(scope, args, context)
         );
       }
@@ -21689,7 +21689,7 @@ function factory (type, config, load, typed) {
    * Compile a node into a JavaScript function.
    * This basically pre-calculates as much as possible and only leaves open
    * calculations which depend on a dynamic scope with variables.
-   * @param {Object} math     Math.js namespace with functions and constants. 
+   * @param {Object} math     Math.js namespace with functions and constants.
    * @param {Object} argNames An object with argument names as key and `true`
    *                          as value. Used in the SymbolNode to optimize
    *                          for arguments from user assigned functions
@@ -21704,7 +21704,7 @@ function factory (type, config, load, typed) {
     for (var key in this.properties) {
       if (hasOwnProperty(this.properties, key)) {
         // we stringify/parse the key here to resolve unicode characters,
-        // so you cannot create a key like {"co\\u006Estructor": null} 
+        // so you cannot create a key like {"co\\u006Estructor": null}
         var stringifiedKey = stringify(key)
         var parsedKey = JSON.parse(stringifiedKey)
         if (!isSafeProperty(this.properties, parsedKey)) {
@@ -22125,7 +22125,7 @@ function factory (type, config, load, typed) {
    * Compile a node into a JavaScript function.
    * This basically pre-calculates as much as possible and only leaves open
    * calculations which depend on a dynamic scope with variables.
-   * @param {Object} math     Math.js namespace with functions and constants. 
+   * @param {Object} math     Math.js namespace with functions and constants.
    * @param {Object} argNames An object with argument names as key and `true`
    *                          as value. Used in the SymbolNode to optimize
    *                          for arguments from user assigned functions
@@ -22140,8 +22140,8 @@ function factory (type, config, load, typed) {
     var evalFalseExpr = this.falseExpr._compile(math, argNames);
 
     return function evalConditionalNode(scope, args, context) {
-      return testCondition(evalCondition(scope, args, context)) 
-          ? evalTrueExpr(scope, args, context) 
+      return testCondition(evalCondition(scope, args, context))
+          ? evalTrueExpr(scope, args, context)
           : evalFalseExpr(scope, args, context);
     }
   }
@@ -22388,7 +22388,7 @@ function factory (type, config, load, typed) {
    * Compile a node into a JavaScript function.
    * This basically pre-calculates as much as possible and only leaves open
    * calculations which depend on a dynamic scope with variables.
-   * @param {Object} math     Math.js namespace with functions and constants. 
+   * @param {Object} math     Math.js namespace with functions and constants.
    * @param {Object} argNames An object with argument names as key and `true`
    *                          as value. Used in the SymbolNode to optimize
    *                          for arguments from user assigned functions
@@ -22622,7 +22622,7 @@ function factory (type, config, load, typed) {
    * Compile a node into a JavaScript function.
    * This basically pre-calculates as much as possible and only leaves open
    * calculations which depend on a dynamic scope with variables.
-   * @param {Object} math     Math.js namespace with functions and constants. 
+   * @param {Object} math     Math.js namespace with functions and constants.
    * @param {Object} argNames An object with argument names as key and `true`
    *                          as value. Used in the SymbolNode to optimize
    *                          for arguments from user assigned functions
@@ -22637,7 +22637,7 @@ function factory (type, config, load, typed) {
     var evalIndex = this.index ? this.index._compile(math, argNames) : null;
     var evalValue = this.value._compile(math, argNames);
     var name = this.object.name;
-    
+
     if (!this.index) {
       // apply a variable to the scope, for example `a=2`
       if (!type.isSymbolNode(this.object)) {
@@ -22887,7 +22887,7 @@ function factory (type, config, load, typed) {
    * Compile a node into a JavaScript function.
    * This basically pre-calculates as much as possible and only leaves open
    * calculations which depend on a dynamic scope with variables.
-   * @param {Object} math     Math.js namespace with functions and constants. 
+   * @param {Object} math     Math.js namespace with functions and constants.
    * @param {Object} argNames An object with argument names as key and `true`
    *                          as value. Used in the SymbolNode to optimize
    *                          for arguments from user assigned functions
@@ -23168,7 +23168,7 @@ function factory (type, config, load, typed) {
    * Compile a node into a JavaScript function.
    * This basically pre-calculates as much as possible and only leaves open
    * calculations which depend on a dynamic scope with variables.
-   * @param {Object} math     Math.js namespace with functions and constants. 
+   * @param {Object} math     Math.js namespace with functions and constants.
    * @param {Object} argNames An object with argument names as key and `true`
    *                          as value. Used in the SymbolNode to optimize
    *                          for arguments from user assigned functions
@@ -23780,10 +23780,10 @@ function factory (type, config, load, typed) {
    *      significant digits after the decimal point.
    *      `precision` is undefined by default.
    *    - `lowerExp: number`
-   *      Exponent determining the lower boundary for formatting a value with 
+   *      Exponent determining the lower boundary for formatting a value with
    *      an exponent when `notation='auto`. Default value is `-3`.
-   *    - `upperExp: number` 
-   *      Exponent determining the upper boundary for formatting a value with 
+   *    - `upperExp: number`
+   *      Exponent determining the upper boundary for formatting a value with
    *      an exponent when `notation='auto`. Default value is `5`.
    *    - `fraction: string`. Available values: 'ratio' (default) or 'decimal'.
    *      For example `format(fraction(1, 3))` will output '1/3' when 'ratio' is
@@ -23875,7 +23875,7 @@ function factory (type, config, load, typed) {
   var algorithm11 = load(__webpack_require__(17));
   var algorithm12 = load(__webpack_require__(18));
   var algorithm14 = load(__webpack_require__(6));
-  
+
   /**
    * Round a value towards the nearest integer.
    * For matrices, the function is evaluated element wise.
@@ -23924,7 +23924,7 @@ function factory (type, config, load, typed) {
 
     'Complex, number': function (x, n) {
       if (n % 1) {throw new TypeError(NO_INT);}
-      
+
       return x.round(n);
     },
 
@@ -25069,7 +25069,7 @@ function factory (type, config, load, typed) {
       if (x == 2){
         return true;
       }
-      if (x % 2 == 0){ 
+      if (x % 2 == 0){
         return false;
       }
       for (var i = 3; i * i <= x; i += 2){
@@ -27141,7 +27141,7 @@ function factory (type, config, load, typed) {
       return _std(args);
     }
   });
-  
+
   std.toTex = undefined; // use default template
 
   return std;
@@ -27325,7 +27325,7 @@ function factory (type, config, load, typed) {
 
   /**
    * Calculate the prob order quantile of an n-dimensional array.
-   * 
+   *
    * @param {Array} array
    * @param {Number, BigNumber} prob
    * @param {Boolean} sorted
@@ -27561,12 +27561,12 @@ function factory (type, config, load, typed) {
 
   var mode = typed('mode', {
     'Array | Matrix' : _mode,
-    
+
     '...': function (args) {
       return _mode(args);
     }
   });
-  
+
   return mode;
 
   /**
@@ -27581,7 +27581,7 @@ function factory (type, config, load, typed) {
     if (num == 0) {
       throw new Error('Cannot calculate mode of an empty array');
     }
-    
+
     var count = {},
         mode = [],
         max = 0;
@@ -27598,7 +27598,7 @@ function factory (type, config, load, typed) {
         mode = [values[i]];
       }
     }
-    return mode; 
+    return mode;
   };
 }
 
@@ -27940,7 +27940,7 @@ function factory (type, config, load, typed) {
   var subset = load(__webpack_require__(22));
   var setIntersect = load(__webpack_require__(95));
   var setSymDifference = load(__webpack_require__(94));
-  
+
   /**
    * Create the union of two (multi)sets.
    * Multi-dimension arrays will be converted to single-dimension arrays before the operation.
@@ -27994,7 +27994,7 @@ var flatten = __webpack_require__(2).flatten;
 
 function factory (type, config, load, typed) {
   var compareNatural = load(__webpack_require__(26));
-  
+
   /**
    * Count the number of elements of a (multi)set. When a second parameter is 'true', count only the unique values.
    * A multi-dimension array will be converted to a single-dimension array before the operation.
@@ -28058,7 +28058,7 @@ function factory (type, config, load, typed) {
   var size = load(__webpack_require__(23));
   var subset = load(__webpack_require__(22));
   var compareNatural = load(__webpack_require__(26));
-  
+
   /**
    * Create the powerset of a (multi)set. (The powerset contains very possible subsets of a (multi)set.)
    * A multi-dimension array will be converted to a single-dimension array before the operation.
@@ -28096,7 +28096,7 @@ function factory (type, config, load, typed) {
   });
 
   return setPowerset;
-  
+
   // create subset
   function _subset(array, bitarray) {
     var result = [];
@@ -28107,7 +28107,7 @@ function factory (type, config, load, typed) {
     }
     return result;
   }
-  
+
   // sort subsests by length
   function _sort(array) {
     var temp = [];
@@ -28142,7 +28142,7 @@ function factory (type, config, load, typed) {
   var index = load(__webpack_require__(27));
   var size = load(__webpack_require__(23));
   var subset = load(__webpack_require__(22));
-  
+
   /**
    * Count the multiplicity of an element in a multiset.
    * A multi-dimension array will be converted to a single-dimension array before the operation.
@@ -28202,7 +28202,7 @@ function factory (type, config, load, typed) {
   var size = load(__webpack_require__(23));
   var subset = load(__webpack_require__(22));
   var compareNatural = load(__webpack_require__(26));
-  
+
   /**
    * Check whether a (multi)set is a subset of another (multi)set. (Every element of set1 is the element of set2.)
    * Multi-dimension arrays will be converted to single-dimension arrays before the operation.
@@ -28273,7 +28273,7 @@ function factory (type, config, load, typed) {
   var size = load(__webpack_require__(23));
   var subset = load(__webpack_require__(22));
   var compareNatural = load(__webpack_require__(26));
-  
+
   /**
    * Collect the distinct elements of a multiset.
    * A multi-dimension array will be converted to a single-dimension array before the operation.
@@ -28339,7 +28339,7 @@ function factory (type, config, load, typed) {
   var size = load(__webpack_require__(23));
   var subset = load(__webpack_require__(22));
   var compareNatural = load(__webpack_require__(26));
-  
+
   /**
    * Create the cartesian product of two (multi)sets.
    * Multi-dimension arrays will be converted to single-dimension arrays before the operation.
@@ -29296,15 +29296,15 @@ function factory(type, config, load, typed) {
         if (plength > 1) {
             throw new Error('first object must be one dimensional');
         }
-        
+
         if (qlength > 1) {
             throw new Error('second object must be one dimensional');
         }
-        
+
         if(plength !== qlength){
             throw new Error("Length of two vectors must be equal");
         }
-        
+
         //Before calculation, apply normalization
         var sumq = sum(q);
         if (sumq === 0) {
@@ -29333,7 +29333,7 @@ function factory(type, config, load, typed) {
 
 exports.name = 'kldivergence';
 exports.factory = factory;
- 
+
 
 
 /***/ }),
@@ -29453,7 +29453,7 @@ function factory(type, config, load, typed) {
    * The principal square root matrix `X` of another matrix `A` is such that `X * X = A`.
    *
    * https://en.wikipedia.org/wiki/Square_root_of_a_matrix
-   * 
+   *
    * Syntax:
    *
    *     X = math.sqrtm(A)
@@ -29503,9 +29503,9 @@ function factory(type, config, load, typed) {
 
   /**
    * Calculate the principal square root matrix using the Denman–Beavers iterative method
-   * 
+   *
    * https://en.wikipedia.org/wiki/Square_root_of_a_matrix#By_Denman–Beavers_iteration
-   * 
+   *
    * @param  {Array | Matrix} A   The square matrix `A`
    * @return {Array | Matrix}     The principal square root of matrix `A`
    * @private
@@ -29785,18 +29785,18 @@ function factory (type, config, load, typed) {
         return type.isBigNumber(value) ? value.toNumber() : value;
       });
     }
-    
+
     // check x is a Matrix
     if (type.isMatrix(x)) {
       // use optimized matrix implementation, return copy
       return x.resize(size, defaultValue, true);
     }
-    
+
     if (typeof x === 'string') {
       // resize string
       return _resizeString(x, size, defaultValue);
     }
-    
+
     // check result should be a matrix
     var asMatrix = Array.isArray(x) ? false : (config.matrix !== 'Array');
 
@@ -30338,7 +30338,7 @@ var maxArgumentCount = __webpack_require__(35).maxArgumentCount;
 
 function factory (type, config, load, typed) {
   var matrix = load(__webpack_require__(1));
-  
+
   /**
    * Filter the items in an array or one dimensional matrix.
    *
@@ -30467,7 +30467,7 @@ function factory (type, config, load, typed) {
 
     'Array, Array': _dot
   });
-  
+
   dot.toTex = {2: '\\left(${args[0]}\\cdot${args[1]}\\right)'};
 
   return dot;
@@ -30516,7 +30516,7 @@ var isInteger = __webpack_require__(3).isInteger;
 function factory (type, config, load, typed) {
 
   var matrix = load(__webpack_require__(1));
-  
+
   /**
    * Create a diagonal matrix or retrieve the diagonal of a matrix
    *
@@ -30564,7 +30564,7 @@ function factory (type, config, load, typed) {
     'Array, number': function (x, k) {
       return _diag(x, k, array.size(x), null);
     },
-    
+
     'Array, BigNumber': function (x, k) {
       return _diag(x, k.toNumber(), array.size(x), null);
     },
@@ -30623,7 +30623,7 @@ function factory (type, config, load, typed) {
     if (!isInteger(k)) {
       throw new TypeError ('Second parameter in function diag must be an integer');
     }
-    
+
     var kSuper = k > 0 ? k : 0;
     var kSub = k < 0 ? -k : 0;
 
@@ -30636,7 +30636,7 @@ function factory (type, config, load, typed) {
     }
     throw new RangeError('Matrix for function diag must be 2 dimensional');
   }
-  
+
   function _createDiagonalMatrix(x, k, format, l, kSub, kSuper) {
     // matrix size
     var ms = [l + kSub, l + kSuper];
@@ -30647,7 +30647,7 @@ function factory (type, config, load, typed) {
     // check we need to return a matrix
     return format !== null ? m : m.valueOf();
   }
-  
+
   function _getDiagonal(x, k, format, s, kSub, kSuper) {
     // check x is a Matrix
     if (type.isMatrix(x)) {
@@ -30839,7 +30839,7 @@ function factory (type, config, load, typed) {
   var algorithm12 = load(__webpack_require__(18));
   var algorithm13 = load(__webpack_require__(7));
   var algorithm14 = load(__webpack_require__(6));
-  
+
   /**
    * Logical `xor`. Test whether one and only one value is defined with a nonzero/nonempty value.
    * For matrices, the function is evaluated element wise.
@@ -30869,7 +30869,7 @@ function factory (type, config, load, typed) {
    *            Returns true when one and only one input is defined with a nonzero/nonempty value.
    */
   var xor = typed('xor', {
- 
+
     'number, number': function (x, y) {
       return !!x !== !!y;
     },
@@ -30972,7 +30972,7 @@ function factory (type, config, load, typed) {
   var algorithm12 = load(__webpack_require__(18));
   var algorithm13 = load(__webpack_require__(7));
   var algorithm14 = load(__webpack_require__(6));
-  
+
   /**
    * Logical `or`. Test if at least one value is defined with a nonzero/nonempty value.
    * For matrices, the function is evaluated element wise.
@@ -32024,7 +32024,7 @@ function factory (type, config, load, typed) {
       if (!isInteger(n) || isNegative(n)) {
         throw new TypeError('Non-negative integer value expected in function catalan');
       }
-       
+
       return divide(combinations(multiply(n,2), n), add(n,1));
 
     }
@@ -32194,7 +32194,7 @@ function factory (type, config, load, typed) {
   var algorithm11 = load(__webpack_require__(17));
   var algorithm13 = load(__webpack_require__(7));
   var algorithm14 = load(__webpack_require__(6));
-  
+
   /**
    * Bitwise right logical shift of value x by y number of bits, `x >>> y`.
    * For matrices, the function is evaluated element wise.
@@ -32383,7 +32383,7 @@ var bigRightArithShift = __webpack_require__(244);
 
 function factory (type, config, load, typed) {
   var latex = __webpack_require__(4);
-  
+
   var matrix = load(__webpack_require__(1));
   var equalScalar = load(__webpack_require__(9));
   var zeros = load(__webpack_require__(40));
@@ -32614,7 +32614,7 @@ function factory (type, config, load, typed) {
    * @return {number | BigNumber | Array | Matrix} `x` shifted left `y` times
    */
   var leftShift = typed('leftShift', {
-    
+
     'number, number': function (x, y) {
       if (!isInteger(x) || !isInteger(y)) {
         throw new Error('Integers expected in function leftShift');
@@ -32983,7 +32983,7 @@ function factory (type, config, load, typed) {
   var algorithm10 = load(__webpack_require__(43));
   var algorithm13 = load(__webpack_require__(7));
   var algorithm14 = load(__webpack_require__(6));
-  
+
   /**
    * Bitwise OR two values, `x | y`.
    * For matrices, the function is evaluated element wise.
@@ -33247,7 +33247,7 @@ function factory (type, config, load, typed) {
   var algorithm11 = load(__webpack_require__(17));
   var algorithm13 = load(__webpack_require__(7));
   var algorithm14 = load(__webpack_require__(6));
-  
+
   /**
    * Bitwise AND two values, `x & y`.
    * For matrices, the function is evaluated element wise.
@@ -33312,7 +33312,7 @@ function factory (type, config, load, typed) {
       // use matrix implementation
       return bitAnd(x, matrix(y));
     },
-    
+
     'SparseMatrix, any': function (x, y) {
       return algorithm11(x, y, bitAnd, false);
     },
@@ -33711,7 +33711,7 @@ function factory (type, config, load, typed) {
    * @return {number | Complex | Array | Matrix} Returns the nth root of `a`
    */
   var nthRoot = typed('nthRoot', {
-    
+
     'number': function (x) {
       return _nthRoot(x, 2);
     },
@@ -33722,7 +33722,7 @@ function factory (type, config, load, typed) {
     },
     'Complex' : function(x) {
       return _nthComplexRoot(x, 2);
-    }, 
+    },
     'Complex, number' : _nthComplexRoot,
     'BigNumber, BigNumber': _bigNthRoot,
 
@@ -33776,7 +33776,7 @@ function factory (type, config, load, typed) {
       // use matrix implementation
       return nthRoot(x, matrix(y));
     },
-    
+
     'SparseMatrix, number | BigNumber': function (x, y) {
       return algorithm11(x, y, nthRoot, false);
     },
@@ -33924,7 +33924,7 @@ function _nthRoot(a, root) {
 function _nthComplexRoot(a, root) {
   if (root < 0) throw new Error('Root must be greater than zero');
   if (root === 0) throw new Error('Root must be non-zero');
-  if (root % 1 !== 0) throw new Error('Root must be an integer');  
+  if (root % 1 !== 0) throw new Error('Root must be an integer');
   var arg = a.arg();
   var abs = a.abs();
   var roots = [];
@@ -33947,7 +33947,7 @@ exports.factory = factory;
 
 
 function factory (type, config, load, typed) {
-  
+
   var abs         = load(__webpack_require__(25));
   var add         = load(__webpack_require__(16));
   var pow         = load(__webpack_require__(41));
@@ -34011,7 +34011,7 @@ function factory (type, config, load, typed) {
       // norm(x) = abs(x)
       return x.abs();
     },
-    
+
     'boolean' : function (x) {
       // norm(x) = abs(x)
       return Math.abs(x);
@@ -34020,7 +34020,7 @@ function factory (type, config, load, typed) {
     'Array': function (x) {
       return _norm(matrix(x), 2);
     },
-    
+
     'Matrix': function (x) {
       return _norm(x, 2);
     },
@@ -34033,7 +34033,7 @@ function factory (type, config, load, typed) {
     'Array, number | BigNumber | string': function (x, p) {
       return _norm(matrix(x), p);
     },
-    
+
     'Matrix, number | BigNumber | string': function (x, p) {
       return _norm(x, p);
     }
@@ -34049,7 +34049,7 @@ function factory (type, config, load, typed) {
   function _norm (x, p) {
     // size
     var sizeX = x.size();
-    
+
     // check if it is a vector
     if (sizeX.length == 1) {
       // check p
@@ -34186,7 +34186,7 @@ function factory (type, config, load, typed) {
   var algorithm12 = load(__webpack_require__(18));
   var algorithm13 = load(__webpack_require__(7));
   var algorithm14 = load(__webpack_require__(6));
-  
+
   /**
    * Calculates the modulus, the remainder of an integer division.
    *
@@ -34694,7 +34694,7 @@ module.exports = function scatter(a, j, w, x, u, mark, c, f, inverse, update, va
 var isInteger = __webpack_require__(3).isInteger;
 
 function factory (type, config, load, typed) {
-  
+
   var matrix = load(__webpack_require__(1));
 
   var algorithm02 = load(__webpack_require__(24));
@@ -35050,7 +35050,7 @@ function factory (type, config, load, typed) {
       // use matrix implementation
       return gcd(x, matrix(y));
     },
-    
+
     'SparseMatrix, number | BigNumber': function (x, y) {
       return algorithm10(x, y, gcd, false);
     },
@@ -35396,7 +35396,7 @@ function factory (type, config, load, typed) {
    * @return {number | BigNumber | Complex | Unit | Array | Matrix}                     The value of `x` to the power `y`
    */
   var dotPow = typed('dotPow', {
-    
+
     'any, any': pow,
 
     'SparseMatrix, SparseMatrix': function(x, y) {
@@ -35460,7 +35460,7 @@ function factory (type, config, load, typed) {
   dotPow.toTex = {
     2: '\\left(${args[0]}' + latex.operators['dotPow'] + '${args[1]}\\right)'
   };
-  
+
   return dotPow;
 }
 
@@ -35514,7 +35514,7 @@ function factory (type, config, load, typed) {
    * @return {number | BigNumber | Fraction | Complex | Unit | Array | Matrix}                    Multiplication of `x` and `y`
    */
   var dotMultiply = typed('dotMultiply', {
-    
+
     'any, any': multiplyScalar,
 
     'SparseMatrix, SparseMatrix': function (x, y) {
@@ -35537,7 +35537,7 @@ function factory (type, config, load, typed) {
       // use matrix implementation
       return dotMultiply(matrix(x), matrix(y)).valueOf();
     },
-    
+
     'Array, Matrix': function (x, y) {
       // use matrix implementation
       return dotMultiply(matrix(x), y);
@@ -35578,7 +35578,7 @@ function factory (type, config, load, typed) {
   dotMultiply.toTex = {
     2: '\\left(${args[0]}' + latex.operators['dotMultiply'] + '${args[1]}\\right)'
   };
-  
+
   return dotMultiply;
 }
 
@@ -35979,7 +35979,7 @@ function factory () {
    * @return {Array}            The output vector x = P'b
    */
   var cs_ipvec = function (p, b, n) {
-    // vars 
+    // vars
     var k;
     var n = b.length;
     var x = [];
@@ -36019,7 +36019,7 @@ exports.factory = factory;
 var isArray = Array.isArray;
 
 function factory (type, config, load, typed) {
-  
+
   var matrix = load(__webpack_require__(1));
   var lup = load(__webpack_require__(112));
   var slu = load(__webpack_require__(111));
@@ -36064,7 +36064,7 @@ function factory (type, config, load, typed) {
    * @return {DenseMatrix | Array}           Column vector with the solution to the linear system A * x = b
    */
   var lusolve = typed('lusolve', {
-    
+
     'Array, Array | Matrix': function (a, b) {
       // convert a to matrix
       a = matrix(a);
@@ -36075,21 +36075,21 @@ function factory (type, config, load, typed) {
       // convert result to array
       return x.valueOf();
     },
-    
+
     'DenseMatrix, Array | Matrix': function (a, b) {
       // matrix lup decomposition
       var d = lup(a);
       // solve
       return _lusolve(d.L, d.U, d.p, null, b);
     },
-    
+
     'SparseMatrix, Array | Matrix': function (a, b) {
       // matrix lup decomposition
       var d = lup(a);
       // solve
       return _lusolve(d.L, d.U, d.p, null, b);
     },
-    
+
     'SparseMatrix, Array | Matrix, number, number': function (a, b, order, threshold) {
       // matrix lu decomposition
       var d = slu(a, order, threshold);
@@ -36102,7 +36102,7 @@ function factory (type, config, load, typed) {
       return _lusolve(d.L, d.U, d.p, d.q, b);
     }
   });
-  
+
   var _toMatrix = function (a) {
     // check it is a matrix
     if (type.isMatrix(a))
@@ -36113,7 +36113,7 @@ function factory (type, config, load, typed) {
     // throw
     throw new TypeError('Invalid Matrix LU decomposition');
   };
-  
+
   var _lusolve = function (l, u, p, q, b) {
     // verify L, U, P
     l = _toMatrix(l);
@@ -36151,7 +36151,7 @@ exports.factory = factory;
 function factory (type, config, load) {
 
   var cs_flip = load(__webpack_require__(79));
-  
+
   /**
    * Flips the value if it is negative of returns the same value otherwise.
    *
@@ -36234,7 +36234,7 @@ function factory (type, config, load) {
         // consider neighbor node i
         i = index[p];
         // check we have visited node i, skip it
-        if (cs_marked(ptr, i)) 
+        if (cs_marked(ptr, i))
           continue;
         // pause depth-first search of node j, update stack (last n entries in xi)
         xi[n + head] = p;
@@ -36253,7 +36253,7 @@ function factory (type, config, load) {
         xi[--top] = j;
       }
     }
-    return top;    
+    return top;
   };
 
   return cs_dfs;
@@ -36278,7 +36278,7 @@ function factory (type, config, load) {
   var cs_mark = load(__webpack_require__(107));
 
   /**
-   * The cs_reach function computes X = Reach(B), where B is the nonzero pattern of the n-by-1 
+   * The cs_reach function computes X = Reach(B), where B is the nonzero pattern of the n-by-1
    * sparse column of vector b. The function returns the set of nodes reachable from any node in B. The
    * nonzero pattern xi of the solution x to the sparse linear system Lx=b is given by X=Reach(B).
    *
@@ -36350,7 +36350,7 @@ function factory (type, config, load) {
   /**
    * The function cs_spsolve() computes the solution to G * x = bk, where bk is the
    * kth column of B. When lo is true, the function assumes G = L is lower triangular with the
-   * diagonal entry as the first entry in each column. When lo is true, the function assumes G = U 
+   * diagonal entry as the first entry in each column. When lo is true, the function assumes G = U
    * is upper triangular with the diagonal entry as the last entry in each column.
    *
    * @param {Matrix}  g               The G matrix
@@ -36383,10 +36383,10 @@ function factory (type, config, load) {
     // xi[top..n-1] = cs_reach(B(:,k))
     var top = cs_reach(g, b, k, xi, pinv);
     // clear x
-    for (p = top; p < n; p++) 
+    for (p = top; p < n; p++)
       x[xi[p]] = 0;
     // scatter b
-    for (p0 = bptr[k], p1 = bptr[k + 1], p = p0; p < p1; p++) 
+    for (p0 = bptr[k], p1 = bptr[k + 1], p = p0; p < p1; p++)
       x[bindex[p]] = bvalues[p];
     // loop columns
     for (var px = top; px < n; px++) {
@@ -36416,7 +36416,7 @@ function factory (type, config, load) {
     // return top of stack
     return top;
   };
-  
+
   return cs_spsolve;
 }
 
@@ -36437,22 +36437,22 @@ function factory (type, config, load) {
   var abs = load(__webpack_require__(25));
   var divideScalar = load(__webpack_require__(12));
   var multiply = load(__webpack_require__(8));
-  
+
   var larger = load(__webpack_require__(33));
   var largerEq = load(__webpack_require__(109));
-  
+
   var cs_spsolve = load(__webpack_require__(283));
 
   var SparseMatrix = type.SparseMatrix;
 
   /**
    * Computes the numeric LU factorization of the sparse matrix A. Implements a Left-looking LU factorization
-   * algorithm that computes L and U one column at a tume. At the kth step, it access columns 1 to k-1 of L 
+   * algorithm that computes L and U one column at a tume. At the kth step, it access columns 1 to k-1 of L
    * and column k of A. Given the fill-reducing column ordering q (see parameter s) computes L, U and pinv so
    * L * U = A(p, q), where p is the inverse of pinv.
    *
    * @param {Matrix}  m               The A Matrix to factorize
-   * @param {Object}  s               The symbolic analysis from cs_sqr(). Provides the fill-reducing 
+   * @param {Object}  s               The symbolic analysis from cs_sqr(). Provides the fill-reducing
    *                                  column ordering q
    * @param {Number}  tol             Partial pivoting threshold (1 for partial pivoting)
    *
@@ -36502,7 +36502,7 @@ function factory (type, config, load) {
     });
     // inverse of permutation vector
     var pinv = []; // (n);
-    // vars 
+    // vars
     var i, p;
     // allocate arrays
     var x = []; // (n);
@@ -36537,7 +36537,7 @@ function factory (type, config, load) {
         i = xi[p];
         // check row i is not yet pivotal
         if (pinv[i] < 0) {
-          // absolute value of x[i]          
+          // absolute value of x[i]
           var xabs = abs(x[i]);
           // check absoulte value is greater than pivot value
           if (larger(xabs, a)) {
@@ -36553,7 +36553,7 @@ function factory (type, config, load) {
         }
       }
       // validate we found a valid pivot
-      if (ipiv == -1 || a <= 0) 
+      if (ipiv == -1 || a <= 0)
         return null;
       // update actual pivot column, give preference to diagonal value
       if (pinv[col] < 0 && largerEq(abs(x[col]), multiply(a, tol)))
@@ -36568,7 +36568,7 @@ function factory (type, config, load) {
       // first entry in L(:,k) is L(k,k) = 1
       lindex[lnz] = ipiv;
       lvalues[lnz++] = 1;
-      // L(k+1:n,k) = x / pivot      
+      // L(k+1:n,k) = x / pivot
       for (p = top; p < n; p++) {
         // row
         i = xi[p];
@@ -36587,13 +36587,13 @@ function factory (type, config, load) {
     lptr[n] = lnz;
     uptr[n] = unz;
     // fix row indices of L for final pinv
-    for (p = 0; p < lnz; p++) 
+    for (p = 0; p < lnz; p++)
       lindex[p] = pinv[lindex[p]];
     // trim arrays
     lvalues.splice(lnz, lvalues.length - lnz);
     lindex.splice(lnz, lindex.length - lnz);
     uvalues.splice(unz, uvalues.length - unz);
-    uindex.splice(unz, uindex.length - unz);    
+    uindex.splice(unz, uindex.length - unz);
     // return LU factor
     return {
       L: L,
@@ -36636,22 +36636,22 @@ function factory () {
    * Reference: http://faculty.cse.tamu.edu/davis/publications.html
    */
   var cs_leaf = function (i, j, w, first, maxfirst, prevleaf, ancestor) {
-    
+
     var s, sparent, jprev;
-    
+
     // our result
     var jleaf = 0;
     var q;
-    
+
     // check j is a leaf
-    if (i <= j || w[first + j] <= w[maxfirst + i]) 
+    if (i <= j || w[first + j] <= w[maxfirst + i])
       return (-1);
     // update max first[j] seen so far
     w[maxfirst + i] = w[first + j];
     // jprev = previous leaf of ith subtree
     jprev = w[prevleaf + i];
     w[prevleaf + i] = j;
-    
+
     // check j is first or subsequent leaf
     if (jprev === -1) {
       // 1st leaf, q = root of ith subtree
@@ -36667,7 +36667,7 @@ function factory () {
         // path compression
         sparent = w[ancestor + s];
         w[ancestor + s] = q;
-      }      
+      }
     }
     return {
       jleaf: jleaf,
@@ -36693,7 +36693,7 @@ exports.factory = factory;
 function factory (type, config, load) {
 
   var transpose = load(__webpack_require__(65));
-  
+
   var cs_leaf = load(__webpack_require__(285));
 
   /**
@@ -36710,16 +36710,16 @@ function factory (type, config, load) {
    */
   var cs_counts = function (a, parent, post, ata) {
     // check inputs
-    if (!a || !parent || !post) 
+    if (!a || !parent || !post)
       return null;
     // a matrix arrays
     var asize = a._size;
     // rows and columns
     var m = asize[0];
-    var n = asize[1];   
+    var n = asize[1];
     // variables
     var i, j, k,  J,  p, p0, p1;
-    
+
     // workspace size
     var s = 4 * n + (ata ? (n + m + 1) : 0);
     // allocate workspace
@@ -36731,12 +36731,12 @@ function factory (type, config, load) {
     var head = 4 * n; // next n + 1 entries (used when ata is true)
     var next = 5 * n + 1; // last entries in workspace
     // clear workspace w[0..s-1]
-    for (k = 0; k < s; k++) 
+    for (k = 0; k < s; k++)
       w[k] = -1;
-    
+
     // allocate result
     var colcount = []; // (n);
-    
+
     // AT = A'
     var at = transpose(a);
     // at arrays
@@ -36748,56 +36748,56 @@ function factory (type, config, load) {
       j = post[k];
       // colcount[j]=1 if j is a leaf
       colcount[j] = (w[first + j] == -1) ? 1 : 0;
-      for (; j != -1 && w[first + j] == -1; j = parent[j]) 
+      for (; j != -1 && w[first + j] == -1; j = parent[j])
         w[first + j] = k;
     }
 
     // initialize ata if needed
     if (ata) {
       // invert post
-      for (k = 0; k < n; k++) 
+      for (k = 0; k < n; k++)
         w[post[k]] = k;
       // loop rows (columns in AT)
       for (i = 0; i < m; i++) {
         // values in column i of AT
-        for (k = n, p0 = tptr[i], p1 = tptr[i + 1], p = p0; p < p1; p++) 
+        for (k = n, p0 = tptr[i], p1 = tptr[i + 1], p = p0; p < p1; p++)
           k = Math.min(k, w[tindex[p]]);
         // place row i in linked list k
         w[next + i] = w[head + k];
         w[head + k] = i;
       }
     }
-    
+
     // each node in its own set
-    for (i = 0; i < n; i++) 
+    for (i = 0; i < n; i++)
       w[ancestor + i] = i;
-    
+
     for (k = 0; k < n; k++) {
       // j is the kth node in postordered etree
       j = post[k];
       // check j is not a root
-      if (parent[j] != -1) 
+      if (parent[j] != -1)
         colcount[parent[j]]--;
-      
+
       // J=j for LL'=A case
       for (J = (ata ? w[head + k] : j); J != -1; J = (ata ? w[next + J] : -1)) {
         for (p = tptr[J]; p < tptr[J+1]; p++) {
           i = tindex[p];
           var r = cs_leaf(i, j, w, first, maxfirst, prevleaf, ancestor);
           // check A(i,j) is in skeleton
-          if (r.jleaf >= 1) 
+          if (r.jleaf >= 1)
             colcount[j]++;
           // check account for overlap in q
-          if (r.jleaf == 2) 
+          if (r.jleaf == 2)
             colcount[r.q]--;
         }
       }
-      if (parent[j] != -1) 
+      if (parent[j] != -1)
         w[ancestor + j] = parent[j];
     }
     // sum up colcount's of each child
     for (j = 0; j < n; j++) {
-      if (parent[j] != -1) 
+      if (parent[j] != -1)
         colcount[parent[j]] += colcount[j];
     }
     return colcount;
@@ -36832,17 +36832,17 @@ function factory (type, config, load) {
    */
   var cs_post = function (parent, n) {
     // check inputs
-    if (!parent) 
+    if (!parent)
       return null;
-    // vars 
+    // vars
     var k = 0;
     var j;
     // allocate result
     var post = []; // (n);
     // workspace, head: first n entries, next: next n entries, stack: last n entries
     var w = []; // (3 * n);
-    var head = 0; 
-    var next = n; 
+    var head = 0;
+    var next = n;
     var stack = 2 * n;
     // initialize workspace
     for (j = 0; j < n; j++) {
@@ -36852,7 +36852,7 @@ function factory (type, config, load) {
     // traverse nodes in reverse order
     for (j = n-1; j >= 0; j--) {
       // check j is a root
-      if (parent[j] == -1) 
+      if (parent[j] == -1)
         continue;
       // add j to list of its parent
       w[next + j] = w[head + parent[j]];
@@ -36861,7 +36861,7 @@ function factory (type, config, load) {
     // loop nodes
     for (j = 0; j < n; j++) {
       // skip j if it is not a root
-      if (parent[j] != -1) 
+      if (parent[j] != -1)
         continue;
       // depth-first search
       k = cs_tdfs(j, k, w, head, next, post, stack);
@@ -36887,7 +36887,7 @@ exports.factory = factory;
 function factory () {
 
   /**
-   * Computes the elimination tree of Matrix A (using triu(A)) or the 
+   * Computes the elimination tree of Matrix A (using triu(A)) or the
    * elimination tree of A'A without forming A'A.
    *
    * @param {Matrix}  a               The A Matrix
@@ -36906,21 +36906,21 @@ function factory () {
     // rows & columns
     var m = asize[0];
     var n = asize[1];
-    
+
     // allocate result
     var parent = []; // (n)
-    
+
     // allocate workspace
     var w = []; // (n + (ata ? m : 0))
     var ancestor = 0; // first n entries in w
     var prev = n; // last m entries (ata = true)
-    
+
     var i, inext;
-    
+
     // check we are calculating A'A
     if (ata) {
       // initialize workspace
-      for (i = 0; i < m; i++) 
+      for (i = 0; i < m; i++)
         w[prev + i] = -1;
     }
     // loop columns
@@ -36935,17 +36935,17 @@ function factory () {
         var r = aindex[p];
         // node
         i = ata ? (w[prev + r]) : r;
-        // traverse from i to k 
+        // traverse from i to k
         for (; i != -1 && i < k; i = inext) {
           // inext = ancestor of i
           inext = w[ancestor + i];
           // path compression
           w[ancestor + i] = k;
           // check no anc., parent is k
-          if (inext == -1) 
+          if (inext == -1)
             parent[i] = k;
         }
-        if (ata) 
+        if (ata)
           w[prev + r] = k;
       }
     }
@@ -36999,7 +36999,7 @@ function factory (type) {
     var cptr = []; // (n + 1);
     // initialize vars
     var nz = 0;
-    // loop columns    
+    // loop columns
     for (var k = 0; k < n; k++) {
       // column k of C is column q[k] of A
       cptr[k] = nz;
@@ -37012,7 +37012,7 @@ function factory (type) {
         // index
         cindex[nz] = r;
         // check we need to populate values
-        if (cvalues) 
+        if (cvalues)
           cvalues[nz] = avalues[t];
         // increment number of nonzero elements
         nz++;
@@ -37084,7 +37084,7 @@ function factory () {
           // keep A(i,j)
           aindex[nz] = aindex[p];
           // check we need to process values (pattern only)
-          if (avalues) 
+          if (avalues)
             avalues[nz] = avalues[p];
           // increment nonzero items
           nz++;
@@ -37097,11 +37097,11 @@ function factory () {
     aindex.splice(nz, aindex.length - nz);
     // check we need to process values (pattern only)
     if (avalues)
-      avalues.splice(nz, avalues.length - nz);    
+      avalues.splice(nz, avalues.length - nz);
     // return number of nonzero items
     return (nz);
   };
-  
+
   return cs_fkeep;
 }
 
@@ -37122,13 +37122,13 @@ function factory (type, config, load) {
   var cs_flip = load(__webpack_require__(79));
   var cs_fkeep = load(__webpack_require__(290));
   var cs_tdfs = load(__webpack_require__(110));
-  
+
   var add       = load(__webpack_require__(16));
   var multiply  = load(__webpack_require__(8));
   var transpose = load(__webpack_require__(65));
 
   /**
-   * Approximate minimum degree ordering. The minimum degree algorithm is a widely used 
+   * Approximate minimum degree ordering. The minimum degree algorithm is a widely used
    * heuristic for finding a permutation P so that P*A*P' has fewer nonzeros in its factorization
    * than A. It is a gready method that selects the sparsest pivot row and column during the course
    * of a right looking sparse Cholesky factorization.
@@ -37148,7 +37148,7 @@ function factory (type, config, load) {
     var asize = a._size;
     // rows and columns
     var m = asize[0];
-    var n = asize[1];    
+    var n = asize[1];
     // initialize vars
     var lemax = 0;
     // dense threshold
@@ -37164,10 +37164,10 @@ function factory (type, config, load) {
 
     // number of nonzero elements in C
     var cnz = cptr[n];
-    
+
     // allocate result (n+1)
     var P = [];
-    
+
     // create workspace (8 * (n + 1))
     var W = [];
     var len = 0; // first n + 1 entries
@@ -37177,30 +37177,30 @@ function factory (type, config, load) {
     var elen = 4 * (n + 1);  // next n + 1 entries
     var degree = 5 * (n + 1);  // next n + 1 entries
     var w = 6 * (n + 1);  // next n + 1 entries
-    var hhead = 7 * (n + 1);  // last n + 1 entries    
+    var hhead = 7 * (n + 1);  // last n + 1 entries
 
     // use P as workspace for last
     var last = P;
-    
+
     // initialize quotient graph
     var mark = _initializeQuotientGraph(n, cptr, W, len, head, last, next, hhead, nv, w, elen, degree);
-    
+
     // initialize degree lists
     var nel = _initializeDegreeLists(n, cptr, W, degree, elen, w, dense, nv, head, last, next);
-    
+
     // minimum degree node
     var mindeg = 0;
-    
+
     // vars
     var i, j, k, k1, k2, e, pj, ln, nvi, pk, eln, p1, p2, pn, h, d;
-    
+
     // while (selecting pivots) do
     while (nel < n) {
       // select node of minimum approximate degree. amd() is now ready to start eliminating the graph. It first
       // finds a node k of minimum degree and removes it from its degree list. The variable nel keeps track of thow
       // many nodes have been eliminated.
-      for (k = -1; mindeg < n && (k = W[head + mindeg]) == -1; mindeg++);      
-      if (W[next + k] != -1) 
+      for (k = -1; mindeg < n && (k = W[head + mindeg]) == -1; mindeg++);
+      if (W[next + k] != -1)
         last[W[next + k]] = -1;
       // remove k from degree list
       W[head + mindeg] = W[next + k];
@@ -37211,7 +37211,7 @@ function factory (type, config, load) {
       // W[nv + k] nodes of A eliminated
       nel += nvk;
 
-      // Construct a new element. The new element Lk is constructed in place if |Ek| = 0. nv[i] is 
+      // Construct a new element. The new element Lk is constructed in place if |Ek| = 0. nv[i] is
       // negated for all nodes i in Lk to flag them as members of this set. Each node i is removed from the
       // degree lists. All elements e in Ek are absorved into element k.
       var dk = 0;
@@ -37240,7 +37240,7 @@ function factory (type, config, load) {
         for (k2 = 1; k2 <= ln; k2++) {
           i = cindex[pj++];
           // check  node i dead, or seen
-          if ((nvi = W[nv + i]) <= 0) 
+          if ((nvi = W[nv + i]) <= 0)
             continue;
           // W[degree + Lk] += size of node i
           dk += nvi;
@@ -37248,10 +37248,10 @@ function factory (type, config, load) {
           W[nv + i] = -nvi;
           // place i in Lk
           cindex[pk2++] = i;
-          if (W[next + i] != -1) 
+          if (W[next + i] != -1)
             last[W[next + i]] = last[i];
           // check we need to remove i from degree list
-          if (last[i] != -1) 
+          if (last[i] != -1)
             W[next + last[i]] = W[next + i];
           else
             W[head + W[degree + i]] = W[next + i];
@@ -37264,7 +37264,7 @@ function factory (type, config, load) {
         }
       }
       // cindex[cnz...nzmax] is free
-      if (elenk !== 0) 
+      if (elenk !== 0)
         cnz = pk2;
       // external degree of k - |Lk\i|
       W[degree + k] = dk;
@@ -37273,17 +37273,17 @@ function factory (type, config, load) {
       W[len + k] = pk2 - pk1;
       // k is now an element
       W[elen + k] = -2;
-            
+
       // Find set differences. The scan1 function now computes the set differences |Le \ Lk| for all elements e. At the start of the
       // scan, no entry in the w array is greater than or equal to mark.
-      
+
       // clear w if necessary
       mark = _wclear(mark, lemax, W, w, n);
       // scan 1: find |Le\Lk|
       for (pk = pk1; pk < pk2; pk++) {
         i = cindex[pk];
         // check if W[elen + i] empty, skip it
-        if ((eln = W[elen + i]) <= 0) 
+        if ((eln = W[elen + i]) <= 0)
           continue;
         // W[nv + i] was negated
         nvi = -W[nv + i];
@@ -37301,11 +37301,11 @@ function factory (type, config, load) {
           }
         }
       }
-      
+
       // degree update
       // The second pass computes the approximate degree di, prunes the sets Ei and Ai, and computes a hash
       // function h(i) for all nodes in Lk.
-      
+
       // scan2: degree update
       for (pk = pk1; pk < pk2; pk++) {
         // consider node i in Lk
@@ -37345,7 +37345,7 @@ function factory (type, config, load) {
           j = cindex[p];
           // check node j dead or in Lk
           var nvj = W[nv + j];
-          if (nvj <= 0) 
+          if (nvj <= 0)
             continue;
           // degree(i) += |j|
           d += nvj;
@@ -37393,13 +37393,13 @@ function factory (type, config, load) {
       lemax = Math.max(lemax, dk);
       // clear w
       mark = _wclear(mark + lemax, lemax, W, w, n);
-      
+
       // Supernode detection. Supernode detection relies on the hash function h(i) computed for each node i.
       // If two nodes have identical adjacency lists, their hash functions wil be identical.
       for (pk = pk1; pk < pk2; pk++) {
         i = cindex[pk];
         // check i is dead, skip it
-        if (W[nv + i] >= 0) 
+        if (W[nv + i] >= 0)
           continue;
         // scan hash bucket of node i
         h = last[i];
@@ -37409,7 +37409,7 @@ function factory (type, config, load) {
         for (; i != -1 && W[next + i] != -1; i = W[next + i], mark++) {
           ln = W[len + i];
           eln = W[elen + i];
-          for (p = cptr[i] + 1; p <= cptr[i] + ln - 1; p++) 
+          for (p = cptr[i] + 1; p <= cptr[i] + ln - 1; p++)
             W[w + cindex[p]] = mark;
           var jlast = i;
           // compare i with all j
@@ -37417,7 +37417,7 @@ function factory (type, config, load) {
             var ok = W[len + j] === ln && W[elen + j] === eln;
             for (p = cptr[j] + 1; ok && p <= cptr[j] + ln - 1; p++) {
               // compare i and j
-              if (W[w + cindex[p]] != mark) 
+              if (W[w + cindex[p]] != mark)
                 ok = 0;
             }
             // check i and j are identical
@@ -37440,20 +37440,20 @@ function factory (type, config, load) {
           }
         }
       }
-      
+
       // Finalize new element. The elimination of node k is nearly complete. All nodes i in Lk are scanned one last time.
       // Node i is removed from Lk if it is dead. The flagged status of nv[i] is cleared.
       for (p = pk1, pk = pk1; pk < pk2; pk++) {
         i = cindex[pk];
         // check  i is dead, skip it
-        if ((nvi = -W[nv + i]) <= 0) 
+        if ((nvi = -W[nv + i]) <= 0)
           continue;
         // restore W[nv + i]
         W[nv + i] = nvi;
         // compute external degree(i)
         d = W[degree + i] + dk - nvi;
         d = Math.min(d, n - nel - nvi);
-        if (W[head + d] != -1) 
+        if (W[head + d] != -1)
           last[W[head + d]] = i;
         // put i back in degree list
         W[next + i] = W[head + d];
@@ -37479,16 +37479,16 @@ function factory (type, config, load) {
         cnz = p;
       }
     }
-    
-    // Postordering. The elimination is complete, but no permutation has been computed. All that is left 
+
+    // Postordering. The elimination is complete, but no permutation has been computed. All that is left
     // of the graph is the assembly tree (ptr) and a set of dead nodes and elements (i is a dead node if
     // nv[i] is zero and a dead element if nv[i] > 0). It is from this information only that the final permutation
     // is computed. The tree is restored by unflipping all of ptr.
-    
+
     // fix assembly tree
-    for (i = 0; i < n; i++) 
+    for (i = 0; i < n; i++)
       cptr[i] = cs_flip(cptr[i]);
-    for (j = 0; j <= n; j++) 
+    for (j = 0; j <= n; j++)
       W[head + j] = -1;
     // place unordered nodes in lists
     for (j = n; j >= 0; j--) {
@@ -37512,7 +37512,7 @@ function factory (type, config, load) {
     }
     // postorder the assembly tree
     for (k = 0, i = 0; i <= n; i++) {
-      if (cptr[i] == -1) 
+      if (cptr[i] == -1)
         k = cs_tdfs(i, k, W, head, next, P, w);
     }
     // remove last item in array
@@ -37520,7 +37520,7 @@ function factory (type, config, load) {
     // return P
     return P;
   };
-  
+
   /**
    * Creates the matrix that will be used by the approximate minimum degree ordering algorithm. The function accepts the matrix M as input and returns a permutation
    * vector P. The amd algorithm operates on a symmetrix matrix, so one of three symmetric matrices is formed.
@@ -37535,7 +37535,7 @@ function factory (type, config, load) {
    * Order: 2
    *   Dense columns from M' are dropped, M recreated from M'. This is appropriatefor LU factorization of unsymmetric matrices.
    *   P = M' * M
-   * 
+   *
    * Order: 3
    *   This is best used for QR factorization or LU factorization is matrix M has no dense rows. A dense row is a row with more than 10*sqr(columns) entries.
    *   P = M' * M
@@ -37549,7 +37549,7 @@ function factory (type, config, load) {
       // C = A + A'
       return add(a, at);
     }
-    
+
     // check order = 2, drop dense columns from M'
     if (order == 2) {
       // transpose arrays
@@ -37564,10 +37564,10 @@ function factory (type, config, load) {
         // new column j starts here
         tptr[j] = p2;
         // skip dense col j
-        if (tptr[j + 1] - p > dense) 
+        if (tptr[j + 1] - p > dense)
           continue;
         // map rows in column j of A
-        for (var p1 = tptr[j + 1]; p < p1; p++) 
+        for (var p1 = tptr[j + 1]; p < p1; p++)
           tindex[p2++] = tindex[p];
       }
       // finalize AT
@@ -37577,7 +37577,7 @@ function factory (type, config, load) {
       // use A' * A
       return multiply(at, a);
     }
-    
+
     // use A' * A, square or rectangular matrix
     return multiply(at, a);
   };
@@ -37592,7 +37592,7 @@ function factory (type, config, load) {
    */
   var _initializeQuotientGraph = function (n, cptr, W, len, head, last, next, hhead, nv, w, elen, degree) {
     // Initialize quotient graph
-    for (var k = 0; k < n; k++) 
+    for (var k = 0; k < n; k++)
       W[len + k] = cptr[k + 1] - cptr[k];
     W[len + n] = 0;
     // initialize workspace
@@ -37625,7 +37625,7 @@ function factory (type, config, load) {
   };
 
   /**
-   * Initialize degree lists. Each node is placed in its degree lists. Nodes of zero degree are eliminated immediately. Nodes with 
+   * Initialize degree lists. Each node is placed in its degree lists. Nodes of zero degree are eliminated immediately. Nodes with
    * degree >= dense are alsol eliminated and merged into a placeholder node n, a dead element. Thes nodes will appera last in the
    * output permutation p.
    */
@@ -37677,11 +37677,11 @@ function factory (type, config, load) {
     // at this point, W [0..n-1] < mark holds
     return mark;
   };
-  
-  var _diag = function (i, j) { 
+
+  var _diag = function (i, j) {
     return i != j;
   };
-  
+
   return cs_amd;
 }
 
@@ -37726,11 +37726,11 @@ function factory (type, config, load) {
     // vars
     var k;
     // symbolic analysis result
-    var s = {};    
+    var s = {};
     // fill-reducing ordering
     s.q = cs_amd(order, a);
     // validate results
-    if (order && !s.q) 
+    if (order && !s.q)
       return null;
     // QR symbolic analysis
     if (qr) {
@@ -37745,7 +37745,7 @@ function factory (type, config, load) {
       // check we have everything needed to calculate number of nonzero elements
       if (c && s.parent && s.cp && _vcount(c, s)) {
         // calculate number of nonzero elements
-        for (s.unz = 0, k = 0; k < n; k++) 
+        for (s.unz = 0, k = 0; k < n; k++)
           s.unz += s.cp[k];
       }
     }
@@ -37757,7 +37757,7 @@ function factory (type, config, load) {
     // return result S
     return s;
   };
-  
+
   /**
    * Compute nnz(V) = s.lnz, s.pinv, s.leftmost, s.m2 from A and s.parent
    */
@@ -37792,9 +37792,9 @@ function factory (type, config, load) {
       w[nque + k] = 0;
     }
     // initialize row arrays
-    for (i = 0; i < m; i++) 
+    for (i = 0; i < m; i++)
       leftmost[i] = -1;
-    // loop columns backwards    
+    // loop columns backwards
     for (k = n - 1; k >= 0; k--) {
       // values & index for column k
       for (p0 = aptr[k], p1 = aptr[k + 1], p = p0; p < p1; p++) {
@@ -37808,10 +37808,10 @@ function factory (type, config, load) {
       pinv[i] = -1;
       k = leftmost[i];
       // check row i is empty
-      if (k == -1) 
+      if (k == -1)
         continue;
       // first row in queue k
-      if (w[nque + k]++ === 0) 
+      if (w[nque + k]++ === 0)
         w[tail + k] = i;
       // put i at head of queue k
       w[next + i] = w[head + k];
@@ -37826,19 +37826,19 @@ function factory (type, config, load) {
       // count V(k,k) as nonzero
       s.lnz++;
       // add a fictitious row
-      if (i < 0) 
+      if (i < 0)
         i = s.m2++;
       // associate row i with V(:,k)
       pinv[i] = k;
       // skip if V(k+1:m,k) is empty
-      if (--nque[k] <= 0) 
+      if (--nque[k] <= 0)
         continue;
       // nque[k] is nnz (V(k+1:m,k))
       s.lnz += w[nque + k];
       // move all rows to parent of k
       var pa = parent[k];
       if (pa != -1) {
-        if (w[nque + pa] === 0) 
+        if (w[nque + pa] === 0)
           w[tail + pa] = w[tail + k];
         w[next + w[tail + k]] = w[head + pa];
         w[head + pa] = w[next + i];
@@ -37846,7 +37846,7 @@ function factory (type, config, load) {
       }
     }
     for (i = 0; i < m; i++) {
-      if (pinv[i] < 0) 
+      if (pinv[i] < 0)
         pinv[i] = k++;
     }
     return true;
@@ -37873,26 +37873,26 @@ function factory (type, config, load, typed) {
   var zeros = load(__webpack_require__(40));
   var eye = load(__webpack_require__(60));
   var clone = load(__webpack_require__(115));
-  
+
   var isZero = load(__webpack_require__(55));
   var isPositive = load(__webpack_require__(54));
   var unequal = load(__webpack_require__(114));
-    
+
   var abs = load(__webpack_require__(25));
   var sign = load(__webpack_require__(113));
   var sqrt = load(__webpack_require__(36));
   var conj = load(__webpack_require__(80));
-  
-  var unaryMinus = load(__webpack_require__(32)); 
-  var addScalar = load(__webpack_require__(20));  
+
+  var unaryMinus = load(__webpack_require__(32));
+  var addScalar = load(__webpack_require__(20));
   var divideScalar = load(__webpack_require__(12));
-  var multiplyScalar = load(__webpack_require__(21));  
+  var multiplyScalar = load(__webpack_require__(21));
   var subtract = load(__webpack_require__(15));
-    
-  
+
+
   /**
-   * Calculate the Matrix QR decomposition. Matrix `A` is decomposed in 
-   * two matrices (`Q`, `R`) where `Q` is an 
+   * Calculate the Matrix QR decomposition. Matrix `A` is decomposed in
+   * two matrices (`Q`, `R`) where `Q` is an
    * orthogonal matrix and `R` is an upper triangular matrix.
    *
    * Syntax:
@@ -37927,7 +37927,7 @@ function factory (type, config, load, typed) {
    *
    *    lu
    *
-   * @param {Matrix | Array} A    A two dimensional matrix or array 
+   * @param {Matrix | Array} A    A two dimensional matrix or array
    * for which to get the QR decomposition.
    *
    * @return {{Q: Array | Matrix, R: Array | Matrix}} Q: the orthogonal
@@ -37938,7 +37938,7 @@ function factory (type, config, load, typed) {
     'DenseMatrix': function (m) {
       return _denseQR(m);
     },
-    
+
     'SparseMatrix': function (m) {
       return _sparseQR(m);
     },
@@ -37957,24 +37957,24 @@ function factory (type, config, load, typed) {
   });
 
   var _denseQR = function (m) {
-    
+
     // rows & columns (m x n)
     var rows = m._size[0]; // m
     var cols = m._size[1]; // n
-            
+
     var Q = eye([rows], 'dense');
     var Qdata = Q._data;
-    
+
     var R = m.clone();
     var Rdata = R._data;
-    
+
     // vars
     var i, j, k;
-        
+
     var w = zeros([rows], '');
-    
+
     for (k = 0; k < Math.min(cols, rows); ++k) {
-      
+
       /*
        * **k-th Household matrix**
        *
@@ -37989,52 +37989,52 @@ function factory (type, config, load, typed) {
        * Household matrix = I - 2 * v * tranpose(v)
        *
        *  * Initially Q = I and R = A.
-       *  * Household matrix is a reflection in a plane normal to v which 
+       *  * Household matrix is a reflection in a plane normal to v which
        *    will zero out all but the top right element in R.
        *  * Appplying reflection to both Q and R will not change product.
-       *  * Repeat this process on the (1,1) minor to get R as an upper 
+       *  * Repeat this process on the (1,1) minor to get R as an upper
        *    triangular matrix.
-       *  * Reflections leave the magnitude of the columns of Q unchanged 
+       *  * Reflections leave the magnitude of the columns of Q unchanged
        *    so Q remains othoganal.
        *
-       */  
-      
-      var pivot = Rdata[k][k];          
+       */
+
+      var pivot = Rdata[k][k];
       var sgn = unaryMinus(sign(pivot));
       var conjSgn = conj(sgn);
-      
+
       var alphaSquared = 0;
 
       for(i = k; i < rows; i++) {
-        alphaSquared = addScalar(alphaSquared, multiplyScalar(Rdata[i][k], conj(Rdata[i][k])));        
+        alphaSquared = addScalar(alphaSquared, multiplyScalar(Rdata[i][k], conj(Rdata[i][k])));
       }
-      
+
       var alpha = multiplyScalar(sgn, sqrt(alphaSquared));
-      
-      
+
+
       if (!isZero(alpha)) {
-          
+
         // first element in vector u
         var u1 = subtract(pivot, alpha);
-        
-        // w = v * u1 / |u|    (only elements k to (rows-1) are used)    
+
+        // w = v * u1 / |u|    (only elements k to (rows-1) are used)
         w[k] = 1;
-        
+
         for (i = k+1; i < rows; i++) {
           w[i] = divideScalar(Rdata[i][k], u1);
-        }        
-         
+        }
+
         // tau = - conj(u1 / alpha)
         var tau = unaryMinus(conj(divideScalar(u1, alpha)));
-        
+
         var s;
-        
+
         /*
          * tau and w have been choosen so that
-         * 
+         *
          * 2 * v * tranpose(v) = tau * w * tranpose(w)
          */
-         
+
         /*
          * -- calculate R = R - tau * w * tranpose(w) * R --
          * Only do calculation with rows k to (rows-1)
@@ -38043,21 +38043,21 @@ function factory (type, config, load, typed) {
          */
         for (j = k; j < cols; j++) {
           s = 0.0;
-          
+
           // calculate jth element of [tranpose(w) * R]
           for (i = k; i < rows; i++) {
             s = addScalar(s, multiplyScalar(conj(w[i]), Rdata[i][j]));
           }
-          
+
           // calculate the jth element of [tau * transpose(w) * R]
           s = multiplyScalar(s, tau);
-          
+
           for (i = k; i < rows; i++) {
             Rdata[i][j] = multiplyScalar(
-              subtract(Rdata[i][j], multiplyScalar(w[i], s)), 
+              subtract(Rdata[i][j], multiplyScalar(w[i], s)),
               conjSgn
-            );            
-          }          
+            );
+          }
         }
         /*
          * -- calculate Q = Q - tau * Q * w * transpose(w) --
@@ -38068,43 +38068,43 @@ function factory (type, config, load, typed) {
          */
         for (i = 0; i < rows; i++) {
           s = 0.0;
-          
+
           // calculate ith element of [Q * w]
           for (j = k; j < rows; j++) {
             s = addScalar(s, multiplyScalar(Qdata[i][j], w[j]));
           }
-          
+
           // calculate the ith element of [tau * Q * w]
           s = multiplyScalar(s, tau);
-          
+
           for (j = k; j < rows; ++j) {
             Qdata[i][j] = divideScalar(
-              subtract(Qdata[i][j], multiplyScalar(s, conj(w[j]))), 
+              subtract(Qdata[i][j], multiplyScalar(s, conj(w[j]))),
               conjSgn
             );
           }
-          
+
         }
       }
-      
+
     }
-    
+
     // coerse almost zero elements to zero
     // TODO I feel uneasy just zeroing these values
     for (i = 0; i < rows; ++i) {
       for (j = 0; j < i && j < cols; ++j) {
         if (unequal(0, divideScalar(Rdata[i][j], 1e5))) {
-          throw new Error('math.qr(): unknown error - ' + 
-           'R is not lower triangular (element (' + 
+          throw new Error('math.qr(): unknown error - ' +
+           'R is not lower triangular (element (' +
             i + ', ' + j + ')  = ' + Rdata[i][j] + ')'
           );
         }
         Rdata[i][j] = multiplyScalar(Rdata[i][j], 0);
       }
     }
-    
+
     // return matrices
-    return { 
+    return {
       Q: Q,
       R: R,
       toString: function () {
@@ -38112,13 +38112,13 @@ function factory (type, config, load, typed) {
       }
     };
   };
-  
+
   var _sparseQR = function (m) {
-    
+
     throw new Error('qr not implemented for sparse matrices yet');
-  
+
   };
-  
+
   return qr;
 }
 
@@ -38135,8 +38135,8 @@ exports.factory = factory;
 
 function factory (type, config, load, typed) {
   var simplify = load(__webpack_require__(81));
-  var simplifyCore = load(__webpack_require__(116));  
-  var simplifyConstant = load(__webpack_require__(118));  
+  var simplifyCore = load(__webpack_require__(116));
+  var simplifyConstant = load(__webpack_require__(118));
   var ArgumentsError = __webpack_require__(52);
   var parse = load(__webpack_require__(125));
   var number = __webpack_require__(3)
@@ -38145,10 +38145,10 @@ function factory (type, config, load, typed) {
   var SymbolNode = load(__webpack_require__(48));
 
   /**
-   * Transform a rationalizable expression in a rational fraction. 
+   * Transform a rationalizable expression in a rational fraction.
    * If rational fraction is one variable polynomial then converts
    * the numerator and denominator in canonical form, with decreasing
-   * exponents, returning the coefficients of numerator. 
+   * exponents, returning the coefficients of numerator.
    *
    * Syntax:
    *
@@ -38161,9 +38161,9 @@ function factory (type, config, load, typed) {
    *
    *     math.rationalize('sin(x)+y')  //  Error: There is an unsolved function call
    *     math.rationalize('2x/y - y/(x+1)')  // (2*x^2-y^2+2*x)/(x*y+y)
-   *     math.rationalize('(2x+1)^6')  
+   *     math.rationalize('(2x+1)^6')
    *                   //     64*x^6+192*x^5+240*x^4+160*x^3+60*x^2+12*x+1
-   *     math.rationalize('2x/( (2x-1) / (3x+2) ) - 5x/ ( (3x+4) / (2x^2-5) ) + 3') 
+   *     math.rationalize('2x/( (2x-1) / (3x+2) ) - 5x/ ( (3x+4) / (2x^2-5) ) + 3')
    *                   //    -20*x^4+28*x^3+104*x^2+6*x-12)/(6*x^2+5*x-4)
    *     math.rationalize('x/(1-x)/(x-2)/(x-3)/(x-4) + 2x/ ( (1-2x)/(2-3x) )/ ((3-4x)/(4-5x) )') =
    *                   //  (-30*x^7+344*x^6-1506*x^5+3200*x^4-3472*x^3+1846*x^2-381*x)/
@@ -38171,18 +38171,18 @@ function factory (type, config, load, typed) {
    *
    *     math.rationalize('x+x+x+y',{y:1}) // 3*x+1
    *     math.rationalize('x+x+x+y',{})    // 3*x+y
-   *     ret = math.rationalize('x+x+x+y',{},true) 
+   *     ret = math.rationalize('x+x+x+y',{},true)
    *                          // ret.expression=3*x+y,  ret.variables = ["x","y"]
-   *     ret = math.rationalize('-2+5x^2',{},true) 
+   *     ret = math.rationalize('-2+5x^2',{},true)
    *                          // ret.expression=5*x^2-2,  ret.variables = ["x"], ret.coefficients=[-2,0,5]
    *
    * See also:
-   * 
+   *
    *     simplify
-   * 
+   *
    * @param  {Node|string} expr    The expression to check if is a polynomial expression
    * @param  {Object|boolean}      optional scope of expression or true for already evaluated rational expression at input
-   * @param  {Boolean}  detailed   optional True if return an object, false if return expression node (default) 
+   * @param  {Boolean}  detailed   optional True if return an object, false if return expression node (default)
    *
    * @return {Object | Expression Node}    The rational polynomial of `expr` or na object
    *            {Object}
@@ -38190,25 +38190,25 @@ function factory (type, config, load, typed) {
    *              {Expression Node} numerator: simplified numerator of expression
    *              {Expression Node | boolean} denominator: simplified denominator or false (if there is no denominator)
    *              {Array}           variables:  variable names
-   *              {Array}           coefficients: coefficients of numerator sorted by increased exponent 
+   *              {Array}           coefficients: coefficients of numerator sorted by increased exponent
    *           {Expression Node}  node simplified expression
-   *   
+   *
    */
   var rationalize = typed('rationalize', {
     'string': function (expr) {
-       return rationalize(parse(expr), {}, false);  
+       return rationalize(parse(expr), {}, false);
     },
 
     'string, boolean': function (expr, detailed) {
-       return rationalize(parse(expr), {} , detailed); 
+       return rationalize(parse(expr), {} , detailed);
     },
 
     'string, Object': function (expr, scope) {
-       return rationalize(parse(expr), scope, false);  
+       return rationalize(parse(expr), scope, false);
     },
 
     'string, Object, boolean': function (expr, scope, detailed) {
-       return rationalize(parse(expr), scope, detailed); 
+       return rationalize(parse(expr), scope, detailed);
     },
 
     'Node': function (expr) {
@@ -38227,16 +38227,16 @@ function factory (type, config, load, typed) {
 
       var polyRet = polynomial(expr, scope, true)  // Check if expression is a rationalizable polynomial
       var nVars =  polyRet.variables.length;
-      var expr = polyRet.expression;         
-           
+      var expr = polyRet.expression;
+
       if (nVars>=1) {   // If expression in not a constant
         var setRules = rulesRationalize();   // Rules for change polynomial in near canonical form
         expr = expandPower(expr);              // First expand power of polynomials (cannot be made from rules!)
         var redoInic = true;   // If has change after start, redo the beginning
         var s = "";            // New expression
         var sBefore;           // Previous expression
-        var rules;  
-        var eDistrDiv = true  
+        var rules;
+        var eDistrDiv = true
 
         expr = simplify(expr, setRules.firstRules);  // Apply the initial rules, including succ div rules
         s = expr.toString();
@@ -38246,18 +38246,18 @@ function factory (type, config, load, typed) {
           rules = eDistrDiv ? setRules.distrDivRules : setRules.sucDivRules
           expr = simplify(expr,rules);         // until no more changes
           eDistrDiv = ! eDistrDiv;    // Swap between Distr.Div and Succ. Div. Rules
-          
+
           s = expr.toString();
           if (s===sBefore) break   // No changes : end of the loop
-          
+
           redoInic = true;
           sBefore = s;
-        }  
-       
-        if (redoInic)  {         // Apply first rules again without succ div rules (if there are changes)
-          expr = simplify(expr,setRules.firstRulesAgain); 
         }
-        expr = simplify(expr,setRules.finalRules);  // Aplly final rules 
+
+        if (redoInic)  {         // Apply first rules again without succ div rules (if there are changes)
+          expr = simplify(expr,setRules.firstRulesAgain);
+        }
+        expr = simplify(expr,setRules.finalRules);  // Aplly final rules
 
       }  // NVars >= 1
 
@@ -38275,9 +38275,9 @@ function factory (type, config, load, typed) {
           }
         } else {
           if (nVars==1) expr = polyToCanonical(expr,coefficients);
-          if (detailed) { 
+          if (detailed) {
             retRationalize.numerator = expr;
-            retRationalize.denominator = null 
+            retRationalize.denominator = null
           }
       }
        // nVars
@@ -38292,9 +38292,9 @@ function factory (type, config, load, typed) {
 
   /**
    *  Function to simplify an expression using an optional scope and
-   *  return it if the expression is a polynomial expression, i.e. 
+   *  return it if the expression is a polynomial expression, i.e.
    *  an expression with one or more variables and the operators
-   *  +, -, *, and ^, where the exponent can only be a positive integer. 
+   *  +, -, *, and ^, where the exponent can only be a positive integer.
    *
    * Syntax:
    *
@@ -38305,29 +38305,29 @@ function factory (type, config, load, typed) {
    * @param  {boolean} extended       Optional. Default is false. When true allows divide operator.
    *
    *
-   * @return {Object} 
+   * @return {Object}
    *            {Object} node:   node simplified expression
    *            {Array}  variables:  variable names
-   */             
+   */
   function polynomial (expr, scope, extended) {
     var variables = [];
-    var node = simplify(expr,scope);  // Resolves any variables and functions with all defined parameters   
+    var node = simplify(expr,scope);  // Resolves any variables and functions with all defined parameters
     extended = !! extended
 
     var oper = '+-*' + (extended ? '/' : '');
-    recPoly(node) 
+    recPoly(node)
     var retFunc ={};
     retFunc.expression = node;
     retFunc.variables = variables;
-    return retFunc; 
+    return retFunc;
 
     //-------------------------------------------------------------------------------------------------------
 
     /**
      *  Function to simplify an expression using an optional scope and
-     *  return it if the expression is a polynomial expression, i.e. 
+     *  return it if the expression is a polynomial expression, i.e.
      *  an expression with one or more variables and the operators
-     *  +, -, *, and ^, where the exponent can only be a positive integer. 
+     *  +, -, *, and ^, where the exponent can only be a positive integer.
      *
      * Syntax:
      *
@@ -38340,36 +38340,36 @@ function factory (type, config, load, typed) {
      */
     function recPoly(node) {
       var tp = node.type;  // node type
-      if (tp==='FunctionNode') 
+      if (tp==='FunctionNode')
         throw new ArgumentsError('There is an unsolved function call')   // No function call in polynomial expression
       else if (tp==='OperatorNode')  {
         if (node.op === '^' && node.isBinary())  {
           if (node.args[1].type!=='ConstantNode' ||  ! number.isInteger(parseFloat(node.args[1].value)))
             throw new ArgumentsError('There is a non-integer exponent');
           else
-            recPoly(node.args[0]);      
-        } else  { 
+            recPoly(node.args[0]);
+        } else  {
             if (oper.indexOf(node.op) === -1) throw new ArgumentsError('Operator ' + node.op + ' invalid in polynomial expression');
-            for (var i=0;i<node.args.length;i++) { 
+            for (var i=0;i<node.args.length;i++) {
               recPoly(node.args[i]);
             }
         } // type of operator
 
       } else if (tp==='SymbolNode')  {
          var name = node.name;   // variable name
-         var pos = variables.indexOf(name); 
+         var pos = variables.indexOf(name);
          if (pos===-1)    // new variable in expression
-           variables.push(name);        
+           variables.push(name);
 
-      } else if (tp==='ParenthesisNode') 
+      } else if (tp==='ParenthesisNode')
          recPoly(node.content);
 
-      else if (tp!=='ConstantNode')   
+      else if (tp!=='ConstantNode')
          throw new ArgumentsError('type ' + tp + ' is not allowed in polynomial expression')
-         
+
     }  // end of recPoly
 
-  }  // end of polynomial 
+  }  // end of polynomial
 
 
   //---------------------------------------------------------------------------------------
@@ -38380,7 +38380,7 @@ function factory (type, config, load, typed) {
    *
    *     rulesRationalize()
    *
-   * @return {array}        rule set to rationalize an polynomial expression 
+   * @return {array}        rule set to rationalize an polynomial expression
    */
   function rulesRationalize() {
     var oldRules = [simplifyCore,  // sCore
@@ -38397,9 +38397,9 @@ function factory (type, config, load, typed) {
        { l: '(-n1)/(-n2)', r: 'n1/n2' },  // Unary division
        { l: '(-n1)*(-n2)', r: 'n1*n2' },  // Unary multiplication
        { l: 'n1--n2', r:'n1+n2'},        // '--' elimination
-       { l: 'n1-n2', r:'n1+(-n2)'} ,      // Subtraction turn into add with un�ry minus    
-       { l:'(n1+n2)*n3', r:'(n1*n3 + n2*n3)' },     // Distributive 1 
-       { l:'n1*(n2+n3)', r:'(n1*n2+n1*n3)' },       // Distributive 2 
+       { l: 'n1-n2', r:'n1+(-n2)'} ,      // Subtraction turn into add with un�ry minus
+       { l:'(n1+n2)*n3', r:'(n1*n3 + n2*n3)' },     // Distributive 1
+       { l:'n1*(n2+n3)', r:'(n1*n2+n1*n3)' },       // Distributive 2
        { l: 'c1*n + c2*n', r:'(c1+c2)*n'} ,       // Joining constants
        { l: '-v*-c', r:'c*v'} ,          // Inversion constant and variable 1
        { l: '-v*c', r:'-c*v'} ,          // Inversion constant and variable 2
@@ -38422,20 +38422,20 @@ function factory (type, config, load, typed) {
        { l:'(n1/(n2/n3))', r:'((n1*n3)/n2)'} , // Division simplification
        { l:'(n1/n2/n3)', r:'(n1/(n2*n3))' } ]
 
-    var setRules={};   // rules set in 4 steps. 
+    var setRules={};   // rules set in 4 steps.
 
         // All rules => infinite loop
-        // setRules.allRules =oldRules.concat(rulesFirst,rulesDistrDiv,rulesSucDiv);  
+        // setRules.allRules =oldRules.concat(rulesFirst,rulesDistrDiv,rulesSucDiv);
 
     setRules.firstRules =oldRules.concat(rulesFirst,rulesSucDiv);  // First rule set
-    setRules.distrDivRules = rulesDistrDiv;                  // Just distr. div. rules  
+    setRules.distrDivRules = rulesDistrDiv;                  // Just distr. div. rules
     setRules.sucDivRules = rulesSucDiv;                      // Jus succ. div. rules
-    setRules.firstRulesAgain = oldRules.concat(rulesFirst);  // Last rules set without succ. div. 
+    setRules.firstRulesAgain = oldRules.concat(rulesFirst);  // Last rules set without succ. div.
 
            // Division simplification
-          
-         // Second rule set. 
-          // There is no aggregate expression with parentesis, but the only variable can be scattered. 
+
+         // Second rule set.
+          // There is no aggregate expression with parentesis, but the only variable can be scattered.
     setRules.finalRules=[ simplifyCore,                // simplify.rules[0]
        { l: 'n*-n', r: '-n^2' },                // Joining multiply with power 1
        { l: 'n*n', r: 'n^2' },                  // Joining multiply with power 2
@@ -38452,13 +38452,13 @@ function factory (type, config, load, typed) {
        { l: 'n/n^n1', r: 'n^(1-n1)' },          // Joining division with power 3
        { l: 'n^n1/-n^n2', r: 'n^(n1-n2)' },     // Joining division with power 4
        { l: 'n^n1/n^n2', r: 'n^(n1-n2)' },      // Joining division with power 5
-       { l: 'n1+(-n2*n3)', r: 'n1-n2*n3' },     // Solving useless parenthesis 1 
-       { l: 'v*(-c)', r: '-c*v' },              // Solving useless unary 2 
+       { l: 'n1+(-n2*n3)', r: 'n1-n2*n3' },     // Solving useless parenthesis 1
+       { l: 'v*(-c)', r: '-c*v' },              // Solving useless unary 2
        { l: 'n1+-n2', r: 'n1-n2' },             // Solving +- together (new!)
        { l: 'v*c', r: 'c*v' },                  // inversion constant with variable
        { l: '(n1^n2)^n3', r:'(n1^(n2*n3))'},    // Power to Power
-       
-    ];                    
+
+    ];
     return setRules;
   } // End rulesRationalize
 
@@ -38474,51 +38474,51 @@ function factory (type, config, load, typed) {
    *
    * @param  {Node} node         Current expression node
    * @param  {node} parent       Parent current node inside the recursion
-   * @param  (int}               Parent number of chid inside the rercursion 
+   * @param  (int}               Parent number of chid inside the rercursion
    *
-   * @return {node}        node expression with all powers expanded. 
+   * @return {node}        node expression with all powers expanded.
    */
   function expandPower(node,parent,indParent) {
-    var tp = node.type; 
+    var tp = node.type;
     var internal = (arguments.length>1)   // TRUE in internal calls
 
     if (tp === 'OperatorNode' && node.isBinary()) {
       var does = false;
       if (node.op==='^')  {   // First operator: Parenthesis or UnaryMinus
-        if ( ( node.args[0].type==='ParenthesisNode' ||  
-            node.args[0].type==='OperatorNode' ) 
+        if ( ( node.args[0].type==='ParenthesisNode' ||
+            node.args[0].type==='OperatorNode' )
             && (node.args[1].type==='ConstantNode') )  {   // Second operator: Constant
           var val = parseFloat(node.args[1].value);
-          does = (val>=2 && number.isInteger(val));  
+          does = (val>=2 && number.isInteger(val));
         }
-      } 
+      }
 
-      if (does)  {  // Exponent >= 2 
+      if (does)  {  // Exponent >= 2
           //Before:
           //            operator A --> Subtree
-          // parent pow 
+          // parent pow
           //            constant
           //
-        if (val>2)     {  // Exponent > 2, 
+        if (val>2)     {  // Exponent > 2,
           //AFTER:  (exponent > 2)
           //             operator A --> Subtree
-          // parent  * 
+          // parent  *
           //                 deep clone (operator A --> Subtree
-          //             pow     
+          //             pow
           //                 constant - 1
           //
-           var nEsqTopo = node.args[0];  
+           var nEsqTopo = node.args[0];
            var nDirTopo = new OperatorNode('^', 'pow', [node.args[0].cloneDeep(),new ConstantNode(val-1)]);
            node = new OperatorNode('*', 'multiply', [nEsqTopo, nDirTopo]);
         } else   // Expo = 2 - no power
 
             //AFTER:  (exponent =  2)
             //             operator A --> Subtree
-            // parent   oper 
-            //            deep clone (operator A --> Subtree)    
-            //                            
+            // parent   oper
+            //            deep clone (operator A --> Subtree)
+            //
            node = new OperatorNode('*', 'multiply', [node.args[0], node.args[0].cloneDeep()]);
-        
+
         if (internal)       // Change parent references in internal recursive calls
           if (indParent==='content')
             parent.content = node;
@@ -38527,13 +38527,13 @@ function factory (type, config, load, typed) {
       } // does
     } // binary OperatorNode
 
-    if (tp==='ParenthesisNode' )  // Recursion 
-           expandPower(node.content,node,'content');  
-    else if (tp!=='ConstantNode' && tp!=='SymbolNode')  
-      for (var i=0;i<node.args.length;i++)  
+    if (tp==='ParenthesisNode' )  // Recursion
+           expandPower(node.content,node,'content');
+    else if (tp!=='ConstantNode' && tp!=='SymbolNode')
+      for (var i=0;i<node.args.length;i++)
          expandPower(node.args[i],node,i);
-        
-      
+
+
     if (! internal ) return node   // return the root node
 
   }  // End expandPower
@@ -38550,17 +38550,17 @@ function factory (type, config, load, typed) {
    *     polyToCanonical(node [, coefficients])
    *
    * @param  {Node | string} expr       The near canonical polynomial expression to convert in a a canonical polynomial expression
-   * 
+   *
    *        The string or tree expression needs to be at below syntax, with free spaces:
    *         (  (^(-)? | [+-]? )cte (*)? var (^expo)?  | cte )+
    *       Where 'var' is one variable with any valid name
    *             'cte' are real numeric constants with any value. It can be omitted if equal than 1
    *             'expo' are integers greater than 0. It can be omitted if equal than 1.
    *
-   * @param  {array}   coefficients             Optional returns coefficients sorted by increased exponent 
+   * @param  {array}   coefficients             Optional returns coefficients sorted by increased exponent
    *
    *
-   * @return {node}        new node tree with one variable polynomial or string error. 
+   * @return {node}        new node tree with one variable polynomial or string error.
    */
   function polyToCanonical(node,coefficients) {
     var i;
@@ -38570,17 +38570,17 @@ function factory (type, config, load, typed) {
 
     coefficients[0] = 0;   // index is the exponent
     var o = {};
-    o.cte=1; 
-    o.oper='+'; 
+    o.cte=1;
+    o.oper='+';
 
-     // fire: mark with * or ^ when finds * or ^ down tree, reset to "" with + and -. 
-     //       It is used to deduce the exponent: 1 for *, 0 for "". 
-    o.fire='';  
+     // fire: mark with * or ^ when finds * or ^ down tree, reset to "" with + and -.
+     //       It is used to deduce the exponent: 1 for *, 0 for "".
+    o.fire='';
 
     var maxExpo=0;   // maximum exponent
-    var varname='';  // var name 
+    var varname='';  // var name
 
-    recurPol(node,null,o);    
+    recurPol(node,null,o);
     maxExpo = coefficients.length-1;
     var first=true;
 
@@ -38590,22 +38590,22 @@ function factory (type, config, load, typed) {
                       first ? coefficients[i] : Math.abs(coefficients[i]));
       var op = coefficients[i]<0  ? '-' : '+';
 
-      if (i>0)   {  // Is not a constant without variable 
-        var n2 = new SymbolNode(varname);    
+      if (i>0)   {  // Is not a constant without variable
+        var n2 = new SymbolNode(varname);
         if (i>1)  {
-          var n3 =  new ConstantNode(i);     
-          n2 = new OperatorNode('^', 'pow', [n2, n3]); 
+          var n3 =  new ConstantNode(i);
+          n2 = new OperatorNode('^', 'pow', [n2, n3]);
         }
-        if (coefficients[i]===-1  && first) 
-          n1 = new OperatorNode('-', 'unaryMinus', [n2]);          
-        else if (Math.abs(coefficients[i])===1)  
+        if (coefficients[i]===-1  && first)
+          n1 = new OperatorNode('-', 'unaryMinus', [n2]);
+        else if (Math.abs(coefficients[i])===1)
           n1 = n2;
         else
-          n1 = new OperatorNode('*', 'multiply', [n1, n2]); 
+          n1 = new OperatorNode('*', 'multiply', [n1, n2]);
       }
 
       var no;
-      if (first)   
+      if (first)
         no = n1;
       else if (op==='+')
         no = new OperatorNode('+', 'add', [no, n1]);
@@ -38613,9 +38613,9 @@ function factory (type, config, load, typed) {
         no = new OperatorNode('-', 'subtract', [no, n1]);
 
       first = false;
-    }  // for 
+    }  // for
 
-    if (first) 
+    if (first)
       return new ConstantNode(0);
     else
       return no;
@@ -38628,7 +38628,7 @@ function factory (type, config, load, typed) {
      *
      *     recurPol(node, noPai, obj)
      *
-     * @param  {Node} node        The current subpolynomial expression 
+     * @param  {Node} node        The current subpolynomial expression
      * @param  {Node | Null}  noPai   The current parent node
      * @param  {object}    obj        Object with many internal flags
      *
@@ -38636,7 +38636,7 @@ function factory (type, config, load, typed) {
      */
     function recurPol(node,noPai,o) {
 
-      var tp = node.type; 
+      var tp = node.type;
       if (tp==='FunctionNode')            // ***** FunctionName *****
                 // No function call in polynomial expression
         throw new ArgumentsError('There is an unsolved function call')
@@ -38646,20 +38646,20 @@ function factory (type, config, load, typed) {
 
         if (noPai!==null)  {
             // -(unary),^  : children of *,+,-
-          if ( (node.fn==='unaryMinus' || node.fn==='pow') && noPai.fn !=='add' &&  
+          if ( (node.fn==='unaryMinus' || node.fn==='pow') && noPai.fn !=='add' &&
                                 noPai.fn!=='subtract'  &&  noPai.fn!=='multiply' )
             throw new ArgumentsError('Invalid ' + node.op +  ' placing')
 
-            // -,+,* : children of +,- 
-          if ((node.fn==='subtract' || node.fn==='add' || node.fn==='multiply')  && 
+            // -,+,* : children of +,-
+          if ((node.fn==='subtract' || node.fn==='add' || node.fn==='multiply')  &&
               noPai.fn!=='add' &&  noPai.fn!=='subtract' )
-            throw new ArgumentsError('Invalid ' + node.op +  ' placing'); 
-        
+            throw new ArgumentsError('Invalid ' + node.op +  ' placing');
+
            // -,+ : first child
-        if ((node.fn==='subtract' || node.fn==='add' ||                
-            node.fn==='unaryMinus' )  && o.noFil!==0 )                  
+        if ((node.fn==='subtract' || node.fn==='add' ||
+            node.fn==='unaryMinus' )  && o.noFil!==0 )
             throw new ArgumentsError('Invalid ' + node.op +  ' placing')
-         } // Has parent    
+         } // Has parent
 
         // Firers: ^,*       Old:   ^,&,-(unary): firers
         if (node.op==='^' || node.op==='*') o.fire = node.op;
@@ -38667,8 +38667,8 @@ function factory (type, config, load, typed) {
         for (var i=0;i<node.args.length;i++)  {
            // +,-: reset fire
           if (node.fn==='unaryMinus') o.oper='-';
-          if (node.op==='+' || node.fn==='subtract' ) {    
-            o.fire = '';  
+          if (node.op==='+' || node.fn==='subtract' ) {
+            o.fire = '';
             o.cte = 1;   // default if there is no constant
             o.oper = (i===0 ? '+' : node.op);
           }
@@ -38679,21 +38679,21 @@ function factory (type, config, load, typed) {
       } else if (tp==='SymbolNode') {      // ***** SymbolName *****
         if (node.name !== varname && varname!=='')
           throw new ArgumentsError('There is more than one variable')
-        varname = node.name;   
+        varname = node.name;
         if (noPai === null)  {
-            coefficients[1] = 1; 
+            coefficients[1] = 1;
             return;
-        }   
+        }
 
           // ^: Symbol is First child
-        if (noPai.op==='^' && o.noFil!==0 ) 
+        if (noPai.op==='^' && o.noFil!==0 )
            throw new ArgumentsError('In power the variable should be the first parameter')
 
-          // *: Symbol is Second child 
-        if (noPai.op==='*' && o.noFil!==1 ) 
+          // *: Symbol is Second child
+        if (noPai.op==='*' && o.noFil!==1 )
            throw new ArgumentsError('In multiply the variable should be the second parameter')
 
-          // Symbol: firers '',* => it means there is no exponent above, so it's 1 (cte * var) 
+          // Symbol: firers '',* => it means there is no exponent above, so it's 1 (cte * var)
         if (o.fire==='' || o.fire==='*' )   {
           if (maxExpo<1) coefficients[1]=0;
           coefficients[1] += o.cte* (o.oper==='+'  ? 1 : -1);
@@ -38705,7 +38705,7 @@ function factory (type, config, load, typed) {
         if (noPai === null)  {
           coefficients[0] = valor;
           return;
-        }   
+        }
         if (noPai.op==='^')  {
            // cte: second  child of power
           if (o.noFil!==1) throw new ArgumentsError('Constant cannot be powered')
@@ -38715,22 +38715,22 @@ function factory (type, config, load, typed) {
 
           for (var i=maxExpo+1;i<valor;i++) coefficients[i]=0;
           if (valor>maxExpo) coefficients[valor]=0;
-          coefficients[valor] += o.cte * (o.oper==='+' ? 1 : -1) 
+          coefficients[valor] += o.cte * (o.oper==='+' ? 1 : -1)
           maxExpo = Math.max(valor,maxExpo);
           return;
         }
         o.cte = valor;
 
-        // Cte: firer '' => There is no exponent and no multiplication, so the exponent is 0. 
-        if (o.fire==='')  
+        // Cte: firer '' => There is no exponent and no multiplication, so the exponent is 0.
+        if (o.fire==='')
           coefficients[0] += o.cte * (o.oper==='+'? 1 : -1);
 
 
-      } else 
+      } else
          throw new ArgumentsError('Type ' + tp + ' is not allowed');
       return;
     } // End of recurPol
- 
+
   } // End of polyToCanonical
 
   return rationalize;
@@ -39590,10 +39590,10 @@ module.exports = [
   // simplify
   __webpack_require__(81),
 
-  // polynomial 
+  // polynomial
   __webpack_require__(294),
-    
-  
+
+
   // decomposition
   __webpack_require__(293),
   __webpack_require__(112),
@@ -45570,7 +45570,7 @@ function factory (type, config, load, typed) {
    *     // Another shortcut:
    *     math.createUnit(string, unit : string, [object])
    *
-   * Examples: 
+   * Examples:
    *
    *     math.createUnit('foo');
    *     math.createUnit('knot', {definition: '0.514444444 m/s', aliases: ['knots', 'kt', 'kts']});
@@ -45767,7 +45767,7 @@ function factory (type, config, load, typed, math) {
           power: 0
         }
       ];
-      this.dimensions = []; 
+      this.dimensions = [];
       for(var i=0; i<BASE_DIMENSIONS.length; i++) {
         this.dimensions[i] = 0;
       }
@@ -45883,7 +45883,7 @@ function factory (type, config, load, typed, math) {
         revert(tentativeIndex);
         return number;
       }
-      
+
       // We can now safely say that this is scientific notation.
       number = number + tentativeNumber;
       while (isDigit(c)) {
@@ -45913,7 +45913,7 @@ function factory (type, config, load, typed, math) {
     if ((code >= 65 && code <= 90) ||
         (code >= 97 && code <= 122)) {
         return unitName || null;
-    } 
+    }
     else {
       return null;
     }
@@ -46101,7 +46101,7 @@ function factory (type, config, load, typed, math) {
         };
       }
     }
-    
+
     // Has the string been entirely consumed?
     skipWhitespace();
     if(c) {
@@ -46263,7 +46263,7 @@ function factory (type, config, load, typed, math) {
    * @private
    */
   function _findUnit(str) {
-  
+
     // First, match units names exactly. For example, a user could define 'mm' as 10^-4 m, which is silly, but then we would want 'mm' to match the user-defined unit.
     if(UNITS.hasOwnProperty(str)) {
       var unit = UNITS[str];
@@ -46370,7 +46370,7 @@ function factory (type, config, load, typed, math) {
    */
   Unit.prototype.multiply = function (other) {
     var res = this.clone();
-    
+
     for(var i = 0; i<BASE_DIMENSIONS.length; i++) {
       // Dimensions arrays may be of different lengths. Default to 0.
       res.dimensions[i] = (this.dimensions[i] || 0) + (other.dimensions[i] || 0);
@@ -46410,7 +46410,7 @@ function factory (type, config, load, typed, math) {
    */
   Unit.prototype.divide = function (other) {
     var res = this.clone();
-    
+
     for(var i=0; i<BASE_DIMENSIONS.length; i++) {
       // Dimensions arrays may be of different lengths. Default to 0.
       res.dimensions[i] = (this.dimensions[i] || 0) - (other.dimensions[i] || 0);
@@ -46451,7 +46451,7 @@ function factory (type, config, load, typed, math) {
    */
   Unit.prototype.pow = function (p) {
     var res = this.clone();
-    
+
     for(var i=0; i<BASE_DIMENSIONS.length; i++) {
       // Dimensions arrays may be of different lengths. Default to 0.
       res.dimensions[i] = (this.dimensions[i] || 0) * p;
@@ -46494,7 +46494,7 @@ function factory (type, config, load, typed, math) {
       return unit;
     }
   }
-    
+
 
   /**
    * Calculate the absolute value of a unit
@@ -46832,7 +46832,7 @@ function factory (type, config, load, typed, math) {
       isImaginary = Math.abs(this.value.re) < 1e-14;
       isReal = Math.abs(this.value.im) < 1e-14;
     }
-    
+
     for(var i in this.units) {
       if(this.units[i].unit) {
         if(this.units[i].unit.name === 'VA' && isImaginary) {
@@ -46861,7 +46861,7 @@ function factory (type, config, load, typed, math) {
     var str = (this.value !== null) ? format(value, options || {}) : '';
     var unitStr = this.formatUnits();
     if(this.value && type.isComplex(this.value)) {
-      str = "(" + str + ")";    // Surround complex values with ( ) to enable better parsing 
+      str = "(" + str + ")";    // Surround complex values with ( ) to enable better parsing
     }
     if(unitStr.length > 0 && str.length > 0) {
       str += " ";
@@ -46929,7 +46929,7 @@ function factory (type, config, load, typed, math) {
   /**
    * Returns an array of units whose sum is equal to this unit
    * @memberof Unit
-   * @param {Array} [parts] An array of strings or valueless units. 
+   * @param {Array} [parts] An array of strings or valueless units.
    *
    *   Example:
    *
@@ -47993,7 +47993,7 @@ function factory (type, config, load, typed, math) {
       value: null, // will be filled in by calculateAngleValues()
       offset: 0
     },
-    
+
     // Electric current
     A: {
       name: 'A',
@@ -48156,7 +48156,7 @@ function factory (type, config, load, typed, math) {
       value: 4448.2216,
       offset: 0
     },
-	
+
     // Energy
     J: {
       name: 'J',
@@ -48240,7 +48240,7 @@ function factory (type, config, load, typed, math) {
       value: Complex.I,
       offset: 0
     },
-    
+
     VA: {
       name: 'VA',
       base: BASE_UNITS.POWER,
@@ -48504,7 +48504,7 @@ function factory (type, config, load, typed, math) {
     sticks: 'stick',
     lb: 'lbm',
     lbs: 'lbm',
-	
+
     kips: 'kip',
 
     acres: 'acre',
@@ -48610,17 +48610,17 @@ function factory (type, config, load, typed, math) {
       // Base units
       NONE:                  {unit: UNIT_NONE, prefix: PREFIXES.NONE['']},
       LENGTH:                {unit: UNITS.m,   prefix: PREFIXES.SHORT['']},
-      MASS:                  {unit: UNITS.g,   prefix: PREFIXES.SHORT['k']}, 
-      TIME:                  {unit: UNITS.s,   prefix: PREFIXES.SHORT['']}, 
-      CURRENT:               {unit: UNITS.A,   prefix: PREFIXES.SHORT['']}, 
-      TEMPERATURE:           {unit: UNITS.K,   prefix: PREFIXES.SHORT['']}, 
-      LUMINOUS_INTENSITY:    {unit: UNITS.cd,  prefix: PREFIXES.SHORT['']}, 
-      AMOUNT_OF_SUBSTANCE:   {unit: UNITS.mol, prefix: PREFIXES.SHORT['']}, 
-      ANGLE:                 {unit: UNITS.rad, prefix: PREFIXES.SHORT['']}, 
-      BIT:                   {unit: UNITS.bit, prefix: PREFIXES.SHORT['']}, 
+      MASS:                  {unit: UNITS.g,   prefix: PREFIXES.SHORT['k']},
+      TIME:                  {unit: UNITS.s,   prefix: PREFIXES.SHORT['']},
+      CURRENT:               {unit: UNITS.A,   prefix: PREFIXES.SHORT['']},
+      TEMPERATURE:           {unit: UNITS.K,   prefix: PREFIXES.SHORT['']},
+      LUMINOUS_INTENSITY:    {unit: UNITS.cd,  prefix: PREFIXES.SHORT['']},
+      AMOUNT_OF_SUBSTANCE:   {unit: UNITS.mol, prefix: PREFIXES.SHORT['']},
+      ANGLE:                 {unit: UNITS.rad, prefix: PREFIXES.SHORT['']},
+      BIT:                   {unit: UNITS.bit, prefix: PREFIXES.SHORT['']},
 
       // Derived units
-      FORCE:                 {unit: UNITS.N,   prefix: PREFIXES.SHORT['']}, 
+      FORCE:                 {unit: UNITS.N,   prefix: PREFIXES.SHORT['']},
       ENERGY:                {unit: UNITS.J,   prefix: PREFIXES.SHORT['']},
       POWER:                 {unit: UNITS.W,   prefix: PREFIXES.SHORT['']},
       PRESSURE:              {unit: UNITS.Pa,  prefix: PREFIXES.SHORT['']},
@@ -48644,7 +48644,7 @@ function factory (type, config, load, typed, math) {
   UNIT_SYSTEMS.cgs.ENERGY = {unit: UNITS.erg, prefix: PREFIXES.NONE['']};
   // there are wholly 4 unique cgs systems for electricity and magnetism,
   // so let's not worry about it unless somebody complains
-  
+
   UNIT_SYSTEMS.us = JSON.parse(JSON.stringify(UNIT_SYSTEMS.si));
   UNIT_SYSTEMS.us.LENGTH =      {unit: UNITS.ft,   prefix: PREFIXES.NONE['']};
   UNIT_SYSTEMS.us.MASS =        {unit: UNITS.lbm,  prefix: PREFIXES.NONE['']};
@@ -48731,7 +48731,7 @@ function factory (type, config, load, typed, math) {
   for (var key in UNITS) {
     var unit = UNITS[key];
     unit.dimensions = unit.base.dimensions;
-  }    
+  }
 
   // Create aliases
   for (var name in ALIASES) {
@@ -48751,7 +48751,7 @@ function factory (type, config, load, typed, math) {
   function assertUnitNameIsValid(name) {
     for(var i=0; i<name.length; i++) {
       var c = name.charAt(i);
-       
+
       var isValidAlpha = function (p) {
         return /^[a-zA-Z]$/.test(p);
       };
@@ -48772,7 +48772,7 @@ function factory (type, config, load, typed, math) {
 
   /**
    * Wrapper around createUnitSingle.
-   * Example: 
+   * Example:
    *  createUnit({
    *    foo: { },
    *    bar: {
@@ -48781,7 +48781,7 @@ function factory (type, config, load, typed, math) {
    *      offset: 200
    *    },
    *    baz: '4 bar'
-   *  }, 
+   *  },
    *  {
    *    override: true;
    *  });
@@ -48789,7 +48789,7 @@ function factory (type, config, load, typed, math) {
    * @param {object} options
    */
   Unit.createUnit = function(obj, options) {
-    
+
     if(typeof(obj) !== 'object') {
       throw new TypeError("createUnit expects first parameter to be of type 'Object'");
     }
@@ -48820,7 +48820,7 @@ function factory (type, config, load, typed, math) {
 
   /**
    * Create a user-defined unit and register it with the Unit type.
-   * Example: 
+   * Example:
    *  createUnitSingle('knot', '0.514444444 m/s')
    *  createUnitSingle('acre', new Unit(43560, 'ft^2'))
    *
@@ -48831,18 +48831,18 @@ function factory (type, config, load, typed, math) {
    *     aliases {Array} Array of strings. Example: ['knots', 'kt', 'kts']
    *     offset {Numeric} An offset to apply when converting from the unit. For example, the offset for celsius is 273.15 and the offset for farhenheit is 459.67. Default is 0.
    *
-   * @return {Unit} 
+   * @return {Unit}
    */
   Unit.createUnitSingle = function(name, obj, options) {
 
     if(typeof(obj) === 'undefined' || obj === null) {
       obj = {};
     }
-    
+
     if(typeof(name) !== 'string') {
       throw new TypeError("createUnitSingle expects first parameter to be of type 'string'");
     }
-   
+
     // Check collisions with existing units
     if(UNITS.hasOwnProperty(name)) {
       throw new Error('Cannot create unit "' + name + '": a unit with that name already exists');
@@ -48867,7 +48867,7 @@ function factory (type, config, load, typed, math) {
     }
     else if(typeof(obj) === 'object') {
       definition = obj.definition;
-      prefixes = obj.prefixes; 
+      prefixes = obj.prefixes;
       offset = obj.offset;
       if (obj.aliases) {
         aliases = obj.aliases.valueOf(); // aliases could be a Matrix, so convert to Array
@@ -48900,7 +48900,7 @@ function factory (type, config, load, typed, math) {
 
     aliases = aliases || [];
     offset = offset || 0;
-    if(prefixes && prefixes.toUpperCase) 
+    if(prefixes && prefixes.toUpperCase)
       prefixes = PREFIXES[prefixes.toUpperCase()] || PREFIXES.NONE;
     else
       prefixes = PREFIXES.NONE;
@@ -48932,7 +48932,7 @@ function factory (type, config, load, typed, math) {
       newBaseUnit.dimensions[BASE_DIMENSIONS.length-1] = 1;
       newBaseUnit.key = baseName;
       BASE_UNITS[baseName] = newBaseUnit;
-       
+
       newUnit = {
         name: name,
         value: 1,
@@ -48957,7 +48957,7 @@ function factory (type, config, load, typed, math) {
         prefixes: prefixes,
         offset: offset,
       };
-      
+
       // Create a new base if no matching base exists
       var anyMatch = false;
       for(var i in BASE_UNITS) {
@@ -49182,7 +49182,7 @@ function factory (type, config, load, typed) {
     '': function () {
       return new SparseMatrix([]);
     },
-    
+
     'string': function (datatype) {
       return new SparseMatrix([], datatype);
     },
@@ -49190,7 +49190,7 @@ function factory (type, config, load, typed) {
     'Array | Matrix': function (data) {
       return new SparseMatrix(data);
     },
-    
+
     'Array | Matrix, string': function (data, datatype) {
       return new SparseMatrix(data, datatype);
     }
@@ -49374,7 +49374,7 @@ function factory (type, config, load) {
           });
         }
         return m;
-        
+
         // intentional fall through
       case 2:
       case 3:
@@ -49527,12 +49527,12 @@ exports.factory = factory;
 
 
 function factory (type, config, load, typed) {
-  
+
   var smaller = load(__webpack_require__(42));
   var larger = load(__webpack_require__(33));
-  
+
   var oneOverLogPhi = 1.0 / Math.log((1.0 + Math.sqrt(5.0)) / 2.0);
-  
+
   /**
    * Fibonacci Heap implementation, used interally for Matrix math.
    * @class FibonacciHeap
@@ -49618,9 +49618,9 @@ function factory (type, config, load, typed) {
   FibonacciHeap.prototype.isEmpty = function () {
     return this._size === 0;
   };
-  
+
   /**
-   * Extracts the node with minimum key from heap. Amortized running 
+   * Extracts the node with minimum key from heap. Amortized running
    * time: O(log n).
    * @memberof FibonacciHeap
    */
@@ -49674,7 +49674,7 @@ function factory (type, config, load, typed) {
     // return node
     return node;
   };
-  
+
   /**
    * Removes a node from the heap given the reference to the node. The trees
    * in the heap will be consolidated, if necessary. This operation may fail
@@ -49688,10 +49688,10 @@ function factory (type, config, load, typed) {
     // remove the smallest
     this.extractMinimum();
   };
-  
+
   /**
    * Decreases the key value for a heap node, given the new value to take on.
-   * The structure of the heap may be changed and will not be consolidated. 
+   * The structure of the heap may be changed and will not be consolidated.
    * Running time: O(1) amortized.
    * @memberof FibonacciHeap
    */
@@ -49712,7 +49712,7 @@ function factory (type, config, load, typed) {
     // return minimum
     return minimum;
   };
-  
+
   /**
    * The reverse of the link operation: removes node from the child list of parent.
    * This method assumes that min is non-null. Running time: O(1).
@@ -49739,7 +49739,7 @@ function factory (type, config, load, typed) {
     // set mark[node] to false
     node.mark = false;
   };
-  
+
   /**
    * Performs a cascading cut operation. This cuts node from its parent and then
    * does the same for its parent, and so on up the tree.
@@ -49763,7 +49763,7 @@ function factory (type, config, load, typed) {
       _cascadingCut(parent);
     }
   };
-  
+
   /**
    * Make the first node a child of the second one. Running time: O(1) actual.
    * @memberof FibonacciHeap
@@ -49790,7 +49790,7 @@ function factory (type, config, load, typed) {
     // set mark[node] false
     node.mark = false;
   };
-  
+
   var _findMinimumNode = function (minimum, size) {
     // to find trees of the same degree efficiently we use an array of length O(log n) in which we keep a pointer to one root of each degree
     var arraySize = Math.floor(Math.log(size) * oneOverLogPhi) + 1;
@@ -49866,7 +49866,7 @@ function factory (type, config, load, typed) {
     }
     return minimum;
   };
-  
+
   return FibonacciHeap;
 }
 
@@ -49883,18 +49883,18 @@ exports.factory = factory;
 
 
 function factory (type, config, load) {
-  
+
   var add = load(__webpack_require__(16));
   var equalScalar = load(__webpack_require__(9));
-  
+
   /**
-   * An ordered Sparse Accumulator is a representation for a sparse vector that includes a dense array 
+   * An ordered Sparse Accumulator is a representation for a sparse vector that includes a dense array
    * of the vector elements and an ordered list of non-zero elements.
    */
   function Spa() {
     if (!(this instanceof Spa))
       throw new SyntaxError('Constructor must be called with the new operator');
-    
+
     // allocate vector, TODO use typed arrays
     this._values = [];
     this._heap = new type.FibonacciHeap();
@@ -49925,14 +49925,14 @@ function factory (type, config, load) {
       this._values[i].value = v;
     }
   };
-  
+
   Spa.prototype.get = function (i) {
     var node = this._values[i];
     if (node)
       return node.value;
     return 0;
   };
-  
+
   Spa.prototype.accumulate = function (i, v) {
     // node @ i
     var node = this._values[i];
@@ -49947,7 +49947,7 @@ function factory (type, config, load) {
       node.value = add(node.value, v);
     }
   };
-  
+
   Spa.prototype.forEach = function (from, to, callback) {
     // references
     var heap = this._heap;
@@ -49983,7 +49983,7 @@ function factory (type, config, load) {
       values[node.key] = node;
     }
   };
-  
+
   Spa.prototype.swap = function (i, j) {
     // node @ i and j
     var nodei = this._values[i];
@@ -50014,7 +50014,7 @@ function factory (type, config, load) {
       nodej.value = v;
     }
   };
-  
+
   return Spa;
 }
 
@@ -50059,7 +50059,7 @@ function factory (type, config, load, typed) {
       throw new SyntaxError('Constructor must be called with the new operator');
     if (datatype && !isString(datatype))
       throw new Error('Invalid datatype: ' + datatype);
-    
+
     if (type.isMatrix(data)) {
       // create from matrix
       _createFromMatrix(this, data, datatype);
@@ -50089,7 +50089,7 @@ function factory (type, config, load, typed) {
       this._datatype = datatype;
     }
   }
-  
+
   var _createFromMatrix = function (matrix, source, datatype) {
     // check matrix type
     if (source.type === 'SparseMatrix') {
@@ -50105,7 +50105,7 @@ function factory (type, config, load, typed) {
       _createFromArray(matrix, source.valueOf(), datatype || source._datatype);
     }
   };
-  
+
   var _createFromArray = function (matrix, data, datatype) {
     // initialize fields
     matrix._values = [];
@@ -50115,12 +50115,12 @@ function factory (type, config, load, typed) {
     // discover rows & columns, do not use math.size() to avoid looping array twice
     var rows = data.length;
     var columns = 0;
-    
+
     // equal signature to use
     var eq = equalScalar;
     // zero value
     var zero = 0;
-    
+
     if (isString(datatype)) {
       // find signature that matches (datatype, datatype)
       eq = typed.find(equalScalar, [datatype, datatype]) || equalScalar;
@@ -50171,7 +50171,7 @@ function factory (type, config, load, typed) {
           }
         }
         // increment index
-        j++;      
+        j++;
       }
       while (j < columns);
     }
@@ -50180,7 +50180,7 @@ function factory (type, config, load, typed) {
     // size
     matrix._size = [rows, columns];
   };
-  
+
   SparseMatrix.prototype = new Matrix();
 
   /**
@@ -50241,7 +50241,7 @@ function factory (type, config, load, typed) {
     // calculate density
     return rows !== 0 && columns !== 0 ? (this._index.length / (rows * columns)) : 0;
   };
-  
+
   /**
    * Get a subset of the matrix, or replace a subset of the matrix.
    *
@@ -50274,7 +50274,7 @@ function factory (type, config, load, typed) {
         throw new SyntaxError('Wrong number of arguments');
     }
   };
-  
+
   var _getsubset = function (matrix, idx) {
     // check idx
     if (!type.isIndex(idx)) {
@@ -50294,7 +50294,7 @@ function factory (type, config, load, typed) {
 
     // vars
     var i, ii, k, kk;
-    
+
     // validate if any of the ranges in the index is out of range
     var min = idx.min();
     var max = idx.max();
@@ -50302,24 +50302,24 @@ function factory (type, config, load, typed) {
       validateIndex(min[i], matrix._size[i]);
       validateIndex(max[i], matrix._size[i]);
     }
-    
+
     // matrix arrays
     var mvalues = matrix._values;
     var mindex = matrix._index;
     var mptr = matrix._ptr;
-        
+
     // rows & columns dimensions for result matrix
     var rows = idx.dimension(0);
     var columns = idx.dimension(1);
-    
+
     // workspace & permutation vector
     var w = [];
     var pv = [];
-    
+
     // loop rows in resulting matrix
     rows.forEach(function (i, r) {
       // update permutation vector
-      pv[i] = r[0];  
+      pv[i] = r[0];
       // mark i in workspace
       w[i] = true;
     });
@@ -50328,7 +50328,7 @@ function factory (type, config, load, typed) {
     var values = mvalues ? [] : undefined;
     var index = [];
     var ptr = [];
-        
+
     // loop columns in result matrix
     columns.forEach(function (j) {
       // update ptr
@@ -50349,7 +50349,7 @@ function factory (type, config, load, typed) {
     });
     // update ptr
     ptr.push(index.length);
-    
+
     // return matrix
     return new SparseMatrix({
       values: values,
@@ -50359,17 +50359,17 @@ function factory (type, config, load, typed) {
       datatype: matrix._datatype
     });
   };
-  
+
   var _setsubset = function (matrix, index, submatrix, defaultValue) {
     // check index
     if (!index || index.isIndex !== true) {
       throw new TypeError('Invalid index');
     }
-    
+
     // get index size and check whether the index contains a single value
     var iSize = index.size(),
         isScalar = index.isScalar();
-    
+
     // calculate the size of the submatrix, and convert it into an Array if needed
     var sSize;
     if (type.isMatrix(submatrix)) {
@@ -50382,7 +50382,7 @@ function factory (type, config, load, typed) {
       // get submatrix size (array, scalar)
       sSize = array.size(submatrix);
     }
-    
+
     // check index is a scalar
     if (isScalar) {
       // verify submatrix is a scalar
@@ -50397,7 +50397,7 @@ function factory (type, config, load, typed) {
       if (iSize.length !== 1 && iSize.length !== 2) {
         throw new DimensionError(iSize.length, matrix._size.length, '<');
       }
-      
+
       // check submatrix and index have the same dimensions
       if (sSize.length < iSize.length) {
         // calculate number of missing outer dimensions
@@ -50413,16 +50413,16 @@ function factory (type, config, load, typed) {
         // unsqueeze both outer and inner dimensions
         submatrix = array.unsqueeze(submatrix, iSize.length, outer, sSize);
       }
-      
+
       // check whether the size of the submatrix matches the index size
       if (!object.deepEqual(iSize, sSize)) {
         throw new DimensionError(iSize, sSize, '>');
       }
-      
+
       // offsets
       var x0 = index.min()[0];
-      var y0 = index.min()[1];      
-      
+      var y0 = index.min()[1];
+
       // submatrix rows and columns
       var m = sSize[0];
       var n = sSize[1];
@@ -50473,7 +50473,7 @@ function factory (type, config, load, typed) {
 
     return 0;
   };
-  
+
   /**
    * Replace a single element in the matrix.
    * @memberof SparseMatrix
@@ -50493,7 +50493,7 @@ function factory (type, config, load, typed) {
     // check it is a pattern matrix
     if (!this._values)
       throw new Error('Cannot invoke set on a Pattern only matrix');
-      
+
     // row and column
     var i = index[0];
     var j = index[1];
@@ -50501,7 +50501,7 @@ function factory (type, config, load, typed) {
     // rows & columns
     var rows = this._size[0];
     var columns = this._size[1];
-    
+
     // equal signature to use
     var eq = equalScalar;
     // zero value
@@ -50548,7 +50548,7 @@ function factory (type, config, load, typed) {
 
     return this;
   };
-  
+
   var _getValueIndex = function(i, top, bottom, index) {
     // check row is on the bottom side
     if (bottom - top === 0)
@@ -50581,9 +50581,9 @@ function factory (type, config, load, typed) {
     for (var x = j + 1; x < ptr.length; x++)
       ptr[x]++;
   };
-  
+
   /**
-   * Resize the matrix to the given size. Returns a copy of the matrix when 
+   * Resize the matrix to the given size. Returns a copy of the matrix when
    * `copy=true`, otherwise return the matrix itself (resize in place).
    *
    * @memberof SparseMatrix
@@ -50595,7 +50595,7 @@ function factory (type, config, load, typed) {
    *
    * @return {Matrix}                 The resized matrix
    */
-  SparseMatrix.prototype.resize = function (size, defaultValue, copy) {    
+  SparseMatrix.prototype.resize = function (size, defaultValue, copy) {
     // validate arguments
     if (!isArray(size))
       throw new TypeError('Array expected');
@@ -50609,17 +50609,17 @@ function factory (type, config, load, typed) {
                             '(size: ' + string.format(size) + ')');
       }
     });
-    
+
     // matrix to resize
     var m = copy ? this.clone() : this;
     // resize matrix
     return _resize(m, size[0], size[1], defaultValue);
   };
-  
+
   var _resize = function (matrix, rows, columns, defaultValue) {
     // value to insert at the time of growing matrix
     var value = defaultValue || 0;
-    
+
     // equal signature to use
     var eq = equalScalar;
     // zero value
@@ -50633,7 +50633,7 @@ function factory (type, config, load, typed) {
       // convert value to the same datatype
       value = typed.convert(value, matrix._datatype);
     }
-    
+
     // should we insert the value?
     var ins = !eq(value, zero);
 
@@ -50658,7 +50658,7 @@ function factory (type, config, load, typed) {
             // update matrix._index
             matrix._index.push(i);
           }
-        }        
+        }
       }
       // store number of matrix._values in matrix._ptr
       matrix._ptr[columns] = matrix._values.length;
@@ -50831,7 +50831,7 @@ function factory (type, config, load, typed) {
 
     return m;
   }
-  
+
   /**
    * Create a clone of the matrix
    * @memberof SparseMatrix
@@ -50847,7 +50847,7 @@ function factory (type, config, load, typed) {
     });
     return m;
   };
-  
+
   /**
    * Retrieve the size of the matrix.
    * @memberof SparseMatrix
@@ -50856,7 +50856,7 @@ function factory (type, config, load, typed) {
   SparseMatrix.prototype.size = function() {
     return this._size.slice(0); // copy the Array
   };
-  
+
   /**
    * Create a new matrix with the results of the callback function executed on
    * each entry of the matrix.
@@ -50895,7 +50895,7 @@ function factory (type, config, load, typed) {
     var values = [];
     var index = [];
     var ptr = [];
-    
+
     // equal signature to use
     var eq = equalScalar;
     // zero value
@@ -50907,7 +50907,7 @@ function factory (type, config, load, typed) {
       // convert 0 to the same datatype
       zero = typed.convert(0, matrix._datatype);
     }
-    
+
     // invoke callback
     var invoke = function (v, x, y) {
       // invoke callback
@@ -50962,7 +50962,7 @@ function factory (type, config, load, typed) {
       size: [maxRow - minRow + 1, maxColumn - minColumn + 1]
     });
   };
-  
+
   /**
    * Execute a callback function on each entry of the matrix.
    * @memberof SparseMatrix
@@ -51010,7 +51010,7 @@ function factory (type, config, load, typed) {
       }
     }
   };
-  
+
   /**
    * Create an Array with a copy of the data of the SparseMatrix
    * @memberof SparseMatrix
@@ -51028,8 +51028,8 @@ function factory (type, config, load, typed) {
   SparseMatrix.prototype.valueOf = function () {
     return _toArray(this._values, this._index, this._ptr, this._size, false);
   };
-  
-  var _toArray = function (values, index, ptr, size, copy) {    
+
+  var _toArray = function (values, index, ptr, size, copy) {
     // rows and columns
     var rows = size[0];
     var columns = size[1];
@@ -51059,7 +51059,7 @@ function factory (type, config, load, typed) {
     }
     return a;
   };
-  
+
   /**
    * Get a string representation of the matrix, with optional formatting options.
    * @memberof SparseMatrix
@@ -51092,7 +51092,7 @@ function factory (type, config, load, typed) {
     }
     return str;
   };
-  
+
   /**
    * Get a string representation of the matrix
    * @memberof SparseMatrix
@@ -51101,7 +51101,7 @@ function factory (type, config, load, typed) {
   SparseMatrix.prototype.toString = function () {
     return string.format(this.toArray());
   };
-  
+
   /**
    * Get a JSON representation of the matrix
    * @memberof SparseMatrix
@@ -51144,14 +51144,14 @@ function factory (type, config, load, typed) {
 
     var kSuper = k > 0 ? k : 0;
     var kSub = k < 0 ? -k : 0;
-    
+
     // rows & columns
     var rows = this._size[0];
     var columns = this._size[1];
-    
+
     // number diagonal values
     var n = Math.min(rows - kSub, columns -  kSuper);
-    
+
     // diagonal arrays
     var values = [];
     var index = [];
@@ -51188,7 +51188,7 @@ function factory (type, config, load, typed) {
       size: [n, 1]
     });
   };
-  
+
   /**
    * Generate a matrix from a JSON object
    * @memberof SparseMatrix
@@ -51217,7 +51217,7 @@ function factory (type, config, load, typed) {
       throw new TypeError('Array expected, size parameter');
     if (size.length !== 2)
       throw new Error('Only two dimensions matrix are supported');
-    
+
     // map size & validate
     size = size.map(function (s) {
       // check it is a big number
@@ -51228,10 +51228,10 @@ function factory (type, config, load, typed) {
       // validate arguments
       if (!isNumber(s) || !isInteger(s) || s < 1) {
         throw new Error('Size values must be positive integers');
-      } 
+      }
       return s;
     });
-    
+
     // validate k if any
     if (k) {
       // convert BigNumber to a number
@@ -51258,20 +51258,20 @@ function factory (type, config, load, typed) {
       // convert 0 to the same datatype
       zero = typed.convert(0, datatype);
     }
-    
+
     var kSuper = k > 0 ? k : 0;
     var kSub = k < 0 ? -k : 0;
-    
+
     // rows and columns
     var rows = size[0];
     var columns = size[1];
-    
+
     // number of non-zero items
     var n = Math.min(rows - kSub, columns -  kSuper);
-    
+
     // value extraction function
     var _value;
-      
+
     // check value
     if (isArray(value)) {
       // validate array
@@ -51306,18 +51306,18 @@ function factory (type, config, load, typed) {
         return value;
       };
     }
-    
+
     // create arrays
     var values = [];
     var index = [];
     var ptr = [];
-    
+
     // loop items
     for (var j = 0; j < columns; j++) {
       // number of rows with value
       ptr.push(values.length);
       // diagonal index
-      var i = j - kSuper;      
+      var i = j - kSuper;
       // check we need to set diagonal value
       if (i >= 0 && i < n) {
         // get value @ i
@@ -51341,7 +51341,7 @@ function factory (type, config, load, typed) {
       size: [rows, columns]
     });
   };
-  
+
   /**
    * Swap rows i and j in Matrix.
    *
@@ -51363,13 +51363,13 @@ function factory (type, config, load, typed) {
     // validate index
     validateIndex(i, this._size[0]);
     validateIndex(j, this._size[0]);
-    
+
     // swap rows
     SparseMatrix._swapRows(i, j, this._size[1], this._values, this._index, this._ptr);
     // return current instance
     return this;
   };
-  
+
   /**
    * Loop rows with data in column j.
    *
@@ -51389,7 +51389,7 @@ function factory (type, config, load, typed) {
       callback(index[k], values[k]);
     }
   };
-  
+
   /**
    * Swap rows x and y in Sparse Matrix data structures.
    *
@@ -51428,7 +51428,7 @@ function factory (type, config, load, typed) {
         // insert value @ y
         index.splice(ky, 0, y);
         if (values)
-          values.splice(ky, 0, vx);        
+          values.splice(ky, 0, vx);
         // remove value @ x (adjust array index if needed)
         index.splice(ky <= kx ? kx + 1 : kx, 1);
         if (values)
@@ -51694,7 +51694,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
         case "string":
         {
           B = p1.match(/\d+|./g);
-          
+
           if (B === null)
             throwInvalidParam();
 
@@ -52282,12 +52282,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
     }
   };
 
-  if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+  !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
       return Fraction;
-    }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else {}
+  }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+  __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 })(this);
 
@@ -53918,16 +53916,16 @@ exports.factory = factory;
  *                                          number of significant digits returned.
  *                                          In case of notation 'fixed',
  *                                          `precision` defines the number of
- *                                          significant digits after the decimal 
- *                                          point. 
+ *                                          significant digits after the decimal
+ *                                          point.
  *                                          `precision` is undefined by default.
  *                     {number} lowerExp    Exponent determining the lower boundary
  *                                          for formatting a value with an exponent
- *                                          when `notation='auto`. 
+ *                                          when `notation='auto`.
  *                                          Default value is `-3`.
  *                     {number} upperExp    Exponent determining the upper boundary
  *                                          for formatting a value with an exponent
- *                                          when `notation='auto`. 
+ *                                          when `notation='auto`.
  *                                          Default value is `5`.
  *    {Function} fn    A custom formatting function. Can be used to override the
  *                     built-in notations. Function `fn` is called with `value` as
@@ -54001,10 +53999,10 @@ exports.format = function (value, options) {
           fixedOptions.upperExp = Math.round(Math.log(options.exponential.upper) / Math.LN10);
         }
 
-        console.warn('Deprecation warning: Formatting options exponential.lower and exponential.upper ' + 
+        console.warn('Deprecation warning: Formatting options exponential.lower and exponential.upper ' +
             '(minimum and maximum value) ' +
-            'are replaced with exponential.lowerExp and exponential.upperExp ' + 
-            '(minimum and maximum exponent) since version 4.0.0. ' + 
+            'are replaced with exponential.lowerExp and exponential.upperExp ' +
+            '(minimum and maximum exponent) since version 4.0.0. ' +
             'Replace ' + JSON.stringify(options) + ' with ' + JSON.stringify(fixedOptions));
 
         return exports.format(value, fixedOptions);
@@ -54776,18 +54774,18 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*! decimal.js v9.0.1 https://github.com/MikeM
 
      // Math.cbrt underflow/overflow?
      // Pass x to Math.pow as integer, then adjust the exponent of the result.
-    if (!s || Math.abs(s) == 1 / 0) {
+    if (!s || Math.abs(s) === 1 / 0) {
       n = digitsToString(x.d);
       e = x.e;
 
       // Adjust n exponent so it is a multiple of 3 away from x exponent.
-      if (s = (e - n.length + 1) % 3) n += (s == 1 || s == -2 ? '0' : '00');
+      if (s = (e - n.length + 1) % 3) n += (s === 1 || s === -2 ? '0' : '00');
       s = Math.pow(n, 1 / 3);
 
       // Rarely, e may be one less than the result exponent value.
-      e = mathfloor((e + 1) / 3) - (e % 3 == (e < 0 ? -1 : 2));
+      e = mathfloor((e + 1) / 3) - (e % 3 === (e < 0 ? -1 : 2));
 
-      if (s == 1 / 0) {
+      if (s === 1 / 0) {
         n = '5e' + e;
       } else {
         n = s.toExponential();
@@ -60125,7 +60123,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
       throw new Error('Cannot convert from ' + from + ' to ' + type);
     }
-    
+
     /**
      * Stringify parameters in a normalized way
      * @param {Param[]} params

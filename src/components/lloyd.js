@@ -1,9 +1,10 @@
-import React, {useState, useContext} from "react";
+import React, {useContext, useState} from "react";
 import "../styles/lloyd.css"
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import {DataTraining} from './dataTraining';
-import {basesIni, roundDecimals, formatResult, formatCentersFinal} from "../javascripts/formatData"
+import {basesIni, formatResult, roundDecimals} from "../javascripts/formatData"
 import * as math from "mathjs"
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 
 export default function Lloyd() {
@@ -38,19 +39,13 @@ export default function Lloyd() {
         for(let item in data){
             let formatData = data[item].values;
             formatData = formatData.map(element => {
-                let String = "\n".concat(element.toString());
-                return String;
+                return "\n".concat(element.toString());
             });
             array.push(
-            <label>{item}</label>,
-            <TextareaAutosize
-            className="dataArea" 
-            rowsMax={8}
-            aria-label="maximum height"
-            placeholder="Data"
-            defaultValue=""
-            value={formatData}/>)
-        } 
+                <TextField id="outlined-basic" fullWidth label={item} multiline maxRows={6} value={formatData} variant="outlined" />,
+                <br />
+            )
+        }
         return array
     }
 
@@ -81,8 +76,7 @@ export default function Lloyd() {
         numCoordenadas = numCoordenadas.length;
         let aux = {};
         for(let i = 1; i <= numCentros; i++){
-            let array = new Array(numCoordenadas);
-            aux[i] = array;
+            aux[i] = new Array(numCoordenadas);
             for(let j = 0; j < numCoordenadas; j++) {
                 aux[i][j] = roundDecimals(Math.random()* 10, 2);
             }
@@ -100,14 +94,12 @@ export default function Lloyd() {
         setPesoExponencial(roundDecimals(Math.random()* 5 + 1.1 ,4));
     }
 
-
-    //Algoritmo
     const existExample = () => {
         debugger
         if(newExample.length !== 0){
-          let example = formatResult(newExample);
-          resultLloyd(example);
-        }  
+            let example = formatResult(newExample);
+            resultLloyd(example);
+        }
         else alert("Antes tienes que introducir un ejemplo para clasificarlo")
     }
 
@@ -143,9 +135,8 @@ export default function Lloyd() {
             resultFinal = (resultFinal + allExamples.length).concat(") Iris-versicolor");
         }
         setResult([...result,  resultFinal]);
-        console.log('El resultado es: ' + resultFinal);
     };
-    
+
     const lloyd = () => {
         let stop = false;
         let it = 1;
@@ -158,7 +149,6 @@ export default function Lloyd() {
 
             if( v1euc < defaultTolerancia && v2euc < defaultTolerancia)
                 stop = true;
-                //OldbasesIniciales = basesIniciales.slice(); //Array CLONE!!! Easy
             it++;
         }
         let newValue = [];
@@ -166,7 +156,7 @@ export default function Lloyd() {
         newValue.push(basesIniciales[0]);
         newValue.push(basesIniciales[1]);
         setcentrosObtenidosNofix(newValue);
-        newValue = basesIni(newValue); //Formateo las bases para mostrarlas en la vista
+        newValue = basesIni(newValue);
         setCentrosObtenidos(newValue);
     }
     const updateLloydCentroids = () => {
@@ -176,18 +166,18 @@ export default function Lloyd() {
                 let v2 = basesIniciales[1];
                 const sample = data[element].values[j];
                 let sampleMatrix = math.matrix([[Number(sample[0])],[Number(sample[1])],[Number(sample[2])],[Number(sample[3])]]);
-    
+
                 let d1 = calculateDLloyd(basesIniciales, 0,sample);
                 let d2 = calculateDLloyd(basesIniciales, 1,sample);
-    
-                if(d1 < d2){ // se actualiza c1
+
+                if(d1 < d2){
                     let sol = 0;
-                    let c1 = math.matrix([[v1[0]],[v1[1]],[v1[2]],[v1[3]]]); 
+                    let c1 = math.matrix([[v1[0]],[v1[1]],[v1[2]],[v1[3]]]);
                     let subtractAndkMultiply = math.multiply(math.subtract(sampleMatrix,c1),rLearn);
                     sol = math.add(c1,subtractAndkMultiply);
                     basesIniciales[0] = [sol.get([0, 0]),sol.get([1, 0]),sol.get([2, 0]),sol.get([3, 0])];
                 }
-                else{// se actualiza c2
+                else{
                     let sol2 = 0;
                     let c2 = math.matrix([[v2[0]],[v2[1]],[v2[2]],[v2[3]]]);
                     let subtractAndkMultiply = math.multiply(math.subtract(sampleMatrix,c2),rLearn);
@@ -196,7 +186,7 @@ export default function Lloyd() {
                 }
             }
         }
-};
+    };
 
 
     return (
@@ -204,6 +194,7 @@ export default function Lloyd() {
             <div className="panelLloyd">
                 <div className="data">
                     <label id="datalabel">Datos</label>
+                    <br />
                     {items()}
                     <label id="parameterslabel">Parámetros</label>
                     <div className="parameters1">
@@ -215,35 +206,27 @@ export default function Lloyd() {
                         <input type="text" id="pesoExponencial" name="pesoExponencial" size="32" value={pesoExponencial}  onChange={(e)=>setField2(e)}required></input>
                     </div>
                     <div className="botonera">
-                        <button className="btnP draw-border btnk" onClick={defaultValuesParams}>Por defecto</button>
-                        <button className="btnP draw-border btnk" onClick={randomValuesParams}>Aleatorio</button>
+                        <Button variant="outlined" color="warning" onClick={defaultValuesParams}>{'Por defecto'}</Button>
+                        <Button variant="outlined" color="warning" onClick={randomValuesParams}>{'Aleatorio'}</Button>
                     </div>
                 </div>
                 <div className="secondaryPanel">
                     <div className="centros">
                         <div className="centrosIniPanel">
                             <label id="centrosLabel">Centros Iniciales</label>
-                            <TextareaAutosize 
-                            rowsMax={10}
-                            rows={5}
-                            aria-label="maximum height"
-                            placeholder="Data"
-                            value={centrosIniciales}/>
+                            <br />
+                            <TextField id="outlined-basic" fullWidth label="Centros iniciales" multiline maxRows={6} value={centrosIniciales} variant="outlined" />
                             <div className="botonera">
-                                <button className="btnP draw-border btnk" onClick={defaultValuesBases} >Por defecto</button>
-                                <button className="btnP draw-border btnk" onClick={randomValuesBases} >Aleatorio</button>
+                                <Button variant="outlined" color="warning" onClick={defaultValuesBases}>{'Por defecto'}</Button>
+                                <Button variant="outlined" color="warning" onClick={randomValuesBases}>{'Aleatorio'}</Button>
                             </div>
                         </div>
                         <div className="centrosObtPanel">
                             <label id="centrosObLabel">Centros Obtenidos</label>
-                            <TextareaAutosize 
-                            rowsMax={10}
-                            rows={5}
-                            aria-label="maximum height"
-                            placeholder="Data"
-                            value={centrosObtenidos}/>
+                            <br />
+                            <TextField id="outlined-basic" fullWidth label="Centros obtenidos" multiline maxRows={6} value={centrosObtenidos} variant="outlined" />
                             <div className="botonera">
-                                <button className="btnP draw-border btnk" onClick={lloyd} >Ejecutar el Algoritmo</button>
+                                <Button variant="outlined" onClick={lloyd}>{'Ejecutar algoritmo'}</Button>
                             </div>
                         </div>
                     </div>
@@ -251,26 +234,16 @@ export default function Lloyd() {
                         <label id="newExampleLabel">Clasificar Nuevos Ejemplos</label>
                         <div className="examplesPanel">
                             <div className="addExample">
-                                <TextareaAutosize 
-                                rowsMax={50}
-                                rows={10}
-                                aria-label="maximum height"
-                                placeholder="Data"
-                                value={allExamples}/>
-                                 <form onSubmit={handleSubmit}>
-                                 <input type="text" id="example" name="example" placeholder="Introduce el nuevo Ejemplo" size="50" required></input>
-                                    <button className="btnP draw-border btnk">Añadir Ejemplo</button>
+                                <TextField id="outlined-basic" fullWidth label="Nuevos ejemplos" multiline maxRows={6} value={allExamples} variant="outlined" />
+                                <form onSubmit={handleSubmit}>
+                                    <TextField label="Ejemplo" color="success" id="example" name="example" variant="standard" size={50} required />
+                                    <Button variant="outlined" color="success" type="submit">{'+ ejemplo'}</Button>
                                 </form>
                             </div>
                             <div className="clasificarExample">
-                                <TextareaAutosize 
-                                rowsMax={50}
-                                rows={10}
-                                aria-label="maximum height"
-                                placeholder="Data"
-                                value={result}/>
+                                <TextField id="outlined-basic" fullWidth label="Nuevos ejemplos clasificados" multiline maxRows={6} value={result} variant="outlined" />
                                 <div className="botonera">
-                                    <button className="btnP draw-border btnk" onClick={existExample} >Clasificar Ejemplo</button>
+                                    <Button variant="outlined" onClick={existExample}>{'Clasificar ejemplo'}</Button>
                                 </div>
                             </div>
                         </div>

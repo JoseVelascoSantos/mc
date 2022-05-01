@@ -1,13 +1,15 @@
-import React, {useState, useContext}from "react";
+import React, {useContext, useState} from "react";
 import "../styles/bayes.css"
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import {DataTraining} from './dataTraining';
-import {basesIni, formatResult, formatMatrix} from "../javascripts/formatData"
+import {basesIni, formatMatrix, formatResult} from "../javascripts/formatData"
 import * as math from "mathjs"
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+
 export default function Bayes() {
-    var irisSetosa = [];
-    var irisVersicolor = [];
-    var d = 4;
+    let irisSetosa = [];
+    let irisVersicolor = [];
+    const d = 4;
 
     const {data} = useContext(DataTraining);
     const [centrosObtenidos, setCentrosObtenidos] = useState([]);
@@ -24,19 +26,14 @@ export default function Bayes() {
         let array = [];
         for(let item in data){
             let formatData = data[item].values;
-            formatData = formatData.map(element => {
-                let String = "\n".concat(element.toString());
-                return String;
+            formatData = formatData.map((element, index) => {
+                if (index === 0) return element.toString();
+                else return "\n".concat(element.toString());
             });
-            array.push( 
-            <label>{item}</label>,
-            <TextareaAutosize
-            className="dataArea" 
-            rowsMax={8}
-            aria-label="maximum height"
-            placeholder="Data"
-            defaultValue=""
-            value={formatData}/>)
+            array.push(
+                <TextField id="outlined-basic" fullWidth label={item} multiline maxRows={6} value={formatData} variant="outlined" />,
+                <br />,
+            )
         }
         return array
     }
@@ -47,20 +44,13 @@ export default function Bayes() {
             debugger
             let formatData = data[item].values;
             formatData = formatData.map(element => {
-                let String = "\n".concat(element.toString());
-                return String;
+                return "\n".concat(element.toString());
             });
-            array.push( 
-            <label>{item}</label>,
-            <TextareaAutosize
-            className="dataArea" 
-            rowsMax={8}
-            rows={7}
-            aria-label="maximum height"
-            placeholder="Data"
-            defaultValue=""
-            value={matrixCov[item]}/>)
-        } 
+            array.push(
+                <TextField id="outlined-basic" label={item} multiline maxRows={6} value={matrixCov[item]} variant="outlined" />,
+                <br />,
+                );
+        }
         return array;
     }
 
@@ -70,13 +60,11 @@ export default function Bayes() {
         setAllExamples([...allExamples, "\n" + (allExamples.length+1) + ") " +e.target[0].value])
     }
 
-    //Algoritmo 
-
     const bayes = () => {
         debugger
         irisSetosa = data["Iris-setosa"]["values"];
         irisVersicolor = data["Iris-versicolor"]["values"];
-        for (let i = 0; i < irisSetosa[0].length; i++) { // Suma de Iris-Setosa (Se suman a la vez dado que tienen el mismo numero de elementos)
+        for (let i = 0; i < irisSetosa[0].length; i++) {
             let auxSetosa = 0;
             let auxVersiColor = 0;
             for (let j = 0; j < irisSetosa.length; j++) {
@@ -86,24 +74,16 @@ export default function Bayes() {
             mediaSetosa.push(auxSetosa * (1 / irisSetosa.length));
             mediaVersiColor.push(auxVersiColor * (1 / irisVersicolor.length));
         }
-        console.log('Media de Iris-Setosa ----------')
-        console.log(mediaSetosa);
 
-        console.log('Media de Iris-VersiColor ----------')
-        console.log(mediaVersiColor);
         let array = [];
         array.push(mediaSetosa);
         array.push(mediaVersiColor);
         array = basesIni(array);
-        setCentrosObtenidos(array); 
+        setCentrosObtenidos(array);
 
         let cov1 = covarianceMatrix(mediaSetosa,1);
         let cov2 = covarianceMatrix(mediaVersiColor,2);
 
-        console.log('Matrix de Iris-Setosa ----------')
-        console.log(cov1);
-        console.log('Matrix de Iris-VersiColor ----------')
-        console.log(cov2);
         setMatrixCovSetosa(cov1);
         setMatrixCovVersicolor(cov2);
         cov1 = formatMatrix(cov1._data);
@@ -124,7 +104,6 @@ export default function Bayes() {
         else alert("Antes tienes que introducir un ejemplo para clasificarlo")
     }
     const resultBayes = (example) => {
-        //Esto deberia ser la funcion de calcular el resultado final
         let inv = math.inv(matrixCovSetosa);
         let deductXkm1 = [example[0]-mediaSetosa[0],example[1]-mediaSetosa[1], example[2]-mediaSetosa[2], example[3]-mediaSetosa[3]];
         let transp = math.transpose(deductXkm1);
@@ -145,7 +124,6 @@ export default function Bayes() {
 
         let exp2 = Math.exp(resol2);
         let fxiw2 = 1 /  ( Math.pow((2*Math.PI),d/2) * (Math.pow(math.det(matrixCovVersicolor),1/2)) ) * exp2;
-        console.log(fxiw);
         let resultFinal = "\n";
         if(fxiw > fxiw2){
             resultFinal = (resultFinal + allExamples.length).concat(") Iris-setosa");
@@ -154,8 +132,6 @@ export default function Bayes() {
             resultFinal = (resultFinal + allExamples.length).concat(") Iris-versicolor");
         }
         setResult([...result,  resultFinal]);
-        console.log('El resultado es: ' + resultFinal);
-
     }
 
     const covarianceMatrix = (m,classs) => {
@@ -187,60 +163,48 @@ export default function Bayes() {
     };
 
     return (
-        <div className="main">  
+        <div className="main">
             <div className="panelBayes">
                 <div className="panel1">
                     <div className="matrix">
                         <label id="matrixLabel">Matrices de Covarianza</label>
+                        <br />
                         <div className="matrixData">
                             {matrix()}
                         </div>
                         <div className="botoneraBayes">
-                            <button className="btnP draw-border btnk" onClick={bayes}>Ejecutar el Algoritmo</button>
+                            <Button variant="outlined" onClick={bayes}>{'Ejecutar Algoritmo'}</Button>
                         </div>
                     </div>
                     <div className="centrosObtPanelBayes">
                         <label id="centrosObLabel">Centros Obtenidos</label>
-                        <TextareaAutosize 
-                        id="textAreaCentros"
-                        rowsMax={10}
-                        rows={7}
-                        aria-label="maximum height"
-                        placeholder="Data"
-                        value={centrosObtenidos}/>
+                        <br />
+                        <TextField id="outlined-basic" fullWidth label="Centros Obtenidos" multiline maxRows={6} value={centrosObtenidos} variant="outlined" />
                     </div>
                 </div>
                 <div className="panel2">
                     <div className="data">
+                        <br />
                         <label id="datalabel">Datos</label>
+                        <br />
                         {items()}
                     </div>
                     <div className="organiceBayes">
                         <label id="newExampleLabel">Clasificar Nuevos Ejemplos</label>
                         <div className="examplesPanel">
                             <div className="addExample">
-                                <TextareaAutosize 
-                                rowsMax={50}
-                                rows={10}
-                                aria-label="maximum height"
-                                placeholder="Data"
-                                value={allExamples}/>
-                                 <div className="botonera">
+                                <TextField id="outlined-basic" label="Nuevos ejemplos" multiline maxRows={6} value={allExamples} variant="outlined" />
+                                <div className="botonera">
                                     <form onSubmit={handleSubmit}>
-                                        <input type="text" id="name" name="name" placeholder="Introduce el nuevo Ejemplo" size="50" required></input>
-                                        <button className="btnP draw-border btnk">Añadir Ejemplo</button>
+                                        <TextField label="Ejemplo" color="success" id="name" name="name" variant="standard" size={50} required />
+                                        <Button variant="outlined" color="success" type="submit">{'+ ejemplo'}</Button>
                                     </form>
                                 </div>
                             </div>
                             <div className="clasificarExample">
-                                <TextareaAutosize 
-                                rowsMax={50}
-                                rows={10}
-                                aria-label="maximum height"
-                                placeholder="Data"
-                                value={result}/>
+                                <TextField id="outlined-basic" label="Nuevos ejemplos clasificados" multiline maxRows={6} value={result} variant="outlined" />
                                 <div className="botonera">
-                                    <button className="btnP draw-border btnk" onClick={existExample} >Clasificar Ejemplo</button>
+                                    <Button variant="outlined" onClick={existExample}>{'Clasificar Ejemplo'}</Button>
                                 </div>
                             </div>
                         </div>
@@ -249,5 +213,5 @@ export default function Bayes() {
             </div>
         </div>
     );
-    
+
 }

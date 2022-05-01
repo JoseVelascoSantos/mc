@@ -5,9 +5,9 @@
 
 .mainPanel{
   margin-top: 2%;
-  display: flex;  
+  display: flex;
   flex-direction: column;
-  
+
 }
 
 
@@ -44,53 +44,4 @@
 .draw-border::after {
   border-top-width: 4px;
   border-right-width: 4px;
-}
-
-.btn {
-  margin-top: 2%;
-  width: 80%;
-  text-align: center;
-  background: none;
-  border: none;
-  line-height: 1.5;
-  font: 500 0.9rem 'Roboto Slab', sans-serif;
-  padding: 10px;
-  letter-spacing: 0.05rem;
-}
-
-.btnPre{
-  margin-top: 2%;
-  width: 85%;
-  background: none;
-  border: none;
-  cursor: pointer;
-  line-height: 1.5;
-  font: 700 1.2rem 'Roboto Slab', sans-serif;
-  padding: 10px;
-  letter-spacing: 0.05rem;
-}
-
-.btn:focus {
-  outline: 2px dotted #fafafa;  
-}
-
-
-#vertical-tabpanel-0{
-  width: 100%;
-  text-align: center;
-}
-
-#vertical-tabpanel-1{
-  width: 100%;
-  text-align: center;
-}
-
-#vertical-tabpanel-2{
-  width: 100%;
-  text-align: center;
-}
-
-#vertical-tabpanel-3{
-  width: 100%;
-  text-align: center;
 }
